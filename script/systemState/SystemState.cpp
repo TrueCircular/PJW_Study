@@ -16,6 +16,16 @@ bool MainState::Run(GradeSystem* system)
 
 	cin >> sNum;
 
+	if (!cin)
+	{
+		std::system("cls");
+		cout << endl;
+		cout << "===================올바른 숫자를 입력해주세요.===================" << endl;
+		cout << endl;
+		cin.clear();
+		cin.ignore(INT_MAX, '\n');
+	}
+
 	switch (sNum)
 	{
 	case 1:
