@@ -40,6 +40,7 @@ class SystemState;
 class ViewState;
 class AddState;
 class DelState;
+class SearchState;
 class LoadState;
 class SaveState;
 class ExitState;
@@ -86,12 +87,14 @@ public:
 	GradeSystem();
 	~GradeSystem();
 
-	//state ½ÇÇà
+	//state run
 	bool Run();
-	//getset
+	//state get,set
 	SystemState* GetState() const { return _state; }
 	void SetState(SystemState* state) { _state = state; }
+	//datalist get
 	GradeList<sData>* GetDataBase() const { return _dataBase; }
+	//state address get
 	StateAddress* GetAddressList() const { return _addRess; }
 	//file, data
 	FILE*	GetFile() const { return _file; }

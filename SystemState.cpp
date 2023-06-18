@@ -41,10 +41,7 @@ bool MainState::Run(GradeSystem* system)
 	}
 	case 4:
 	{
-		SystemState* temp = new LoadState();
-		system->GetAddressList()->push_back(&temp);
-		system->SetState(temp);
-		break;
+
 	}
 	case 5:
 	{
@@ -55,13 +52,16 @@ bool MainState::Run(GradeSystem* system)
 	}
 	case 6:
 	{
-		SystemState* temp = new ExitState();
+		SystemState* temp = new LoadState();
 		system->GetAddressList()->push_back(&temp);
 		system->SetState(temp);
 		break;
 	}
 	case 7:
 	{
+		SystemState* temp = new ExitState();
+		system->GetAddressList()->push_back(&temp);
+		system->SetState(temp);
 		break;
 	}
 	default:
@@ -156,5 +156,14 @@ bool ViewState::Run(GradeSystem* system)
 }
 
 void ViewState::Print()
+{
+}
+
+bool SearchState::Run(GradeSystem* system)
+{
+	return false;
+}
+
+void SearchState::Print()
 {
 }

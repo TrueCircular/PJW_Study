@@ -49,6 +49,13 @@ public:
 	void Print() override;
 };
 
+class SearchState : public SystemState
+{
+public:
+	bool Run(GradeSystem* system) override;
+	void Print() override;
+};
+
 class LoadState : public SystemState
 {
 public:
