@@ -1,5 +1,5 @@
 ﻿#include <iostream>
-#include "GradeSystem.h"
+#include "script/gradeSystem/GradeSystem.h"
 
 int main()
 {

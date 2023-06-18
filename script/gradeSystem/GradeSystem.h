@@ -1,5 +1,5 @@
 #pragma once
-#include "GradeList.h"
+#include "../gradeList/GradeList.h"
 
 namespace Gsys
 {

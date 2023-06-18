@@ -2,26 +2,15 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="GradeList.cpp">
+    <ClCompile Include="script\systemState\SystemState.cpp">
       <Filter>Cpp</Filter>
     </ClCompile>
-    <ClCompile Include="GradeSystem.cpp">
+    <ClCompile Include="script\gradeList\GradeList.cpp">
       <Filter>Cpp</Filter>
     </ClCompile>
-    <ClCompile Include="SystemState.cpp">
+    <ClCompile Include="script\gradeSystem\GradeSystem.cpp">
       <Filter>Cpp</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="GradeList.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="GradeSystem.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="SystemState.h">
-      <Filter>Header</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">
@@ -30,5 +19,16 @@
     <Filter Include="Cpp">
       <UniqueIdentifier>{38c03d83-7ab6-4b15-a8ae-8310e83a2c81}</UniqueIdentifier>
     </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="script\gradeList\GradeList.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="script\gradeSystem\GradeSystem.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="script\systemState\SystemState.h">
+      <Filter>Header</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

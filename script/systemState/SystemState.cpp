@@ -1,6 +1,6 @@
 #include <iostream>
 #include "SystemState.h"
-#include "GradeSystem.h"
+#include "../gradeSystem/GradeSystem.h"
 
 
 bool MainState::Run(GradeSystem* system)

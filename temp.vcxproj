@@ -81,6 +81,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <OutDir>../../Output</OutDir>
+    <IntDir>../../Output/W_GradeSystem</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -142,15 +144,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="GradeList.cpp" />
-    <ClCompile Include="GradeSystem.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="SystemState.cpp" />
+    <ClCompile Include="script\gradeList\GradeList.cpp" />
+    <ClCompile Include="script\gradeSystem\GradeSystem.cpp" />
+    <ClCompile Include="script\systemState\SystemState.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GradeList.h" />
-    <ClInclude Include="GradeSystem.h" />
-    <ClInclude Include="SystemState.h" />
+    <ClInclude Include="script\gradeList\GradeList.h" />
+    <ClInclude Include="script\gradeSystem\GradeSystem.h" />
+    <ClInclude Include="script\systemState\SystemState.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
