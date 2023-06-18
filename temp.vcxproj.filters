@@ -2,33 +2,36 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="script\systemState\SystemState.cpp">
-      <Filter>Cpp</Filter>
-    </ClCompile>
     <ClCompile Include="script\gradeList\GradeList.cpp">
-      <Filter>Cpp</Filter>
+      <Filter>GradeSystem\GradeList</Filter>
     </ClCompile>
     <ClCompile Include="script\gradeSystem\GradeSystem.cpp">
-      <Filter>Cpp</Filter>
+      <Filter>GradeSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="script\systemState\SystemState.cpp">
+      <Filter>GradeSystem\SystemState</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="Header">
-      <UniqueIdentifier>{5743cee1-52f3-43fa-ae24-7ca577d17364}</UniqueIdentifier>
+    <Filter Include="GradeSystem">
+      <UniqueIdentifier>{2844c7dd-770d-4836-aa0c-6f3197363a2f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Cpp">
-      <UniqueIdentifier>{38c03d83-7ab6-4b15-a8ae-8310e83a2c81}</UniqueIdentifier>
+    <Filter Include="GradeSystem\GradeList">
+      <UniqueIdentifier>{200884b1-73e6-413a-b2b7-13ea3fcbb1c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GradeSystem\SystemState">
+      <UniqueIdentifier>{225a4220-e953-49a5-b314-0e4063fbdd22}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="script\gradeList\GradeList.h">
-      <Filter>Header</Filter>
+      <Filter>GradeSystem\GradeList</Filter>
     </ClInclude>
     <ClInclude Include="script\gradeSystem\GradeSystem.h">
-      <Filter>Header</Filter>
+      <Filter>GradeSystem</Filter>
     </ClInclude>
     <ClInclude Include="script\systemState\SystemState.h">
-      <Filter>Header</Filter>
+      <Filter>GradeSystem\SystemState</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
