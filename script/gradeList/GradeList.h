@@ -26,6 +26,7 @@ private:
 	Info<T>* AddNode(Info<T>* node, const T& data);
 	Info<T>* DelNode(Info<T>* node);
 	Info<T>* FindNode(Info<T>* node, const T& value);
+	Info<T>* FindeNodeForIndex(int idex);
 	Info<T>* InsertNode(Info<T>* node, const T& data);
 	void DelBack();
 public:
@@ -36,6 +37,7 @@ public:
 	void DeleteInfo(const T& value);
 	void InsertInfo(const T& value1, const T& value2);
 	Info<T>* SearchInfo(const T& value);
+	Info<T>* SearchInfoForIndex(int idex);
 	bool SortingHigh();
 	bool SortingLow();
 	void AllDelete();
@@ -65,6 +67,7 @@ inline Info<T>* GradeList<T>::AddNode(Info<T>* node, const T& data)
 	tNode->_next = node;
 	node->_prev = tNode;
 
+	node->_id = _size;
 	_size++;
 
 	return tNode;
@@ -101,6 +104,22 @@ inline Info<T>* GradeList<T>::FindNode(Info<T>* node, const T& value)
 	while (nFind != NULL)
 	{
 		if (nFind->_data == value)
+			return nFind;
+		else
+			nFind = nFind->_next;
+	}
+
+	return nullptr;
+}
+
+template<typename T>
+inline Info<T>* GradeList<T>::FindeNodeForIndex(int idex)
+{
+	Info<T>* nFind = _head;
+
+	while (nFind != NULL)
+	{
+		if (nFind->_id == idex)
 			return nFind;
 		else
 			nFind = nFind->_next;
@@ -172,6 +191,18 @@ inline Info<T>* GradeList<T>::SearchInfo(const T& value)
 	if (FindNode(_head, value) != nullptr)
 	{
 		Info<T>* temp = FindNode(_head, value);
+		return temp;
+	}
+
+	return nullptr;
+}
+
+template<typename T>
+inline Info<T>* GradeList<T>::SearchInfoForIndex(int idex)
+{
+	if (FindeNodeForIndex(idex) != nullptr)
+	{
+		Info<T>* temp = FindeNodeForIndex(idex);
 		return temp;
 	}
 

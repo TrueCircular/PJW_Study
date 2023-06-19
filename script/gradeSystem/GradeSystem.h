@@ -1,5 +1,8 @@
 #pragma once
+#include <fstream>
 #include "../gradeList/GradeList.h"
+#include <string>
+#include <locale>
 
 namespace Gsys
 {
@@ -17,20 +20,37 @@ namespace Gsys
 	};
 #pragma endregion
 
+#pragma region E_SaveMode
+	enum class E_SaveMode
+	{
+		SAVE_NOMAL,
+		SAVE_NEW
+	};
+#pragma endregion
+
+#pragma region E_LoadMode
+	enum class E_LoadMode
+	{
+		LOAD_PREV,
+		LOAD_NEW
+	};
+
+#pragma endregion
+
 #pragma region DataType
 	struct sData
 	{
-		int		_index;
-		char* _name;
-		int		_grade;
-		int		_kor;
-		int		_eng;
-		int		_math;
-		int		_total;
-		float	_average;
+		int				_index;
+		std::wstring	_name;
+		int				_grade;
+		int				_kor;
+		int				_eng;
+		int				_math;
+		int				_total;
+		float			_average;
 
-		sData() : _index(0), _name(nullptr), _grade(0),
-			_kor(0), _eng(0), _math(0), _total(0), _average(0.f) {}
+		sData() : _index(0), _name(L""), _grade(0),
+				_kor(0), _eng(0), _math(0), _total(0), _average(0.f) {}
 	};
 #pragma endregion
 }
@@ -82,7 +102,10 @@ private:
 	SystemState*		_state;
 	GradeList<sData>*	_dataBase;
 	StateAddress*		_addRess;
-	FILE*				_file;
+	std::wifstream*		_iFile;
+	std::wofstream*		_oFile;
+private:
+	std::wstring CreateInfoWString(Info<sData> data);
 public:
 	GradeSystem();
 	~GradeSystem();
@@ -97,9 +120,8 @@ public:
 	//state address get
 	StateAddress* GetAddressList() const { return _addRess; }
 	//file, data
-	FILE*	GetFile() const { return _file; }
-	bool	SaveFile();
-	bool	LoadFile();
+	bool	SaveFile(const char* path, const char* fName);
+	bool	LoadFile(const char* path);
 	sData	OutData(Info<sData>* data);
 };
 #pragma endregion

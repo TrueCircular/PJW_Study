@@ -10,6 +10,7 @@ int main()
 	//할당 해제
 	delete machine;
 
+
 	return 0;
 }
 
