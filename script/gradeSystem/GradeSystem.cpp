@@ -136,7 +136,8 @@ bool GradeSystem::SaveFile(const char* fName, E_SaveMode sMode, E_SaveType sType
 	{
 		if (sType == E_SaveType::SAVE_BIN)
 		{
-			const char* path = *MYLOCALPATH_SAVE + "save_prev.bin";
+			string path = MYLOCALPATH_SAVE;
+			path.append("save_prev.bin");
 
 			_oFile->open(path, ios::binary);
 
@@ -152,7 +153,8 @@ bool GradeSystem::SaveFile(const char* fName, E_SaveMode sMode, E_SaveType sType
 		}
 		else
 		{
-			const char* path = *MYLOCALPATH_SAVE + "save_prev.txt";
+			string path = MYLOCALPATH_SAVE;
+			path.append("save_prev.txt");
 			
 			_oFile->open(path);
 
@@ -172,7 +174,9 @@ bool GradeSystem::SaveFile(const char* fName, E_SaveMode sMode, E_SaveType sType
 	{
 		if (sType == E_SaveType::SAVE_BIN)
 		{
-			const char* path = *MYLOCALPATH_SAVE + *fName + ".bin";
+			string path = MYLOCALPATH_SAVE;
+			path.append(fName);
+			path.append(".bin");
 
 			_oFile->open(path, ios::binary);
 
@@ -188,7 +192,9 @@ bool GradeSystem::SaveFile(const char* fName, E_SaveMode sMode, E_SaveType sType
 		}
 		else
 		{
-			const char* path = *MYLOCALPATH_SAVE + *fName + ".txt";
+			string path = MYLOCALPATH_SAVE;
+			path.append(fName);
+			path.append(".txt");
 
 			_oFile->open(path);
 
