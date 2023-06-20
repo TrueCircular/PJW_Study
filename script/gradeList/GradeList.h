@@ -221,7 +221,6 @@ inline bool GradeList<T>::SortingHigh()
 		for (; tTemp != _tail; tTemp = tTemp->_next)
 		{
 			if (tHead->_id > tTemp->_id)
-
 			{
 				T tData = tHead->_data;
 				tHead->_data = tTemp->_data;

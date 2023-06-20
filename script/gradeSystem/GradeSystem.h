@@ -116,7 +116,6 @@ public:
 class GradeSystem
 {
 private:
-	typedef DynamicArray<SystemState**> StateAddress;
 	typedef DynamicArray<SystemState*>	StateList;
 
 	SystemState*		_state;
@@ -142,7 +141,6 @@ public:
 	bool	SaveFile(const char* fName = nullptr, E_SaveMode sMode = E_SaveMode::SAVE_PREV, E_SaveType sType = E_SaveType::SAVE_BIN);
 	bool	LoadFile(const char* fName = nullptr, E_LoadMode lMode = E_LoadMode::LOAD_PREV, E_LoadType lType = E_LoadType::LOAD_BIN);
 	sData	OutData(Info<sData>* data);
-	void	PrintForAllSaveList();
 };
 #pragma endregion
 

@@ -26,31 +26,37 @@ bool MainState::Run(GradeSystem* system)
 	{
 	case 1:
 	{
+		system->SetState(E_SysState::SYSTEM_VIEW);
 		break;
 	}
 	case 2:
 	{
-
+		system->SetState(E_SysState::SYSTEM_FIND);
 		break;
 	}
 	case 3:
 	{
+		system->SetState(E_SysState::SYSTEM_ADD);
 		break;
 	}
 	case 4:
 	{
+		system->SetState(E_SysState::SYSTEM_DELETE);
 		break;
 	}
 	case 5:
 	{
+		system->SetState(E_SysState::SYSTEM_LOAD);
 		break;
 	}
 	case 6:
 	{
+		system->SetState(E_SysState::SYSTEM_SAVE);
 		break;
 	}
 	case 7:
 	{
+		system->SetState(E_SysState::SYSTEM_EXIT);
 		break;
 	}
 	default:

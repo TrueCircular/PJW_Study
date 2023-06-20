@@ -55,7 +55,6 @@ GradeSystem::GradeSystem()
 	_dataBase = new GradeList<sData>();
 	_iFile = new std::wifstream();
 	_oFile = new std::wofstream();
-
 }
 
 GradeSystem::~GradeSystem()
@@ -174,6 +173,9 @@ bool GradeSystem::SaveFile(const char* fName, E_SaveMode sMode, E_SaveType sType
 	}
 	case E_SaveMode::SAVE_NEW:
 	{
+		if (fName == nullptr)
+			return false;
+
 		if (sType == E_SaveType::SAVE_BIN)
 		{
 			string path = MYLOCALPATH_SAVE;
@@ -185,7 +187,7 @@ bool GradeSystem::SaveFile(const char* fName, E_SaveMode sMode, E_SaveType sType
 			for (int i = 0; i < _dataBase->size(); i++)
 			{
 				Info<sData>* _tdata = _dataBase->SearchInfoForIndex(i);
-				wstring  _tLine = CreateDataLine(_tdata);
+				wstring	_tLine = CreateDataLine(_tdata);
 				_oFile->write(_tLine.c_str(), _tLine.size());
 			}
 
