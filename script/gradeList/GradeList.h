@@ -6,7 +6,7 @@ template<typename T>
 class Info
 {
 public:
-	Info() : _prev(nullptr), _next(nullptr), _data(T()), _id(0) {}
+	Info() : _prev(nullptr), _next(nullptr), _data(T()), _id(0), _total(0) {}
 	Info(const T& value) : _prev(nullptr), _next(nullptr), _data(value), _id(0) {}
 public:
 	Info*	_prev;
