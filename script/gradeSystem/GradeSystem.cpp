@@ -1,29 +1,46 @@
 #include "GradeSystem.h"
 #include "../systemState/SystemState.h"
 
-std::wstring GradeSystem::CreateInfoWString(Info<sData> data)
+
+std::wstring GradeSystem::CreateDataLine(const Info<sData>* iData)
 {
-	std::wstring fBuffer = L"";
+	wstring temp = to_wstring(iData->_data._index);
+	temp += L",";
+	temp += (iData->_data._name);
+	temp += L",";
+	temp += to_wstring(iData->_data._grade);
+	temp += L",";
+	temp += to_wstring(iData->_data._kor);
+	temp += L",";
+	temp += to_wstring(iData->_data._eng);
+	temp += L",";
+	temp += to_wstring(iData->_data._math);
+	temp += L",";
+	temp += to_wstring(iData->_data._total);
+	temp += L",";
+	temp += to_wstring(iData->_data._average);
 
-	fBuffer = L"번호 : ";
-	fBuffer += data._data._index;
-	fBuffer += L" 이름 : ";
-	fBuffer += data._data._name;
-	fBuffer += L" 학년 : ";
-	fBuffer += data._data._grade;
-	fBuffer += L" 국어 : ";
-	fBuffer += data._data._kor;
-	fBuffer += L" 수학 : ";
-	fBuffer += data._data._math;
-	fBuffer += L" 영어 : ";
-	fBuffer += data._data._eng;
-	fBuffer += L" 총점 : ";
-	fBuffer += data._data._total;
-	fBuffer += L" 평균 : ";
-	fBuffer += data._data._average;
-	fBuffer += L"\n";
+	return temp;
+}
 
-	return fBuffer;
+void GradeSystem::StateInit()
+{
+	SystemState* mainState = new MainState();
+	_stateList->push_back(mainState);
+	SystemState* viewState = new ViewState();
+	_stateList->push_back(viewState);
+	SystemState* searchState = new SearchState();
+	_stateList->push_back(searchState);
+	SystemState* addState = new AddState();
+	_stateList->push_back(addState);
+	SystemState* delState = new DelState();
+	_stateList->push_back(delState);
+	SystemState* loadState = new LoadState();
+	_stateList->push_back(loadState);
+	SystemState* saveState = new SaveState();
+	_stateList->push_back(saveState);
+	SystemState* exitState = new ExitState();
+	_stateList->push_back(exitState);
 }
 
 GradeSystem::GradeSystem()
@@ -32,23 +49,18 @@ GradeSystem::GradeSystem()
 
 	_state = new MainState();
 	_dataBase = new GradeList<sData>();
-	_addRess = new StateAddress();
+	_stateList = new StateList();
 	_iFile = new std::wifstream();
 	_oFile = new std::wofstream();
 
-	_addRess->push_back(&_state);
+	StateInit();
 }
 
 GradeSystem::~GradeSystem()
 {
 	delete	_state;
 	delete	_dataBase;
-
-	for (int i = 0; i < _addRess->size(); i++)
-	{
-		delete& _addRess[i];
-	}
-	delete _addRess;
+	delete	_stateList;
 }
 
 bool GradeSystem::Run()
@@ -66,55 +78,140 @@ bool GradeSystem::Run()
 	}
 }
 
-bool GradeSystem::SaveFile(const char* path, const char* fName)
+void GradeSystem::SetState(E_SysState sType)
 {
-	//로드된 데이터가 없으면 retrun
-	if (_dataBase->size() == 0)
-		return false;
-	//경로 생성
-	const char* myPath = "../../data/Gsys_Save" + *path;
-	//버퍼
-	std::wstring fBuffer = L"";
-	//새로운 세이브 파일 생성
-	if (fName != NULL)
+	switch (sType)
 	{
-		//출력 파일 열기
-		_oFile->open(fName);
-		//데이터 파싱
-		for (int i = 0; i < _dataBase->size(); i++)
-		{
-			Info<sData>* temp = _dataBase->SearchInfoForIndex(i);
-			fBuffer = CreateInfoWString(*temp);
-			*_oFile << fBuffer;
-		}
-		//출력 파일 닫기
-		_oFile->close();
-		
-		return true;
+	case E_SysState::SYSTEM_MAIN:
+	{
+		_state = _stateList->operator[](static_cast<int>(E_SysState::SYSTEM_MAIN));
+		break;
 	}
-	//기존 세이브 파일 덮어쓰기
-	else
+	case E_SysState::SYSTEM_VIEW:
 	{
-		//출력 파일 열기
-		_oFile->open(path);
-		//데이터 파싱
-		for (int i = 0; i < _dataBase->size(); i++)
-		{
-			Info<sData>* temp = _dataBase->SearchInfoForIndex(i);
-			fBuffer = CreateInfoWString(*temp);
-			*_oFile << fBuffer;
-		}
-		//출력 파일 닫기
-		_oFile->close();
+		_state = _stateList->operator[](static_cast<int>(E_SysState::SYSTEM_VIEW));
+		break;
+	}
+	case E_SysState::SYSTEM_FIND:
+	{
+		_state = _stateList->operator[](static_cast<int>(E_SysState::SYSTEM_FIND));
+		break;
+	}
+	case E_SysState::SYSTEM_ADD:
+	{
+		_state = _stateList->operator[](static_cast<int>(E_SysState::SYSTEM_ADD));
+		break;
+	}
+	case E_SysState::SYSTEM_DELETE:
+	{
+		_state = _stateList->operator[](static_cast<int>(E_SysState::SYSTEM_DELETE));
+		break;
+	}
+	case E_SysState::SYSTEM_LOAD:
+	{
+		_state = _stateList->operator[](static_cast<int>(E_SysState::SYSTEM_LOAD));
+		break;
+	}
+	case E_SysState::SYSTEM_SAVE:
+	{
+		_state = _stateList->operator[](static_cast<int>(E_SysState::SYSTEM_SAVE));
+		break;
+	}
+	case E_SysState::SYSTEM_EXIT:
+	{
+		_state = _stateList->operator[](static_cast<int>(E_SysState::SYSTEM_EXIT));
+		break;
+	}
+	default:
+		break;
+	}
+}
 
-		return true;
+
+bool GradeSystem::SaveFile(const char* fName, E_SaveMode sMode, E_SaveType sType)
+{
+	switch (sMode)
+	{
+	case E_SaveMode::SAVE_PREV:
+	{
+		if (sType == E_SaveType::SAVE_BIN)
+		{
+			const char* path = *MYLOCALPATH_SAVE + "save_prev.bin";
+
+			_oFile->open(path, ios::binary);
+
+			for (int i = 0; i < _dataBase->size(); i++)
+			{
+				Info<sData>* _tdata = _dataBase->SearchInfoForIndex(i);
+				wstring  _tLine = CreateDataLine(_tdata);
+				_oFile->write(_tLine.c_str(), _tLine.size());
+			}
+
+			_oFile->close();
+			return true;
+		}
+		else
+		{
+			const char* path = *MYLOCALPATH_SAVE + "save_prev.txt";
+			
+			_oFile->open(path);
+
+			for (int i = 0; i < _dataBase->size(); i++)
+			{
+				Info<sData>* _tdata = _dataBase->SearchInfoForIndex(i);
+				wstring  _tLine = CreateDataLine(_tdata);
+				_oFile->write(_tLine.c_str(), _tLine.size());
+			}
+
+			_oFile->close();
+			return true;
+		}
+	}
+	break;
+	case E_SaveMode::SAVE_NEW:
+	{
+		if (sType == E_SaveType::SAVE_BIN)
+		{
+			const char* path = *MYLOCALPATH_SAVE + *fName + ".bin";
+
+			_oFile->open(path, ios::binary);
+
+			for (int i = 0; i < _dataBase->size(); i++)
+			{
+				Info<sData>* _tdata = _dataBase->SearchInfoForIndex(i);
+				wstring  _tLine = CreateDataLine(_tdata);
+				_oFile->write(_tLine.c_str(), _tLine.size());
+			}
+
+			_oFile->close();
+			return true;
+		}
+		else
+		{
+			const char* path = *MYLOCALPATH_SAVE + *fName + ".txt";
+
+			_oFile->open(path);
+
+			for (int i = 0; i < _dataBase->size(); i++)
+			{
+				Info<sData>* _tdata = _dataBase->SearchInfoForIndex(i);
+				wstring  _tLine = CreateDataLine(_tdata);
+				_oFile->write(_tLine.c_str(), _tLine.size());
+			}
+
+			_oFile->close();
+			return true;
+		}
+	}
+	break;
 	}
 
 	return false;
 }
 
-bool GradeSystem::LoadFile(const char* path)
+bool GradeSystem::LoadFile(const char* fName, E_LoadMode lMode, E_LoadType lType)
 {
+
 	return false;
 }
 

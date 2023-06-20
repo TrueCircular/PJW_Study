@@ -2,7 +2,14 @@
 #include <fstream>
 #include "../gradeList/GradeList.h"
 #include <string>
+#include <sstream>
 #include <locale>
+#include <conio.h>
+#include <io.h>
+
+#define MYLOCALPATH_SAVE (const char*)"../../data/Gsys_Save/"
+#define MYLOCALPATH_LOAD (const char*)"../../data/Gsys_Load/"
+#define MAX_SAVE_FILE 50
 
 namespace Gsys
 {
@@ -11,6 +18,7 @@ namespace Gsys
 	{
 		SYSTEM_MAIN,
 		SYSTEM_VIEW,
+		SYSTEM_FIND,
 		SYSTEM_ADD,
 		SYSTEM_DELETE,
 		SYSTEM_LOAD,
@@ -23,8 +31,13 @@ namespace Gsys
 #pragma region E_SaveMode
 	enum class E_SaveMode
 	{
-		SAVE_NOMAL,
+		SAVE_PREV,
 		SAVE_NEW
+	};
+	enum class E_SaveType
+	{
+		SAVE_TXT,
+		SAVE_BIN
 	};
 #pragma endregion
 
@@ -33,6 +46,11 @@ namespace Gsys
 	{
 		LOAD_PREV,
 		LOAD_NEW
+	};
+	enum class E_LoadType
+	{
+		LOAD_TXT,
+		LOAD_BIN
 	};
 
 #pragma endregion
@@ -86,7 +104,8 @@ public:
 	~DynamicArray() { delete[] _array; }
 
 	void push_back(const T& data);
-	void pop_back(const T& data);
+	void pop_back();
+	void clear();
 	int size() { return _size; }
 
 	T& operator[](int index) { return this->_array[index]; }
@@ -98,14 +117,16 @@ class GradeSystem
 {
 private:
 	typedef DynamicArray<SystemState**> StateAddress;
+	typedef DynamicArray<SystemState*>	StateList;
 
 	SystemState*		_state;
 	GradeList<sData>*	_dataBase;
-	StateAddress*		_addRess;
+	StateList*			_stateList;
 	std::wifstream*		_iFile;
 	std::wofstream*		_oFile;
 private:
-	std::wstring CreateInfoWString(Info<sData> data);
+	std::wstring CreateDataLine(const Info<sData>* iData);
+	void StateInit();
 public:
 	GradeSystem();
 	~GradeSystem();
@@ -114,15 +135,14 @@ public:
 	bool Run();
 	//state get,set
 	SystemState* GetState() const { return _state; }
-	void SetState(SystemState* state) { _state = state; }
+	void SetState(E_SysState sType);
 	//datalist get
 	GradeList<sData>* GetDataBase() const { return _dataBase; }
-	//state address get
-	StateAddress* GetAddressList() const { return _addRess; }
 	//file, data
-	bool	SaveFile(const char* path, const char* fName);
-	bool	LoadFile(const char* path);
+	bool	SaveFile(const char* fName = nullptr, E_SaveMode sMode = E_SaveMode::SAVE_PREV, E_SaveType sType = E_SaveType::SAVE_BIN);
+	bool	LoadFile(const char* fName = nullptr, E_LoadMode lMode = E_LoadMode::LOAD_PREV, E_LoadType lType = E_LoadType::LOAD_BIN);
 	sData	OutData(Info<sData>* data);
+	void	PrintForAllSaveList();
 };
 #pragma endregion
 
@@ -161,7 +181,7 @@ inline void DynamicArray<T>::push_back(const T& data)
 }
 
 template<class T>
-inline void DynamicArray<T>::pop_back(const T& data)
+inline void DynamicArray<T>::pop_back()
 {
 	if (_used == 0) return;
 
@@ -184,5 +204,17 @@ inline void DynamicArray<T>::pop_back(const T& data)
 	}
 
 	delete[] temp;
+}
+template<class T>
+inline void DynamicArray<T>::clear()
+{
+	_used = 0;
+	_size = 1;
+
+	T* temp = new T[_used];
+
+	delete[] _array;
+
+	_array = temp;
 }
 #pragma endregion
