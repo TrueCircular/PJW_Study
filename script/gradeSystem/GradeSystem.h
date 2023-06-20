@@ -7,8 +7,8 @@
 #include <conio.h>
 #include <io.h>
 
-#define MYLOCALPATH_SAVE (char*)"../../data/Gsys_Save/"
-#define MYLOCALPATH_LOAD (char*)"../../data/Gsys_Load/"
+#define MYLOCALPATH_SAVE (const char*)"../../data/Gsys_Save/"
+#define MYLOCALPATH_LOAD (const char*)"../../data/Gsys_Load/"
 #define MAX_SAVE_FILE 50
 
 namespace Gsys
