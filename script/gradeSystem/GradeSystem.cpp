@@ -19,6 +19,7 @@ std::wstring GradeSystem::CreateDataLine(const Info<sData>* iData)
 	temp += to_wstring(iData->_data._total);
 	temp += L",";
 	temp += to_wstring(iData->_data._average);
+	temp += L"\n";
 
 	return temp;
 }
