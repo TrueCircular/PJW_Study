@@ -13,6 +13,7 @@ public:
 	Info*	_next;
 	T		_data;
 	int		_id;
+	int		_total;
 };
 
 template<typename T>
