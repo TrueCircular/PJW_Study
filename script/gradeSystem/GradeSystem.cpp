@@ -47,14 +47,15 @@ void GradeSystem::StateInit()
 GradeSystem::GradeSystem()
 {
 	std::locale::global(std::locale("Korean"));
-
-	_state = new MainState();
-	_dataBase = new GradeList<sData>();
 	_stateList = new StateList();
+
+	StateInit();
+	SetState(E_SysState::SYSTEM_MAIN);
+
+	_dataBase = new GradeList<sData>();
 	_iFile = new std::wifstream();
 	_oFile = new std::wofstream();
 
-	StateInit();
 }
 
 GradeSystem::~GradeSystem()
@@ -169,8 +170,8 @@ bool GradeSystem::SaveFile(const char* fName, E_SaveMode sMode, E_SaveType sType
 			_oFile->close();
 			return true;
 		}
+		break;
 	}
-	break;
 	case E_SaveMode::SAVE_NEW:
 	{
 		if (sType == E_SaveType::SAVE_BIN)
@@ -209,8 +210,8 @@ bool GradeSystem::SaveFile(const char* fName, E_SaveMode sMode, E_SaveType sType
 			_oFile->close();
 			return true;
 		}
+		break;
 	}
-	break;
 	}
 
 	return false;
