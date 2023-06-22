@@ -111,6 +111,14 @@ void LoadState::Print()
 {
 }
 
+DelState::DelState()
+{
+}
+
+DelState::~DelState()
+{
+}
+
 bool DelState::Run(GradeSystem* system)
 {
 	return false;

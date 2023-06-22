@@ -1,6 +1,8 @@
 #pragma once
 #include <iostream>
 
+
+
 #pragma region GradeList
 template<typename T>
 class Info 
@@ -18,13 +20,12 @@ public:
 template<typename T, typename N>
 class GradeList
 {
-public:
-	typedef void(N::*Sorting_Fun)(Info<T>*, Info<T>*);
 private:
+	typedef void(N::* Sorting_Fun)(Info<T>*, Info<T>*);
+
 	Info<T>* _head;
 	Info<T>* _tail;
 	int		 _size;
-
 private:
 	Info<T>* AddNode(Info<T>* node, const T& data);
 	Info<T>* DelNode(Info<T>* node);
@@ -41,18 +42,18 @@ public:
 	void InsertInfo(const T& value1, const T& value2);
 	Info<T>* SearchInfo(const T& value);
 	Info<T>* SearchInfoForIndex(int idex);
-	bool Sorting(Sorting_Fun fun);
+	bool Sorting(Sorting_Fun fun, N* ptr);
 	void AllDelete();
 	int size() { return _size; }
 };
 #pragma endregion
 
 #pragma region G_Fun
-//template<typename T, typename N>
-//inline GradeList<T,N>::~GradeList()
-//{
-//	AllDelete();
-//}
+template<typename T, typename N>
+inline GradeList<T,N>::~GradeList()
+{
+	AllDelete();
+}
 
 template<typename T, typename N>
 inline Info<T>* GradeList<T,N>::AddNode(Info<T>* node, const T& data)
@@ -170,25 +171,25 @@ inline GradeList<T,N>::GradeList()
 }
 
 template<typename T, typename N>
-inline void GradeList<T,N>::AddInfo(const T& value)
+inline void GradeList<T,N>::AddInfo(const T& value) //data push back
 {
 	AddNode(_tail, value);
 }
 
 template<typename T, typename N>
-inline void GradeList<T,N>::DeleteInfo(const T& value)
+inline void GradeList<T,N>::DeleteInfo(const T& value) 
 {
 	DelNode(FindNode(_head, value));
 }
 
 template<typename T, typename N>
-inline void GradeList<T,N>::InsertInfo(const T& value1, const T& value2)
+inline void GradeList<T,N>::InsertInfo(const T& value1, const T& value2) //value1 : in dest.. value2 : newData
 {
 	InsertNode(FindNode(_head, value1), value2);
 }
 
 template<typename T, typename N>
-inline Info<T>* GradeList<T,N>::SearchInfo(const T& value)
+inline Info<T>* GradeList<T,N>::SearchInfo(const T& value) //if find value return node
 {
 	if (FindNode(_head, value) != nullptr)
 	{
@@ -212,18 +213,16 @@ inline Info<T>* GradeList<T,N>::SearchInfoForIndex(int idex)
 }
 
 template<typename T, typename N>
-inline bool GradeList<T,N>::Sorting(Sorting_Fun fun)
+inline bool GradeList<T, N>::Sorting(Sorting_Fun fun, N* ptr)
 {
-	if (fun == nullptr)
+	if (fun == nullptr ||
+		ptr == nullptr)
 		return false;
 
-	Info<T>* tHead = _head;
-	Info<T>* tTail = _tail;
-	fun(_head, _tail);
+	(ptr->*fun)(_head, _tail);
 
 	return true;
 }
-
 
 template<typename T, typename N>
 inline void GradeList<T,N>::AllDelete()
@@ -236,4 +235,3 @@ inline void GradeList<T,N>::AllDelete()
 	delete _tail;
 }
 #pragma endregion
-

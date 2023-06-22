@@ -1,6 +1,5 @@
 #pragma once
 #include <fstream>
-#include "../gradeList/GradeList.h"
 #include <string>
 #include <sstream>
 #include <locale>
@@ -88,6 +87,9 @@ class LoadState;
 class SaveState;
 class ExitState;
 class MainState;
+
+template<typename T> class Info;
+template<typename T, typename N> class GradeList;
 #pragma endregion
 
 using namespace Gsys;
@@ -117,14 +119,12 @@ public:
 };
 #pragma endregion
 
-
-
 #pragma region GradeSystem
 class GradeSystem
 {
 private:
 	typedef DynamicArray<SystemState*>	StateList;
-	typedef void(GradeSystem::*Sorting_Fun)(Info<sData>*, Info<sData>*);
+	typedef void (GradeSystem:: * Sorting_Fun)(Info<sData>*, Info<sData>*);
 
 	SystemState*					_state;
 	GradeList<sData, GradeSystem>*	_dataBase;
@@ -134,8 +134,7 @@ private:
 	Sorting_Fun						_sortFun;
 private:
 	std::wstring CreateDataLine(const Info<sData>* iData);
-	void InsertionSortingHigh(Info<sData>* head, Info<sData>* tail);
-	void InsertionSortingLow(Info<sData>* head, Info<sData>* tail);
+
 	void StateInit();
 public:
 	GradeSystem();
@@ -153,6 +152,9 @@ public:
 	bool	SaveFile(const char* fName = nullptr, E_SaveMode sMode = E_SaveMode::SAVE_PREV, E_SaveType sType = E_SaveType::SAVE_BIN);
 	bool	LoadFile(const char* fName = nullptr, E_LoadMode lMode = E_LoadMode::LOAD_PREV, E_LoadType lType = E_LoadType::LOAD_BIN);
 	sData	OutData(Info<sData>* data);
+
+	void InsertionSortingHigh(Info<sData>* head, Info<sData>* tail);
+	void InsertionSortingLow(Info<sData>* head, Info<sData>* tail);
 };
 #pragma endregion
 

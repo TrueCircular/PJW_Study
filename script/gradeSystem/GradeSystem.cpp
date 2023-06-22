@@ -1,5 +1,7 @@
 #include "GradeSystem.h"
 #include "../systemState/SystemState.h"
+#include "../gradeList/GradeList.h"
+
 
 
 std::wstring GradeSystem::CreateDataLine(const Info<sData>* iData)
@@ -55,7 +57,6 @@ GradeSystem::GradeSystem()
 	_dataBase = new GradeList<sData, GradeSystem>();
 	_iFile = new std::wifstream();
 	_oFile = new std::wofstream();
-
 	_sortFun = &GradeSystem::InsertionSortingHigh;
 }
 
@@ -165,13 +166,13 @@ void GradeSystem::SortingForDatabase(E_Sort type)
 	case Gsys::E_Sort::SORT_HIGH:
 	{
 		_sortFun = &GradeSystem::InsertionSortingHigh;
-		_dataBase->Sorting(_sortFun);
+		_dataBase->Sorting(_sortFun, this);
 		break;
 	}
 	case Gsys::E_Sort::SORT_LOW:
 	{
 		_sortFun = &GradeSystem::InsertionSortingLow;
-		_dataBase->Sorting(_sortFun);
+		_dataBase->Sorting(_sortFun, this);
 		_sortFun = &GradeSystem::InsertionSortingHigh;
 		break;
 	}

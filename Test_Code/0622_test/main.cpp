@@ -302,11 +302,4 @@ int main()
 	t3._total = 200;
 
 
-	GradeList<sData>* myList = new GradeList<sData>();
-	myList->AddInfo(t1);
-	myList->AddInfo(t2);
-	myList->AddInfo(t3);
-	myList->SearchInfo(t1);
-
-	std::cout << myList->SearchInfo(t1)->_data._total << std::endl;
 }
