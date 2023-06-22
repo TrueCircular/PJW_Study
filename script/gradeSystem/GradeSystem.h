@@ -134,8 +134,9 @@ private:
 	Sorting_Fun						_sortFun;
 private:
 	std::wstring CreateDataLine(const Info<sData>* iData);
-
 	void StateInit();
+	void InsertionSortingHigh(Info<sData>* head, Info<sData>* tail);
+	void InsertionSortingLow(Info<sData>* head, Info<sData>* tail);
 public:
 	GradeSystem();
 	~GradeSystem();
@@ -151,10 +152,6 @@ public:
 	//file, data
 	bool	SaveFile(const char* fName = nullptr, E_SaveMode sMode = E_SaveMode::SAVE_PREV, E_SaveType sType = E_SaveType::SAVE_BIN);
 	bool	LoadFile(const char* fName = nullptr, E_LoadMode lMode = E_LoadMode::LOAD_PREV, E_LoadType lType = E_LoadType::LOAD_BIN);
-	sData	OutData(Info<sData>* data);
-
-	void InsertionSortingHigh(Info<sData>* head, Info<sData>* tail);
-	void InsertionSortingLow(Info<sData>* head, Info<sData>* tail);
 };
 #pragma endregion
 

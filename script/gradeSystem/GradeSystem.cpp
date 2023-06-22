@@ -279,9 +279,3 @@ bool GradeSystem::LoadFile(const char* fName, E_LoadMode lMode, E_LoadType lType
 	return false;
 }
 
-sData GradeSystem::OutData(Info<sData>* data)
-{
-	sData dTemp = data->_data;
-
-	return dTemp;
-}

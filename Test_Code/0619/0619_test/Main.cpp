@@ -109,21 +109,22 @@ int main()
     wofstream oFile;
     savenumber sv;
 
-    wstring write = to_wstring(sv.a);
-    write += L",";
-    write += to_wstring(sv.b);
-    write += L",";
-    write += to_wstring(sv.c);
-    write += L",";
-    write += sv.talk;
+ //   wstring write = to_wstring(sv.a);
+ //   write += L",";
+ //   write += to_wstring(sv.b);
+ //   write += L",";
+ //   write += to_wstring(sv.c);
+ //   write += L",";
+ //   write += sv.talk;
 
-	oFile.open("hiTest.bin", ios::binary);
-	oFile.write()
+	//oFile.open("hiTest.bin", ios::binary);
+	//oFile.write(write.c_str(), write.size());
+	//oFile.close();
 
 	sv.a = 100;
 	sv.b = 200;
 	sv.c = 300;
-	sv.talk = L"안녕못하다\n";
+	sv.talk = L"안녕못하다";
 
 	wstring write2 = to_wstring(sv.a);
 	write2 += L",";
@@ -132,26 +133,34 @@ int main()
 	write2 += to_wstring(sv.c);
 	write2 += L",";
 	write2 += sv.talk;
-	const wstring cWrite2 = write2;
-   
+	write2 += L"\n";
+
     //oFile.open("hiTest.txt");
     //oFile.write(cWrite->c_str(), writeSize);
     //oFile.close();
-	oFile.open("hiTest.txt", ios::app);
+	oFile.open("hiTest.txt");
 	oFile.write(write2.c_str(), write2.size());
+	oFile.write(write2.c_str(), write2.size());
+	oFile.close();
 
-	//oFile.close();
-
-
-    iFile.open("hiTest.txt");
-    //wchar_t* cread = new wchar_t[writeSize * 100];
-	
 	wstring tRead;
 
-	while (std::getline(iFile, tRead))
+	wchar_t* readbuffer = new wchar_t();
+    iFile.open("hiTest.txt");
+	while (iFile.getline(readbuffer, write2.size()))
 	{
-		wcout << tRead << endl;
+		wcout << readbuffer << endl;
 	}
+    //wchar_t* cread = new wchar_t[writeSize * 100];
+	
+
+
+	//while (std::getline(iFile, tRead))
+	//{
+	//	wcout << tRead << endl;
+	//}
+	iFile.close();
+
 
  //   wstring one = cWrite->substr(), temp;
 	//DynamicArray<wstring> parts;
@@ -181,8 +190,4 @@ int main()
 	//	wcout << frint << endl;
 	//}
 
-    iFile.close();
-
-
-    //std::cout << "Hello World!\n";
 }
