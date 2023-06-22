@@ -45,6 +45,9 @@ public:
 class DelState : public SystemState
 {
 public:
+	DelState();
+	~DelState() override;
+public:
 	bool Run(GradeSystem* system) override;
 	void Print() override;
 };

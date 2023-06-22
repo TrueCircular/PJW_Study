@@ -3,26 +3,28 @@
 
 #pragma region GradeList
 template<typename T>
-class Info
+class Info 
 {
 public:
-	Info() : _prev(nullptr), _next(nullptr), _data(T()), _id(0), _total(0) {}
+	Info() : _prev(nullptr), _next(nullptr), _data(T()), _id(0) {}
 	Info(const T& value) : _prev(nullptr), _next(nullptr), _data(value), _id(0) {}
 public:
 	Info*	_prev;
 	Info*	_next;
 	T		_data;
 	int		_id;
-	int		_total;
 };
 
-template<typename T>
+template<typename T, typename N>
 class GradeList
 {
+public:
+	typedef void(N::*Sorting_Fun)(Info<T>*, Info<T>*);
 private:
 	Info<T>* _head;
 	Info<T>* _tail;
 	int		 _size;
+
 private:
 	Info<T>* AddNode(Info<T>* node, const T& data);
 	Info<T>* DelNode(Info<T>* node);
@@ -39,22 +41,21 @@ public:
 	void InsertInfo(const T& value1, const T& value2);
 	Info<T>* SearchInfo(const T& value);
 	Info<T>* SearchInfoForIndex(int idex);
-	bool SortingHigh();
-	bool SortingLow();
+	bool Sorting(Sorting_Fun fun);
 	void AllDelete();
 	int size() { return _size; }
 };
 #pragma endregion
 
 #pragma region G_Fun
-template<typename T>
-inline GradeList<T>::~GradeList()
-{
-	AllDelete();
-}
+//template<typename T, typename N>
+//inline GradeList<T,N>::~GradeList()
+//{
+//	AllDelete();
+//}
 
-template<typename T>
-inline Info<T>* GradeList<T>::AddNode(Info<T>* node, const T& data)
+template<typename T, typename N>
+inline Info<T>* GradeList<T,N>::AddNode(Info<T>* node, const T& data)
 {
 	if (node == nullptr)
 		return nullptr;
@@ -75,8 +76,8 @@ inline Info<T>* GradeList<T>::AddNode(Info<T>* node, const T& data)
 	return nullptr;
 }
 
-template<typename T>
-inline Info<T>* GradeList<T>::DelNode(Info<T>* node)
+template<typename T, typename N>
+inline Info<T>* GradeList<T,N>::DelNode(Info<T>* node)
 {
 	if (node == nullptr)
 		return nullptr;
@@ -94,8 +95,8 @@ inline Info<T>* GradeList<T>::DelNode(Info<T>* node)
 	return nNode;
 }
 
-template<typename T>
-inline Info<T>* GradeList<T>::FindNode(Info<T>* node, const T& value)
+template<typename T, typename N>
+inline Info<T>* GradeList<T,N>::FindNode(Info<T>* node, const T& value)
 {
 	if (node == nullptr)
 		return nullptr;
@@ -113,8 +114,8 @@ inline Info<T>* GradeList<T>::FindNode(Info<T>* node, const T& value)
 	return nullptr;
 }
 
-template<typename T>
-inline Info<T>* GradeList<T>::FindeNodeForIndex(int idex)
+template<typename T, typename N>
+inline Info<T>* GradeList<T,N>::FindeNodeForIndex(int idex)
 {
 	Info<T>* nFind = _head;
 
@@ -129,8 +130,8 @@ inline Info<T>* GradeList<T>::FindeNodeForIndex(int idex)
 	return nullptr;
 }
 
-template<typename T>
-inline Info<T>* GradeList<T>::InsertNode(Info<T>* node, const T& data)
+template<typename T, typename N>
+inline Info<T>* GradeList<T,N>::InsertNode(Info<T>* node, const T& data)
 {
 	if (node == nullptr)
 		return nullptr;
@@ -149,14 +150,14 @@ inline Info<T>* GradeList<T>::InsertNode(Info<T>* node, const T& data)
 	return nNext;
 }
 
-template<typename T>
-inline void GradeList<T>::DelBack()
+template<typename T, typename N>
+inline void GradeList<T,N>::DelBack()
 {
 	DelNode(_tail->_prev);
 }
 
-template<typename T>
-inline GradeList<T>::GradeList()
+template<typename T, typename N>
+inline GradeList<T,N>::GradeList()
 {
 	_head = new Info<T>();
 	_tail = new Info<T>();
@@ -168,26 +169,26 @@ inline GradeList<T>::GradeList()
 	_tail->_next = nullptr;
 }
 
-template<typename T>
-inline void GradeList<T>::AddInfo(const T& value)
+template<typename T, typename N>
+inline void GradeList<T,N>::AddInfo(const T& value)
 {
 	AddNode(_tail, value);
 }
 
-template<typename T>
-inline void GradeList<T>::DeleteInfo(const T& value)
+template<typename T, typename N>
+inline void GradeList<T,N>::DeleteInfo(const T& value)
 {
 	DelNode(FindNode(_head, value));
 }
 
-template<typename T>
-inline void GradeList<T>::InsertInfo(const T& value1, const T& value2)
+template<typename T, typename N>
+inline void GradeList<T,N>::InsertInfo(const T& value1, const T& value2)
 {
 	InsertNode(FindNode(_head, value1), value2);
 }
 
-template<typename T>
-inline Info<T>* GradeList<T>::SearchInfo(const T& value)
+template<typename T, typename N>
+inline Info<T>* GradeList<T,N>::SearchInfo(const T& value)
 {
 	if (FindNode(_head, value) != nullptr)
 	{
@@ -198,8 +199,8 @@ inline Info<T>* GradeList<T>::SearchInfo(const T& value)
 	return nullptr;
 }
 
-template<typename T>
-inline Info<T>* GradeList<T>::SearchInfoForIndex(int idex)
+template<typename T, typename N>
+inline Info<T>* GradeList<T,N>::SearchInfoForIndex(int idex)
 {
 	if (FindeNodeForIndex(idex) != nullptr)
 	{
@@ -210,57 +211,22 @@ inline Info<T>* GradeList<T>::SearchInfoForIndex(int idex)
 	return nullptr;
 }
 
-template<typename T>
-inline bool GradeList<T>::SortingHigh()
+template<typename T, typename N>
+inline bool GradeList<T,N>::Sorting(Sorting_Fun fun)
 {
-	Info<T>* tHead = _head->_next;
-	Info<T>* tTemp = tHead->_next;
-	bool isSorting = false;
+	if (fun == nullptr)
+		return false;
 
-	for (; tHead != _tail; tHead = tHead->_next)
-	{
-		for (; tTemp != _tail; tTemp = tTemp->_next)
-		{
-			if (tHead->_id > tTemp->_id)
-			{
-				T tData = tHead->_data;
-				tHead->_data = tTemp->_data;
-				tTemp->_data = tData;
-				isSorting = true;
-			}
-		}
-	}
+	Info<T>* tHead = _head;
+	Info<T>* tTail = _tail;
+	fun(_head, _tail);
 
-	return isSorting;
+	return true;
 }
 
-template<typename T>
-inline bool GradeList<T>::SortingLow()
-{
-	Info<T>* tHead = _head->_next;
-	Info<T>* tTemp = tHead->_next;
-	bool isSorting = false;
 
-	for (; tHead != _tail; tHead = tHead->_next)
-	{
-		for (; tTemp != _tail; tTemp = tTemp->_next)
-		{
-			if (tHead->_id < tTemp->_id)
-
-			{
-				T tData = tHead->_data;
-				tHead->_data = tTemp->_data;
-				tTemp->_data = tData;
-				isSorting = true;
-			}
-		}
-	}
-
-	return isSorting;
-}
-
-template<typename T>
-inline void GradeList<T>::AllDelete()
+template<typename T, typename N>
+inline void GradeList<T,N>::AllDelete()
 {
 	while (_size > 0)
 	{

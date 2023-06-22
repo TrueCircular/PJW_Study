@@ -13,6 +13,11 @@
 
 namespace Gsys
 {
+	enum class E_Sort
+	{
+		SORT_HIGH,
+		SORT_LOW
+	};
 #pragma region E_State
 	enum class E_SysState
 	{
@@ -112,19 +117,25 @@ public:
 };
 #pragma endregion
 
+
+
 #pragma region GradeSystem
 class GradeSystem
 {
 private:
 	typedef DynamicArray<SystemState*>	StateList;
+	typedef void(GradeSystem::*Sorting_Fun)(Info<sData>*, Info<sData>*);
 
-	SystemState*		_state;
-	GradeList<sData>*	_dataBase;
-	StateList*			_stateList;
-	std::wifstream*		_iFile;
-	std::wofstream*		_oFile;
+	SystemState*					_state;
+	GradeList<sData, GradeSystem>*	_dataBase;
+	StateList*						_stateList;
+	std::wifstream*					_iFile;
+	std::wofstream*					_oFile;
+	Sorting_Fun						_sortFun;
 private:
 	std::wstring CreateDataLine(const Info<sData>* iData);
+	void InsertionSortingHigh(Info<sData>* head, Info<sData>* tail);
+	void InsertionSortingLow(Info<sData>* head, Info<sData>* tail);
 	void StateInit();
 public:
 	GradeSystem();
@@ -135,8 +146,9 @@ public:
 	//state get,set
 	SystemState* GetState() const { return _state; }
 	void SetState(E_SysState sType);
-	//datalist get
-	GradeList<sData>* GetDataBase() const { return _dataBase; }
+	//datalist get, fun
+	GradeList<sData, GradeSystem>* GetDataBase() const { return _dataBase; }
+	void SortingForDatabase(E_Sort type);
 	//file, data
 	bool	SaveFile(const char* fName = nullptr, E_SaveMode sMode = E_SaveMode::SAVE_PREV, E_SaveType sType = E_SaveType::SAVE_BIN);
 	bool	LoadFile(const char* fName = nullptr, E_LoadMode lMode = E_LoadMode::LOAD_PREV, E_LoadType lType = E_LoadType::LOAD_BIN);

@@ -52,9 +52,11 @@ GradeSystem::GradeSystem()
 	StateInit();
 	SetState(E_SysState::SYSTEM_MAIN);
 
-	_dataBase = new GradeList<sData>();
+	_dataBase = new GradeList<sData, GradeSystem>();
 	_iFile = new std::wifstream();
 	_oFile = new std::wofstream();
+
+	_sortFun = &GradeSystem::InsertionSortingHigh;
 }
 
 GradeSystem::~GradeSystem()
@@ -128,6 +130,57 @@ void GradeSystem::SetState(E_SysState sType)
 	}
 }
 
+void GradeSystem::InsertionSortingHigh(Info<sData>* head, Info<sData>* tail)
+{
+	if (tail->_prev == head)
+		return;
+
+	Info<sData>* target = head->_next->_next;
+	Info<sData>* compare = target->_prev;
+	Info<sData>* temp;
+
+	for (; target != tail; target = target->_next)
+	{
+		temp = target;
+		for (; compare != head; compare = compare->_prev)
+		{
+			if (compare->_data._total > temp->_data._total)
+			{
+				compare->_next->_data = compare->_data;
+			}
+		}
+		compare->_next->_data = temp->_data;
+	}
+}
+
+void GradeSystem::InsertionSortingLow(Info<sData>* head, Info<sData>* tail)
+{
+	
+}
+
+void GradeSystem::SortingForDatabase(E_Sort type)
+{
+	switch (type)
+	{
+	case Gsys::E_Sort::SORT_HIGH:
+	{
+		_sortFun = &GradeSystem::InsertionSortingHigh;
+		_dataBase->Sorting(_sortFun);
+		break;
+	}
+	case Gsys::E_Sort::SORT_LOW:
+	{
+		_sortFun = &GradeSystem::InsertionSortingLow;
+		_dataBase->Sorting(_sortFun);
+		_sortFun = &GradeSystem::InsertionSortingHigh;
+		break;
+	}
+	default:
+		break;
+	}
+
+
+}
 
 bool GradeSystem::SaveFile(const char* fName, E_SaveMode sMode, E_SaveType sType)
 {
