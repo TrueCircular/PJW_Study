@@ -3,6 +3,14 @@
 #include "../gradeSystem/GradeSystem.h"
 
 
+MainState::MainState()
+{
+}
+
+MainState::~MainState()
+{
+}
+
 bool MainState::Run(GradeSystem* system)
 {
 	if (_isIn == false)
@@ -84,6 +92,14 @@ void MainState::Print()
 	cout << "숫자를 입력하세요(1~7) : ";
 }
 
+ExitState::ExitState()
+{
+}
+
+ExitState::~ExitState()
+{
+}
+
 bool ExitState::Run(GradeSystem* system)
 {
 	return false;
@@ -93,12 +109,28 @@ void ExitState::Print()
 {
 }
 
+SaveState::SaveState()
+{
+}
+
+SaveState::~SaveState()
+{
+}
+
 bool SaveState::Run(GradeSystem* system)
 {
 	return false;
 }
 
 void SaveState::Print()
+{
+}
+
+LoadState::LoadState()
+{
+}
+
+LoadState::~LoadState()
 {
 }
 
@@ -160,6 +192,14 @@ bool ViewState::Run(GradeSystem* system)
 }
 
 void ViewState::Print()
+{
+}
+
+SearchState::SearchState()
+{
+}
+
+SearchState::~SearchState()
 {
 }
 

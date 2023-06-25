@@ -73,6 +73,31 @@ namespace Gsys
 
 		sData() : _index(0), _name(L""), _grade(0),
 				_kor(0), _eng(0), _math(0), _total(0), _average(0.f) {}
+
+		bool operator==(const sData& input)
+		{
+			return  (_index == input._index) &&
+				(_name == input._name) &&
+				(_grade == input._grade) &&
+				(_kor == input._kor) &&
+				(_eng == input._eng) &&
+				(_math == input._math) &&
+				(_total == input._total) &&
+				(_average == input._average);
+		}
+		sData& operator=(const sData& input)
+		{
+			_index = input._index;
+			_name = input._name;
+			_grade = input._grade;
+			_kor = input._kor;
+			_eng = input._eng;
+			_math = input._math;
+			_total = input._total;
+			_average = input._average;
+
+			return *this;
+		}
 	};
 #pragma endregion
 }
@@ -115,7 +140,13 @@ public:
 	void clear();
 	int size() { return _size; }
 
-	T& operator[](int index) { return this->_array[index]; }
+	T& operator[](int index)
+	{
+		if (index < 0 || index >= _size)
+			std::exit(1);
+		else
+			return this->_array[index];
+	}
 };
 #pragma endregion
 
@@ -150,8 +181,8 @@ public:
 	GradeList<sData, GradeSystem>* GetDataBase() const { return _dataBase; }
 	void SortingForDatabase(E_Sort type);
 	//file, data
-	bool	SaveFile(const char* fName = nullptr, E_SaveMode sMode = E_SaveMode::SAVE_PREV, E_SaveType sType = E_SaveType::SAVE_BIN);
-	bool	LoadFile(const char* fName = nullptr, E_LoadMode lMode = E_LoadMode::LOAD_PREV, E_LoadType lType = E_LoadType::LOAD_BIN);
+	bool SaveFile(const char* fName = nullptr, E_SaveMode sMode = E_SaveMode::SAVE_PREV, E_SaveType sType = E_SaveType::SAVE_BIN);
+	bool LoadFile(const char* fName = nullptr, E_LoadMode lMode = E_LoadMode::LOAD_PREV, E_LoadType lType = E_LoadType::LOAD_BIN);
 };
 #pragma endregion
 

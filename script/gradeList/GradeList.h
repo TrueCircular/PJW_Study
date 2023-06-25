@@ -70,7 +70,7 @@ inline Info<T>* GradeList<T,N>::AddNode(Info<T>* node, const T& data)
 	tNode->_next = node;
 	node->_prev = tNode;
 
-	node->_id = _size;
+	tNode->_id = _size;
 	_size++;
 
 	return tNode;

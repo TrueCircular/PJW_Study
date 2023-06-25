@@ -9,7 +9,7 @@ using namespace std;
 using namespace Gsys;
 
 #pragma region StateCollection
-//state
+
 class SystemState
 {
 public:
@@ -55,6 +55,8 @@ public:
 class SearchState : public SystemState
 {
 public:
+	SearchState();
+	~SearchState() override;
 	bool Run(GradeSystem* system) override;
 	void Print() override;
 };
@@ -62,6 +64,8 @@ public:
 class LoadState : public SystemState
 {
 public:
+	LoadState();
+	~LoadState() override;
 	bool Run(GradeSystem* system) override;
 	void Print() override;
 };
@@ -69,6 +73,8 @@ public:
 class SaveState : public SystemState
 {
 public:
+	SaveState();
+	~SaveState() override;
 	bool Run(GradeSystem* system) override;
 	void Print() override;
 
@@ -77,6 +83,8 @@ public:
 class ExitState : public SystemState
 {
 public:
+	ExitState();
+	~ExitState() override;
 	bool Run(GradeSystem* system) override;
 	void Print() override;
 };
@@ -84,6 +92,8 @@ public:
 class MainState : public SystemState
 {
 public:
+	MainState();
+	~MainState() override;
 	bool Run(GradeSystem* system) override;
 	void Print() override;
 };

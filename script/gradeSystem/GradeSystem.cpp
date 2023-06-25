@@ -65,6 +65,8 @@ GradeSystem::~GradeSystem()
 	delete	_state;
 	delete	_dataBase;
 	delete	_stateList;
+	delete	_iFile;
+	delete	_oFile;
 }
 
 bool GradeSystem::Run()
@@ -88,42 +90,42 @@ void GradeSystem::SetState(E_SysState sType)
 	{
 	case E_SysState::SYSTEM_MAIN:
 	{
-		_state = _stateList->operator[](static_cast<int>(E_SysState::SYSTEM_MAIN));
+		_state = (*_stateList)[(static_cast<int>(E_SysState::SYSTEM_MAIN))];
 		break;
 	}
 	case E_SysState::SYSTEM_VIEW:
 	{
-		_state = _stateList->operator[](static_cast<int>(E_SysState::SYSTEM_VIEW));
+		_state = (*_stateList)[(static_cast<int>(E_SysState::SYSTEM_VIEW))];
 		break;
 	}
 	case E_SysState::SYSTEM_FIND:
 	{
-		_state = _stateList->operator[](static_cast<int>(E_SysState::SYSTEM_FIND));
+		_state = (*_stateList)[(static_cast<int>(E_SysState::SYSTEM_FIND))];
 		break;
 	}
 	case E_SysState::SYSTEM_ADD:
 	{
-		_state = _stateList->operator[](static_cast<int>(E_SysState::SYSTEM_ADD));
+		_state = (*_stateList)[(static_cast<int>(E_SysState::SYSTEM_ADD))];
 		break;
 	}
 	case E_SysState::SYSTEM_DELETE:
 	{
-		_state = _stateList->operator[](static_cast<int>(E_SysState::SYSTEM_DELETE));
+		_state = (*_stateList)[(static_cast<int>(E_SysState::SYSTEM_DELETE))];
 		break;
 	}
 	case E_SysState::SYSTEM_LOAD:
 	{
-		_state = _stateList->operator[](static_cast<int>(E_SysState::SYSTEM_LOAD));
+		_state = (*_stateList)[(static_cast<int>(E_SysState::SYSTEM_LOAD))];
 		break;
 	}
 	case E_SysState::SYSTEM_SAVE:
 	{
-		_state = _stateList->operator[](static_cast<int>(E_SysState::SYSTEM_SAVE));
+		_state = (*_stateList)[(static_cast<int>(E_SysState::SYSTEM_SAVE))];
 		break;
 	}
 	case E_SysState::SYSTEM_EXIT:
 	{
-		_state = _stateList->operator[](static_cast<int>(E_SysState::SYSTEM_EXIT));
+		_state = (*_stateList)[(static_cast<int>(E_SysState::SYSTEM_EXIT))];
 		break;
 	}
 	default:
@@ -133,30 +135,46 @@ void GradeSystem::SetState(E_SysState sType)
 
 void GradeSystem::InsertionSortingHigh(Info<sData>* head, Info<sData>* tail)
 {
-	if (tail->_prev == head)
-		return;
+	Info<sData>* _target = head->_next->_next;
+	Info<sData>* _compare = _target->_prev;
+	sData	_temp;
 
-	Info<sData>* target = head->_next->_next;
-	Info<sData>* compare = target->_prev;
-	Info<sData>* temp;
-
-	for (; target != tail; target = target->_next)
+	for (; _target != tail; _target = _target->_next)
 	{
-		temp = target;
-		for (; compare != head; compare = compare->_prev)
+		_temp = _target->_data;
+		for (_compare = _target->_prev; _compare != head; _compare = _compare->_prev)
 		{
-			if (compare->_data._total > temp->_data._total)
+			if (_compare->_data._total > _temp._total)
 			{
-				compare->_next->_data = compare->_data;
+				_compare->_next->_data = _compare->_data;
 			}
+			else
+				break;
 		}
-		compare->_next->_data = temp->_data;
+		_compare->_next->_data = _temp;
 	}
 }
 
 void GradeSystem::InsertionSortingLow(Info<sData>* head, Info<sData>* tail)
 {
-	
+	Info<sData>* _target = head->_next->_next;
+	Info<sData>* _compare = _target->_prev;
+	sData	_temp;
+
+	for (; _target != tail; _target = _target->_next)
+	{
+		_temp = _target->_data;
+		for (_compare = _target->_prev; _compare != head; _compare = _compare->_prev)
+		{
+			if (_compare->_data._total < _temp._total)
+			{
+				_compare->_next->_data = _compare->_data;
+			}
+			else
+				break;
+		}
+		_compare->_next->_data = _temp;
+	}
 }
 
 void GradeSystem::SortingForDatabase(E_Sort type)
@@ -173,7 +191,6 @@ void GradeSystem::SortingForDatabase(E_Sort type)
 	{
 		_sortFun = &GradeSystem::InsertionSortingLow;
 		_dataBase->Sorting(_sortFun, this);
-		_sortFun = &GradeSystem::InsertionSortingHigh;
 		break;
 	}
 	default:
