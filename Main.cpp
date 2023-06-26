@@ -3,6 +3,7 @@
 
 int main()
 {
+
 	//Gsys머신
 	GradeSystem* machine = new GradeSystem();
 	//Exit이전까지

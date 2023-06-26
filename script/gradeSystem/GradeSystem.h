@@ -1,14 +1,14 @@
 #pragma once
 #include <iostream>
-#include <fstream>
 #include <string>
 #include <sstream>
+#include <fstream>
+#include <filesystem>
 #include <locale>
-#include <conio.h>
-#include <io.h>
+#include <cmath>
 #include "../gradeList/GradeList.h"
 
-#define MYLOCALPATH_SAVE (const char*)"../../data/Gsys_Save/"
+#define MYLOCALPATH_SAVE (const char*)"data/Gsys_Save/"
 #define MAX_SAVE_FILE 50
 
 namespace Gsys
@@ -160,8 +160,8 @@ private:
 	SystemState*					_state;
 	GradeList<sData, GradeSystem>*	_dataBase;
 	StateList*						_stateList;
-	std::wifstream*					_iFile;
-	std::wofstream*					_oFile;
+	std::wifstream*					_inFile;
+	std::wofstream*					_outFile;
 	Sorting_Fun						_sortFun;
 private:
 	void Init();

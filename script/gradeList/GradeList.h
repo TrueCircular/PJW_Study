@@ -115,9 +115,9 @@ inline Info<T>* GradeList<T,N>::FindNode(Info<T>* node, const T& value)
 template<typename T, typename N>
 inline Info<T>* GradeList<T,N>::FindeNodeForIndex(int idex)
 {
-	Info<T>* nFind = _head;
+	Info<T>* nFind = _head->_next;
 
-	while (nFind != nullptr)
+	while (nFind != _tail)
 	{
 		if (nFind->_id == idex)
 			return nFind;

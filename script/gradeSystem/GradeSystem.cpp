@@ -2,10 +2,19 @@
 #include "../systemState/SystemState.h"
 //#include "../gradeList/GradeList.h"
 
-
-
 void GradeSystem::Init()
 {
+	std::locale::global(std::locale("Korean"));
+
+	_stateList = new StateList();
+	StateInit();
+	SetState(E_SysState::SYSTEM_MAIN);
+
+	_dataBase = new GradeList<sData, GradeSystem>();
+	_inFile = new wifstream();
+	_outFile = new wofstream();
+	_sortFun = &GradeSystem::InsertionSortingHigh;
+
 	sData t1;
 	t1._index = 0;
 	t1._name = L"김철수";
@@ -15,10 +24,11 @@ void GradeSystem::Init()
 	t1._math = 80;
 	t1._total = t1._kor + t1._math + t1._eng;
 	t1._average = t1._total / 3.f;
+	t1._average = truncf(t1._average);
 	_dataBase->AddInfo(t1);
 
 	sData t2;
-	t2._index = 0;
+	t2._index = 1;
 	t2._name = L"김명수";
 	t2._grade = 1;
 	t2._kor = 60;
@@ -26,10 +36,11 @@ void GradeSystem::Init()
 	t2._math = 50;
 	t2._total = t2._kor + t2._math + t2._eng;
 	t2._average = t2._total / 3.f;
+	t2._average = truncf(t2._average);
 	_dataBase->AddInfo(t2);
 
 	sData t3;
-	t3._index = 0;
+	t3._index = 2;
 	t3._name = L"김영희";
 	t3._grade = 1;
 	t3._kor = 80;
@@ -37,7 +48,11 @@ void GradeSystem::Init()
 	t3._math = 90;
 	t3._total = t3._kor + t3._math + t3._eng;
 	t3._average = t3._total / 3.f;
+	t3._average = truncf(t3._average);
 	_dataBase->AddInfo(t3);
+
+	SortingForDatabase(E_Sort::SORT_LOW);
+
 }
 
 std::wstring GradeSystem::CreateDataLine(const Info<sData>* iData)
@@ -85,18 +100,9 @@ void GradeSystem::StateInit()
 
 GradeSystem::GradeSystem()
 {
-	std::locale::global(std::locale("Korean"));
-
-	_stateList = new StateList();
-	StateInit();
-	SetState(E_SysState::SYSTEM_MAIN);
-
-	_dataBase = new GradeList<sData, GradeSystem>();
-	_iFile = new std::wifstream();
-	_oFile = new std::wofstream();
-	_sortFun = &GradeSystem::InsertionSortingHigh;
-
 	Init();
+
+	SaveFile("", Gsys::E_SaveMode::SAVE_PREV, Gsys::E_SaveType::SAVE_TXT);
 }
 
 GradeSystem::~GradeSystem()
@@ -104,8 +110,8 @@ GradeSystem::~GradeSystem()
 	delete	_state;
 	delete	_dataBase;
 	delete	_stateList;
-	delete	_iFile;
-	delete	_oFile;
+	delete	_inFile;
+	delete	_outFile;
 }
 
 bool GradeSystem::Run()
@@ -176,7 +182,7 @@ void GradeSystem::InsertionSortingHigh(Info<sData>* head, Info<sData>* tail)
 {
 	Info<sData>* _target = head->_next->_next;
 	Info<sData>* _compare = _target->_prev;
-	sData	_temp;
+	sData		 _temp;
 
 	for (; _target != tail; _target = _target->_next)
 	{
@@ -198,7 +204,7 @@ void GradeSystem::InsertionSortingLow(Info<sData>* head, Info<sData>* tail)
 {
 	Info<sData>* _target = head->_next->_next;
 	Info<sData>* _compare = _target->_prev;
-	sData	_temp;
+	sData		 _temp;
 
 	for (; _target != tail; _target = _target->_next)
 	{
@@ -248,16 +254,16 @@ bool GradeSystem::SaveFile(const char* fName, E_SaveMode sMode, E_SaveType sType
 			string path = MYLOCALPATH_SAVE;
 			path.append("save_prev.bin");
 
-			_oFile->open(path, ios::binary);
+			_outFile->open(path, ios::binary);
 
 			for (int i = 0; i < _dataBase->size(); i++)
 			{
 				Info<sData>* _tdata = _dataBase->SearchInfoForIndex(i);
 				wstring  _tLine = CreateDataLine(_tdata);
-				_oFile->write(_tLine.c_str(), _tLine.size());
+				_outFile->write(_tLine.c_str(), _tLine.size());
 			}
 
-			_oFile->close();
+			_outFile->close();
 
 			cout << endl;
 			cout << "경로 : " << path << " <저장 완료>" << endl;
@@ -265,22 +271,22 @@ bool GradeSystem::SaveFile(const char* fName, E_SaveMode sMode, E_SaveType sType
 		}
 		else
 		{
-			string path = MYLOCALPATH_SAVE;
-			path.append("save_prev.txt");
-			
-			_oFile->open(path);
+			string _path = MYLOCALPATH_SAVE;
+			_path.append("save_prev.txt");
+
+			_outFile->open(_path, ios_base::out);
 
 			for (int i = 0; i < _dataBase->size(); i++)
 			{
 				Info<sData>* _tdata = _dataBase->SearchInfoForIndex(i);
 				wstring  _tLine = CreateDataLine(_tdata);
-				_oFile->write(_tLine.c_str(), _tLine.size());
+				_outFile->write(_tLine.c_str(), _tLine.size());
 			}
 
-			_oFile->close();
+			_outFile->close();
 
 			cout << endl;
-			cout << "경로 : " <<  path << " <저장 완료>" << endl;
+			cout << "경로 : " <<  _path << " <저장 완료>" << endl;
 			return true;
 		}
 		break;
@@ -296,16 +302,16 @@ bool GradeSystem::SaveFile(const char* fName, E_SaveMode sMode, E_SaveType sType
 			path.append(fName);
 			path.append(".bin");
 
-			_oFile->open(path, ios::binary);
+			_outFile->open(path, ios::binary);
 
 			for (int i = 0; i < _dataBase->size(); i++)
 			{
 				Info<sData>* _tdata = _dataBase->SearchInfoForIndex(i);
 				wstring	_tLine = CreateDataLine(_tdata);
-				_oFile->write(_tLine.c_str(), _tLine.size());
+				_outFile->write(_tLine.c_str(), _tLine.size());
 			}
 
-			_oFile->close();
+			_outFile->close();
 
 			cout << endl;
 			cout << "경로 : " << path << " <저장 완료>" << endl;
@@ -317,16 +323,16 @@ bool GradeSystem::SaveFile(const char* fName, E_SaveMode sMode, E_SaveType sType
 			path.append(fName);
 			path.append(".txt");
 
-			_oFile->open(path);
+			_outFile->open(path);
 
 			for (int i = 0; i < _dataBase->size(); i++)
 			{
 				Info<sData>* _tdata = _dataBase->SearchInfoForIndex(i);
 				wstring  _tLine = CreateDataLine(_tdata);
-				_oFile->write(_tLine.c_str(), _tLine.size());
+				_outFile->write(_tLine.c_str(), _tLine.size());
 			}
 
-			_oFile->close();
+			_outFile->close();
 
 			cout << endl;
 			cout << "경로 : " << path << " <저장 완료>" << endl;
