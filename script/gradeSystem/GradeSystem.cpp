@@ -51,8 +51,7 @@ void GradeSystem::Init()
 	t3._average = truncf(t3._average);
 	_dataBase->AddInfo(t3);
 
-	SortingForDatabase(E_Sort::SORT_LOW);
-
+	//SortingForDatabase(E_Sort::SORT_LOW);
 }
 
 std::wstring GradeSystem::CreateDataLine(const Info<sData>* iData)
