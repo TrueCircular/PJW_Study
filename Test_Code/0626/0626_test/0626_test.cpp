@@ -25,7 +25,7 @@ int main()
     mypath = std::filesystem::absolute(mypath);
     //string lastpath = mypath.string();
 
-    _finddata_t fd;
+    struct _finddata_t fd;
     intptr_t handle;
 
     if ((handle = _findfirst(mypath.string().c_str(), &fd)) == -1L)

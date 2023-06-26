@@ -550,6 +550,21 @@ bool LoadFile(const char* fName, Gsys::E_LoadMode lMode, Gsys::E_LoadType lType)
 	}
 	case Gsys::E_LoadMode::LOAD_NEW:
 	{
+
+		switch (lType)
+		{
+		case Gsys::E_LoadType::LOAD_TXT:
+		{
+			break;
+		}
+		case Gsys::E_LoadType::LOAD_BIN:
+		{
+			break;
+		}
+		default:
+			break;
+		}
+
 		break;
 	}
 	default:
