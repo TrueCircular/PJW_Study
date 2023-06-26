@@ -164,6 +164,7 @@ private:
 	std::wofstream*					_oFile;
 	Sorting_Fun						_sortFun;
 private:
+	void Init();
 	std::wstring CreateDataLine(const Info<sData>* iData);
 	void StateInit();
 	void InsertionSortingHigh(Info<sData>* head, Info<sData>* tail);

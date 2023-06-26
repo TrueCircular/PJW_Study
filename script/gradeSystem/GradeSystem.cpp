@@ -4,6 +4,42 @@
 
 
 
+void GradeSystem::Init()
+{
+	sData t1;
+	t1._index = 0;
+	t1._name = L"±èÃ¶¼ö";
+	t1._grade = 1;
+	t1._kor = 50;
+	t1._eng = 40;
+	t1._math = 80;
+	t1._total = t1._kor + t1._math + t1._eng;
+	t1._average = t1._total / 3.f;
+	_dataBase->AddInfo(t1);
+
+	sData t2;
+	t2._index = 0;
+	t2._name = L"±è¸í¼ö";
+	t2._grade = 1;
+	t2._kor = 60;
+	t2._eng = 30;
+	t2._math = 50;
+	t2._total = t2._kor + t2._math + t2._eng;
+	t2._average = t2._total / 3.f;
+	_dataBase->AddInfo(t2);
+
+	sData t3;
+	t3._index = 0;
+	t3._name = L"±è¿µÈñ";
+	t3._grade = 1;
+	t3._kor = 80;
+	t3._eng = 90;
+	t3._math = 90;
+	t3._total = t3._kor + t3._math + t3._eng;
+	t3._average = t3._total / 3.f;
+	_dataBase->AddInfo(t3);
+}
+
 std::wstring GradeSystem::CreateDataLine(const Info<sData>* iData)
 {
 	wstring temp;
@@ -50,8 +86,8 @@ void GradeSystem::StateInit()
 GradeSystem::GradeSystem()
 {
 	std::locale::global(std::locale("Korean"));
-	_stateList = new StateList();
 
+	_stateList = new StateList();
 	StateInit();
 	SetState(E_SysState::SYSTEM_MAIN);
 
@@ -59,6 +95,8 @@ GradeSystem::GradeSystem()
 	_iFile = new std::wifstream();
 	_oFile = new std::wofstream();
 	_sortFun = &GradeSystem::InsertionSortingHigh;
+
+	Init();
 }
 
 GradeSystem::~GradeSystem()
@@ -197,8 +235,6 @@ void GradeSystem::SortingForDatabase(E_Sort type)
 	default:
 		break;
 	}
-
-
 }
 
 bool GradeSystem::SaveFile(const char* fName, E_SaveMode sMode, E_SaveType sType)
