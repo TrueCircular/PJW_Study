@@ -1,7 +1,4 @@
 #pragma once
-#include <iostream>
-
-
 
 #pragma region GradeList
 template<typename T>
@@ -44,7 +41,7 @@ public:
 	Info<T>* SearchInfoForIndex(int idex);
 	bool Sorting(Sorting_Fun fun, N* ptr);
 	void AllDelete();
-	int size() { return _size; }
+	int size() { return _size; } 
 };
 #pragma endregion
 
@@ -104,7 +101,7 @@ inline Info<T>* GradeList<T,N>::FindNode(Info<T>* node, const T& value)
 
 	Info<T>* nFind = node;
 
-	while (nFind != NULL)
+	while (nFind != nullptr)
 	{
 		if (nFind->_data == value)
 			return nFind;
@@ -120,7 +117,7 @@ inline Info<T>* GradeList<T,N>::FindeNodeForIndex(int idex)
 {
 	Info<T>* nFind = _head;
 
-	while (nFind != NULL)
+	while (nFind != nullptr)
 	{
 		if (nFind->_id == idex)
 			return nFind;

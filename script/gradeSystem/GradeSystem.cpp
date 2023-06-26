@@ -1,27 +1,28 @@
 #include "GradeSystem.h"
 #include "../systemState/SystemState.h"
-#include "../gradeList/GradeList.h"
+//#include "../gradeList/GradeList.h"
 
 
 
 std::wstring GradeSystem::CreateDataLine(const Info<sData>* iData)
 {
-	wstring temp = to_wstring(iData->_data._index);
-	temp += L",";
-	temp += (iData->_data._name);
-	temp += L",";
-	temp += to_wstring(iData->_data._grade);
-	temp += L",";
-	temp += to_wstring(iData->_data._kor);
-	temp += L",";
-	temp += to_wstring(iData->_data._eng);
-	temp += L",";
-	temp += to_wstring(iData->_data._math);
-	temp += L",";
-	temp += to_wstring(iData->_data._total);
-	temp += L",";
-	temp += to_wstring(iData->_data._average);
-	temp += L"\n";
+	wstring temp;
+	temp = to_wstring(iData->_data._index);
+	temp.append(L",");
+	temp.append(iData->_data._name);
+	temp.append(L",");
+	temp.append(to_wstring(iData->_data._grade));
+	temp.append(L",");
+	temp.append(to_wstring(iData->_data._kor));
+	temp.append(L",");
+	temp.append(to_wstring(iData->_data._eng));
+	temp.append(L",");
+	temp.append(to_wstring(iData->_data._math));
+	temp.append(L",");
+	temp.append(to_wstring(iData->_data._total));
+	temp.append(L",");
+	temp.append(to_wstring(iData->_data._average));
+	temp.append(L"\n");
 
 	return temp;
 }
@@ -221,6 +222,9 @@ bool GradeSystem::SaveFile(const char* fName, E_SaveMode sMode, E_SaveType sType
 			}
 
 			_oFile->close();
+
+			cout << endl;
+			cout << "경로 : " << path << " <저장 완료>" << endl;
 			return true;
 		}
 		else
@@ -238,6 +242,9 @@ bool GradeSystem::SaveFile(const char* fName, E_SaveMode sMode, E_SaveType sType
 			}
 
 			_oFile->close();
+
+			cout << endl;
+			cout << "경로 : " <<  path << " <저장 완료>" << endl;
 			return true;
 		}
 		break;
@@ -263,6 +270,9 @@ bool GradeSystem::SaveFile(const char* fName, E_SaveMode sMode, E_SaveType sType
 			}
 
 			_oFile->close();
+
+			cout << endl;
+			cout << "경로 : " << path << " <저장 완료>" << endl;
 			return true;
 		}
 		else
@@ -281,6 +291,9 @@ bool GradeSystem::SaveFile(const char* fName, E_SaveMode sMode, E_SaveType sType
 			}
 
 			_oFile->close();
+
+			cout << endl;
+			cout << "경로 : " << path << " <저장 완료>" << endl;
 			return true;
 		}
 		break;

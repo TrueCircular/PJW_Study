@@ -1,13 +1,14 @@
 #pragma once
+#include <iostream>
 #include <fstream>
 #include <string>
 #include <sstream>
 #include <locale>
 #include <conio.h>
 #include <io.h>
+#include "../gradeList/GradeList.h"
 
 #define MYLOCALPATH_SAVE (const char*)"../../data/Gsys_Save/"
-#define MYLOCALPATH_LOAD (const char*)"../../data/Gsys_Load/"
 #define MAX_SAVE_FILE 50
 
 namespace Gsys
@@ -77,13 +78,13 @@ namespace Gsys
 		bool operator==(const sData& input)
 		{
 			return  (_index == input._index) &&
-				(_name == input._name) &&
-				(_grade == input._grade) &&
-				(_kor == input._kor) &&
-				(_eng == input._eng) &&
-				(_math == input._math) &&
-				(_total == input._total) &&
-				(_average == input._average);
+					(_name == input._name) &&
+					(_grade == input._grade) &&
+					(_kor == input._kor) &&
+					(_eng == input._eng) &&
+					(_math == input._math) &&
+					(_total == input._total) &&
+					(_average == input._average);
 		}
 		sData& operator=(const sData& input)
 		{
@@ -112,9 +113,8 @@ class LoadState;
 class SaveState;
 class ExitState;
 class MainState;
-
-template<typename T> class Info;
-template<typename T, typename N> class GradeList;
+//template<typename T> class Info;
+//template<typename T, typename N> class GradeList;
 #pragma endregion
 
 using namespace Gsys;
