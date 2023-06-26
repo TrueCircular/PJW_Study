@@ -16,7 +16,7 @@ void GradeSystem::Init()
 	_sortFun = &GradeSystem::InsertionSortingHigh;
 
 	sData t1;
-	t1._index = 0;
+	t1._index = 1;
 	t1._name = L"±èÃ¶¼ö";
 	t1._grade = 1;
 	t1._kor = 50;
@@ -28,7 +28,7 @@ void GradeSystem::Init()
 	_dataBase->AddInfo(t1);
 
 	sData t2;
-	t2._index = 1;
+	t2._index = 2;
 	t2._name = L"±è¸í¼ö";
 	t2._grade = 1;
 	t2._kor = 60;
@@ -40,7 +40,7 @@ void GradeSystem::Init()
 	_dataBase->AddInfo(t2);
 
 	sData t3;
-	t3._index = 2;
+	t3._index = 3;
 	t3._name = L"±è¿µÈñ";
 	t3._grade = 1;
 	t3._kor = 80;
