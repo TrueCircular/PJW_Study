@@ -539,6 +539,7 @@ int main()
 	delete _dataBase;
 	delete temp;
 	delete _oFile;
+	delete _iFile;
 
 }
 
