@@ -155,10 +155,10 @@ int main()
 	
 
 
-	//while (std::getline(iFile, tRead))
-	//{
-	//	wcout << tRead << endl;
-	//}
+	while (std::getline(iFile, tRead))
+	{
+		wcout << tRead << endl;
+	}
 	iFile.close();
 
 

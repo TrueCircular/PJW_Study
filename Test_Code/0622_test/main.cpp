@@ -336,6 +336,113 @@ inline void GradeList<T, N>::AllDelete()
 }
 #pragma endregion
 
+#pragma region DynamicArray
+
+template<class T>
+class DynamicArray
+{
+private:
+	T* _array;
+	int _used;
+	int _size;
+public:
+	DynamicArray() : _size(1), _used(0)
+	{
+		_array = new T[_size];
+	}
+	~DynamicArray() { delete[] _array; }
+
+	void push_back(const T& data);
+	void pop_back();
+	void clear();
+	int size() { return _size; }
+
+	T& operator[](int index)
+	{
+		if (index < 0 || index >= _size)
+			std::exit(1);
+		else
+			return this->_array[index];
+	}
+};
+#pragma endregion
+
+#pragma region D_ArrayFun
+template<class T>
+inline void DynamicArray<T>::push_back(const T& data)
+{
+	if (_size > _used)
+	{
+		_array[_used] = data;
+		_used++;
+		return;
+	}
+
+	T* temp = new T[_size];
+
+	for (int i = 0; i < _used; i++)
+	{
+		temp[i] = _array[i];
+	}
+
+	delete[] _array;
+
+	_size *= 2;
+	_array = new T[_size];
+
+	for (int i = 0; i < _used; i++)
+	{
+		_array[i] = temp[i];
+	}
+
+	_array[_used] = data;
+	_used++;
+
+	delete[] temp;
+}
+
+template<class T>
+inline void DynamicArray<T>::pop_back()
+{
+	if (_used == 0) return;
+
+	_used--;
+
+	T* temp = new T[_used];
+
+	for (int i = 0; i < _used; i++)
+	{
+		temp[i] = _array[i];
+	}
+
+	delete[] _array;
+
+	_array = new T[_size];
+
+	for (int i = 0; i < _used; i++)
+	{
+		_array[i] = temp[i];
+	}
+
+	delete[] temp;
+}
+template<class T>
+inline void DynamicArray<T>::clear()
+{
+
+	if (_array)
+	{
+		_used = 0;
+		_size = 1;
+
+		delete[] _array;
+
+		_array = new T[_size];
+	}
+
+}
+#pragma endregion
+
 
 class sortclass
 {
@@ -374,11 +481,14 @@ typedef void(sortclass::*Sort_fun)(Info<Gsys::sData>*, Info<Gsys::sData>*);
 std::wstring CreateDataLine(const Info<sData>* iData);
 bool SaveFile(const char* fName = nullptr,	Gsys::E_SaveMode sMode = E_SaveMode::SAVE_PREV, Gsys::E_SaveType sType = E_SaveType::SAVE_BIN);
 bool LoadFile(const char* fName = nullptr,	Gsys::E_LoadMode lMode = E_LoadMode::LOAD_PREV, Gsys::E_LoadType lType = E_LoadType::LOAD_BIN);
+sData CreateLoadData(DynamicArray<wstring>* list);
 
 std::wifstream* _iFile;
 std::wofstream* _oFile;
 
 GradeList<sData, sortclass>* _dataBase;
+
+
 
 
 int main()
@@ -417,10 +527,12 @@ int main()
 	std::locale::global(std::locale("Korean"));
 
 	_oFile = new wofstream();
+	_iFile = new wifstream();
 
-	SaveFile("", Gsys::E_SaveMode::SAVE_PREV, Gsys::E_SaveType::SAVE_TXT);
-	SaveFile("test", Gsys::E_SaveMode::SAVE_NEW, Gsys::E_SaveType::SAVE_TXT);
+	//SaveFile("", Gsys::E_SaveMode::SAVE_PREV, Gsys::E_SaveType::SAVE_TXT);
+	//SaveFile("test", Gsys::E_SaveMode::SAVE_NEW, Gsys::E_SaveType::SAVE_TXT);
 
+	LoadFile("", E_LoadMode::LOAD_PREV, E_LoadType::LOAD_TXT);
 
 	//cout << tList->size() << endl;
 
@@ -537,42 +649,216 @@ bool LoadFile(const char* fName, Gsys::E_LoadMode lMode, Gsys::E_LoadType lType)
 		{
 		case Gsys::E_LoadType::LOAD_TXT:
 		{
+			//경로 설정
+			string path = MYLOCALPATH_SAVE;
+			path.append("save_prev.txt");
+			//파일 오픈
+			_iFile->open(path);
+			//버퍼
+			wstring wTemp;
+			DynamicArray<wstring> wList;
+			//개행 읽기
+			while (std::getline(*_iFile, wTemp))
+			{
+				wList.push_back(wTemp);
+			}
+			//split 버퍼
+			wstringstream* wStream = new wstringstream();
+			DynamicArray<wstring>* parts = new DynamicArray<wstring>();
+			//database에 저장
+			for (int i = 0; i < wList.size()-1; i++)
+			{
+				wstring in = wList[i].substr(), temp;
+				wStream->str(in);
+				sData tData;
+				while (std::getline(*wStream, temp, L','))
+				{
+					parts->push_back(temp);
+				}
+				tData = CreateLoadData(parts);
+				_dataBase->AddInfo(tData);
+
+				parts->clear();
+				wStream->clear();
+			}
+			//complete call
+			cout << "최근 저장 파일 불러오기 완료" << endl;
+			//해제
+			_iFile->close();
+			delete wStream;
+			delete parts;
+
+			return true;
+
 			break;
 		}
 		case Gsys::E_LoadType::LOAD_BIN:
 		{
+			//경로 설정
+			string path = MYLOCALPATH_SAVE;
+			path.append("save_prev.bin");
+			//파일 오픈
+			_iFile->open(path);
+			//버퍼
+			wstring wTemp;
+			DynamicArray<wstring> wList;
+			//개행 읽기
+			while (std::getline(*_iFile, wTemp))
+			{
+				wList.push_back(wTemp);
+			}
+			//split 버퍼
+			wstringstream* wStream = new wstringstream();
+			DynamicArray<wstring>* parts = new DynamicArray<wstring>();
+			//database에 저장
+			for (int i = 0; i < wList.size() - 1; i++)
+			{
+				wstring in = wList[i].substr(), temp;
+				wStream->str(in);
+				sData tData;
+				while (std::getline(*wStream, temp, L','))
+				{
+					parts->push_back(temp);
+				}
+				tData = CreateLoadData(parts);
+				_dataBase->AddInfo(tData);
+
+				parts->clear();
+				wStream->clear();
+			}
+			//complete call
+			cout << "최근 저장 파일 불러오기 완료" << endl;
+			//해제
+			_iFile->close();
+			delete wStream;
+			delete parts;
+
+			return true;
+
 			break;
 		}
-		default:
-			break;
 		}
 		break;
 	}
 	case Gsys::E_LoadMode::LOAD_NEW:
 	{
-
 		switch (lType)
 		{
 		case Gsys::E_LoadType::LOAD_TXT:
 		{
+			//경로 설정
+			string path = MYLOCALPATH_SAVE;
+			path.append(fName);
+			path.append(".txt");
+			//파일 오픈
+			_iFile->open(path);
+			//버퍼
+			wstring wTemp;
+			DynamicArray<wstring> wList;
+			//개행 읽기
+			while (std::getline(*_iFile, wTemp))
+			{
+				wList.push_back(wTemp);
+			}
+			//split 버퍼
+			wstringstream* wStream = new wstringstream();
+			DynamicArray<wstring>* parts = new DynamicArray<wstring>();
+			//database에 저장
+			for (int i = 0; i < wList.size() - 1; i++)
+			{
+				wstring in = wList[i].substr(), temp;
+				wStream->str(in);
+				sData tData;
+				while (std::getline(*wStream, temp, L','))
+				{
+					parts->push_back(temp);
+				}
+				tData = CreateLoadData(parts);
+				_dataBase->AddInfo(tData);
+
+				parts->clear();
+				wStream->clear();
+			}
+			//complete call
+			cout << "최근 저장 파일 불러오기 완료" << endl;
+			//해제
+			_iFile->close();
+			delete wStream;
+			delete parts;
+
+			return true;
+
 			break;
 		}
 		case Gsys::E_LoadType::LOAD_BIN:
 		{
-			break;
-		}
-		default:
-			break;
-		}
+			//경로 설정
+			string path = MYLOCALPATH_SAVE;
+			path.append(fName);
+			path.append(".bin");
+			//파일 오픈
+			_iFile->open(path);
+			//버퍼
+			wstring wTemp;
+			DynamicArray<wstring> wList;
+			//개행 읽기
+			while (std::getline(*_iFile, wTemp))
+			{
+				wList.push_back(wTemp);
+			}
+			//split 버퍼
+			wstringstream* wStream = new wstringstream();
+			DynamicArray<wstring>* parts = new DynamicArray<wstring>();
+			//database에 저장
+			for (int i = 0; i < wList.size() - 1; i++)
+			{
+				wstring in = wList[i].substr(), temp;
+				wStream->str(in);
+				sData tData;
+				while (std::getline(*wStream, temp, L','))
+				{
+					parts->push_back(temp);
+				}
+				tData = CreateLoadData(parts);
+				_dataBase->AddInfo(tData);
 
+				parts->clear();
+				wStream->clear();
+			}
+			//complete call
+			cout << "최근 저장 파일 불러오기 완료" << endl;
+			//해제
+			_iFile->close();
+			delete wStream;
+			delete parts;
+
+			return true;
+
+			break;
+		}
+		}
 		break;
 	}
-	default:
-		break;
 	}
 
 
 	return false;
+}
+
+sData CreateLoadData(DynamicArray<wstring>* list)
+{
+	sData tData;
+
+	tData._index = std::stoi((*list)[0]);
+	tData._name = (*list)[1];
+	tData._grade = stoi((*list)[2]);
+	tData._kor = stoi((*list)[3]);
+	tData._eng = stoi((*list)[4]);
+	tData._math = stoi((*list)[5]);
+	tData._total = stoi((*list)[6]);
+	tData._average = stof((*list)[7]);
+
+	return tData;
 }
 
 std::wstring CreateDataLine(const Info<sData>* iData)
