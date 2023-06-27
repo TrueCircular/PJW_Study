@@ -690,8 +690,6 @@ bool LoadFile(const char* fName, Gsys::E_LoadMode lMode, Gsys::E_LoadType lType)
 			delete parts;
 
 			return true;
-
-			break;
 		}
 		case Gsys::E_LoadType::LOAD_BIN:
 		{
@@ -735,8 +733,6 @@ bool LoadFile(const char* fName, Gsys::E_LoadMode lMode, Gsys::E_LoadType lType)
 			delete parts;
 
 			return true;
-
-			break;
 		}
 		}
 		break;
@@ -788,8 +784,6 @@ bool LoadFile(const char* fName, Gsys::E_LoadMode lMode, Gsys::E_LoadType lType)
 			delete parts;
 
 			return true;
-
-			break;
 		}
 		case Gsys::E_LoadType::LOAD_BIN:
 		{
@@ -834,14 +828,11 @@ bool LoadFile(const char* fName, Gsys::E_LoadMode lMode, Gsys::E_LoadType lType)
 			delete parts;
 
 			return true;
-
-			break;
 		}
 		}
 		break;
 	}
 	}
-
 
 	return false;
 }
