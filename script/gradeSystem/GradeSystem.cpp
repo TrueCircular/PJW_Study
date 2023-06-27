@@ -14,43 +14,9 @@ void GradeSystem::Init()
 	_inFile = new wifstream();
 	_outFile = new wofstream();
 
-	sData t1;
-	t1._index = 3;
-	t1._name = L"±èÃ¶¼ö";
-	t1._grade = 1;
-	t1._kor = 50;
-	t1._eng = 40;
-	t1._math = 80;
-	t1._total = t1._kor + t1._math + t1._eng;
-	t1._average = t1._total / 3.f;
-	t1._average = truncf(t1._average);
-	_dataBase->AddInfo(t1);
+	LoadFile("", E_LoadMode::LOAD_PREV, E_LoadType::LOAD_BIN);
 
-	sData t2;
-	t2._index = 1;
-	t2._name = L"±è¸í¼ö";
-	t2._grade = 1;
-	t2._kor = 60;
-	t2._eng = 30;
-	t2._math = 50;
-	t2._total = t2._kor + t2._math + t2._eng;
-	t2._average = t2._total / 3.f;
-	t2._average = truncf(t2._average);
-	_dataBase->AddInfo(t2);
-
-	sData t3;
-	t3._index = 2;
-	t3._name = L"±è¿µÈñ";
-	t3._grade = 1;
-	t3._kor = 80;
-	t3._eng = 90;
-	t3._math = 90;
-	t3._total = t3._kor + t3._math + t3._eng;
-	t3._average = t3._total / 3.f;
-	t3._average = truncf(t3._average);
-	_dataBase->AddInfo(t3);
-
-	SortingForDatabase();
+	//SortingForDatabase();
 }
 
 std::wstring GradeSystem::CreateDataLine(const Info<sData>* iData)
@@ -102,7 +68,6 @@ GradeSystem::GradeSystem()
 
 	//SaveFile("", Gsys::E_SaveMode::SAVE_PREV, Gsys::E_SaveType::SAVE_TXT);
 	//SaveFile();
-	LoadFile("", E_LoadMode::LOAD_PREV, E_LoadType::LOAD_TXT);
 }
 
 GradeSystem::~GradeSystem()

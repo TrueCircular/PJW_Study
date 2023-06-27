@@ -2,7 +2,17 @@
 
 #pragma region F_declaration
 class GradeSystem;
-namespace Gsys { struct sData; };
+namespace Gsys { 
+	enum class E_Sort;
+	enum class E_SortingType;
+	enum class E_SaveMode;
+	enum class E_SaveType;
+	enum class E_LoadMode;
+	enum class E_LoadType;
+	struct sData; 
+};
+template<typename T> class Info;
+template<typename T, typename N> class GradeList;
 #pragma endregion
 
 using namespace std;
@@ -24,6 +34,8 @@ public:
 
 class ViewState : public SystemState
 {
+private:
+	void PrintStudentInfo(Info<sData>* data);
 public:
 	ViewState();
 	~ViewState() override;
