@@ -50,7 +50,7 @@ void GradeSystem::Init()
 	t3._average = truncf(t3._average);
 	_dataBase->AddInfo(t3);
 
-	SortingForDatabase(E_Sort::SORT_HIGH, E_SortingType::SORTING_NUMBER);
+	SortingForDatabase();
 }
 
 std::wstring GradeSystem::CreateDataLine(const Info<sData>* iData)
@@ -101,6 +101,7 @@ GradeSystem::GradeSystem()
 	Init();
 
 	SaveFile("", Gsys::E_SaveMode::SAVE_PREV, Gsys::E_SaveType::SAVE_TXT);
+	SaveFile();
 }
 
 GradeSystem::~GradeSystem()
@@ -171,8 +172,6 @@ void GradeSystem::SetState(E_SysState sType)
 		_state = (*_stateList)[(static_cast<int>(E_SysState::SYSTEM_EXIT))];
 		break;
 	}
-	default:
-		break;
 	}
 }
 
