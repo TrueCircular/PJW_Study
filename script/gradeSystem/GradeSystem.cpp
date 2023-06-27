@@ -13,10 +13,9 @@ void GradeSystem::Init()
 	_dataBase = new GradeList<sData, GradeSystem>();
 	_inFile = new wifstream();
 	_outFile = new wofstream();
-	_sortFun = &GradeSystem::InsertionSortingHigh;
 
 	sData t1;
-	t1._index = 1;
+	t1._index = 3;
 	t1._name = L"±èÃ¶¼ö";
 	t1._grade = 1;
 	t1._kor = 50;
@@ -28,7 +27,7 @@ void GradeSystem::Init()
 	_dataBase->AddInfo(t1);
 
 	sData t2;
-	t2._index = 2;
+	t2._index = 1;
 	t2._name = L"±è¸í¼ö";
 	t2._grade = 1;
 	t2._kor = 60;
@@ -40,7 +39,7 @@ void GradeSystem::Init()
 	_dataBase->AddInfo(t2);
 
 	sData t3;
-	t3._index = 3;
+	t3._index = 2;
 	t3._name = L"±è¿µÈñ";
 	t3._grade = 1;
 	t3._kor = 80;
@@ -51,7 +50,7 @@ void GradeSystem::Init()
 	t3._average = truncf(t3._average);
 	_dataBase->AddInfo(t3);
 
-	//SortingForDatabase(E_Sort::SORT_LOW);
+	SortingForDatabase(E_Sort::SORT_HIGH, E_SortingType::SORTING_NUMBER);
 }
 
 std::wstring GradeSystem::CreateDataLine(const Info<sData>* iData)
@@ -177,7 +176,7 @@ void GradeSystem::SetState(E_SysState sType)
 	}
 }
 
-void GradeSystem::InsertionSortingHigh(Info<sData>* head, Info<sData>* tail)
+void GradeSystem::InsertionSortingHigh(Info<sData>* head, Info<sData>* tail, E_SortingType sType)
 {
 	Info<sData>* _target = head->_next->_next;
 	Info<sData>* _compare = _target->_prev;
@@ -188,18 +187,75 @@ void GradeSystem::InsertionSortingHigh(Info<sData>* head, Info<sData>* tail)
 		_temp = _target->_data;
 		for (_compare = _target->_prev; _compare != head; _compare = _compare->_prev)
 		{
-			if (_compare->_data._total > _temp._total)
+			if (sType == E_SortingType::SORTING_NUMBER)
 			{
-				_compare->_next->_data = _compare->_data;
+				if (_compare->_data._index > _temp._index)
+				{
+					_compare->_next->_data = _compare->_data;
+				}
+				else
+					break;
 			}
-			else
-				break;
+			else if (sType == E_SortingType::SORTING_GRADE)
+			{
+				if (_compare->_data._grade > _temp._grade)
+				{
+					_compare->_next->_data = _compare->_data;
+				}
+				else
+					break;
+			}
+			else if (sType == E_SortingType::SORINTG_KOR)
+			{
+				if (_compare->_data._kor > _temp._kor)
+				{
+					_compare->_next->_data = _compare->_data;
+				}
+				else
+					break;
+			}
+			else if (sType == E_SortingType::SORTING_ENG)
+			{
+				if (_compare->_data._eng > _temp._eng)
+				{
+					_compare->_next->_data = _compare->_data;
+				}
+				else
+					break;
+			}
+			else if (sType == E_SortingType::SORTING_MATH)
+			{
+				if (_compare->_data._math > _temp._math)
+				{
+					_compare->_next->_data = _compare->_data;
+				}
+				else
+					break;
+			}
+			else if (sType == E_SortingType::SORTING_TOTAL)
+			{
+				if (_compare->_data._total > _temp._total)
+				{
+					_compare->_next->_data = _compare->_data;
+				}
+				else
+					break;
+			}
+			else if (sType == E_SortingType::SORTING_AVERAGE)
+			{
+				if (_compare->_data._average > _temp._average)
+				{
+					_compare->_next->_data = _compare->_data;
+				}
+				else
+					break;
+			}		
 		}
 		_compare->_next->_data = _temp;
 	}
 }
 
-void GradeSystem::InsertionSortingLow(Info<sData>* head, Info<sData>* tail)
+void GradeSystem::InsertionSortingLow(Info<sData>* head, Info<sData>* tail, E_SortingType sType)
 {
 	Info<sData>* _target = head->_next->_next;
 	Info<sData>* _compare = _target->_prev;
@@ -210,35 +266,90 @@ void GradeSystem::InsertionSortingLow(Info<sData>* head, Info<sData>* tail)
 		_temp = _target->_data;
 		for (_compare = _target->_prev; _compare != head; _compare = _compare->_prev)
 		{
-			if (_compare->_data._total < _temp._total)
+			if (sType == E_SortingType::SORTING_NUMBER)
 			{
-				_compare->_next->_data = _compare->_data;
+				if (_compare->_data._index < _temp._index)
+				{
+					_compare->_next->_data = _compare->_data;
+				}
+				else
+					break;
 			}
-			else
-				break;
+			else if (sType == E_SortingType::SORTING_GRADE)
+			{
+				if (_compare->_data._grade < _temp._grade)
+				{
+					_compare->_next->_data = _compare->_data;
+				}
+				else
+					break;
+			}
+			else if (sType == E_SortingType::SORINTG_KOR)
+			{
+				if (_compare->_data._kor < _temp._kor)
+				{
+					_compare->_next->_data = _compare->_data;
+				}
+				else
+					break;
+			}
+			else if (sType == E_SortingType::SORTING_ENG)
+			{
+				if (_compare->_data._eng < _temp._eng)
+				{
+					_compare->_next->_data = _compare->_data;
+				}
+				else
+					break;
+			}
+			else if (sType == E_SortingType::SORTING_MATH)
+			{
+				if (_compare->_data._math < _temp._math)
+				{
+					_compare->_next->_data = _compare->_data;
+				}
+				else
+					break;
+			}
+			else if (sType == E_SortingType::SORTING_TOTAL)
+			{
+				if (_compare->_data._total < _temp._total)
+				{
+					_compare->_next->_data = _compare->_data;
+				}
+				else
+					break;
+			}
+			else if (sType == E_SortingType::SORTING_AVERAGE)
+			{
+				if (_compare->_data._average < _temp._average)
+				{
+					_compare->_next->_data = _compare->_data;
+				}
+				else
+					break;
+			}
 		}
 		_compare->_next->_data = _temp;
 	}
 }
 
-void GradeSystem::SortingForDatabase(E_Sort type)
+void GradeSystem::SortingForDatabase(E_Sort type, E_SortingType sType)
 {
 	switch (type)
 	{
 	case Gsys::E_Sort::SORT_HIGH:
 	{
 		_sortFun = &GradeSystem::InsertionSortingHigh;
-		_dataBase->Sorting(_sortFun, this);
+		_dataBase->Sorting(_sortFun, this, sType);
 		break;
 	}
 	case Gsys::E_Sort::SORT_LOW:
 	{
 		_sortFun = &GradeSystem::InsertionSortingLow;
-		_dataBase->Sorting(_sortFun, this);
+		_dataBase->Sorting(_sortFun, this, sType);
 		break;
 	}
-	default:
-		break;
 	}
 }
 

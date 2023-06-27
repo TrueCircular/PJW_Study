@@ -1,5 +1,13 @@
 #pragma once
 
+#pragma region F_declaration
+namespace Gsys {
+	enum class E_SortingType;
+}
+#pragma endregion
+
+using namespace Gsys;
+
 #pragma region GradeList
 template<typename T>
 class Info 
@@ -18,7 +26,7 @@ template<typename T, typename N>
 class GradeList
 {
 private:
-	typedef void(N::* Sorting_Fun)(Info<T>*, Info<T>*);
+	typedef void(N::* Sorting_Fun)(Info<T>*, Info<T>*, E_SortingType);
 
 	Info<T>* _head;
 	Info<T>* _tail;
@@ -39,7 +47,7 @@ public:
 	void InsertInfo(const T& value1, const T& value2);
 	Info<T>* SearchInfo(const T& value);
 	Info<T>* SearchInfoForIndex(int idex);
-	bool Sorting(Sorting_Fun fun, N* ptr);
+	bool Sorting(Sorting_Fun fun, N* ptr, E_SortingType sType);
 	void AllDelete();
 	int size() { return _size; } 
 };
@@ -210,13 +218,13 @@ inline Info<T>* GradeList<T,N>::SearchInfoForIndex(int idex)
 }
 
 template<typename T, typename N>
-inline bool GradeList<T, N>::Sorting(Sorting_Fun fun, N* ptr)
+inline bool GradeList<T, N>::Sorting(Sorting_Fun fun, N* ptr, E_SortingType sType)
 {
 	if (fun == nullptr ||
 		ptr == nullptr)
 		return false;
 
-	(ptr->*fun)(_head, _tail);
+	(ptr->*fun)(_head, _tail, sType);
 
 	return true;
 }
