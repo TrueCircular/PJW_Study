@@ -180,6 +180,7 @@ private:
 	void StateInit();
 	void InsertionSortingHigh(Info<sData>* head, Info<sData>* tail, E_SortingType sType);
 	void InsertionSortingLow(Info<sData>* head, Info<sData>* tail, E_SortingType sType);
+	sData CreateLoadData(DynamicArray<std::wstring>* list);
 public:
 	GradeSystem();
 	~GradeSystem();
