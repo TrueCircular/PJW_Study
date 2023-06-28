@@ -36,6 +36,7 @@ class ViewState : public SystemState
 {
 private:
 	void PrintStudentInfo(Info<sData>* data);
+	void PrintSorting(GradeSystem* system, E_SortingType sType);
 public:
 	ViewState();
 	~ViewState() override;

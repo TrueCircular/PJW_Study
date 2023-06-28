@@ -80,9 +80,8 @@ bool MainState::Run(GradeSystem* system)
 		}
 		default:
 		{
-			cout << endl;
-			cout << "===================올바른 숫자를 입력해주세요.===================" << endl;
-			cout << "===============아무 키나 누르면 처음으로 돌아갑니다==============" << endl;
+			cout << "================== 올바른 숫자를 입력해주세요. ==================" << endl;
+			cout << "============= 아무 키나 누르면 처음으로 돌아갑니다 ==============" << endl;
 			cout << endl;
 			if (_getche())
 				_isIn = false;
@@ -98,7 +97,7 @@ bool MainState::Run(GradeSystem* system)
 void MainState::Print()
 {
 	cout << "=================================================================" << endl;
-	cout << "=======================성적 관리 시스템==========================" << endl;
+	cout << "====================== 성적 관리 시스템 =========================" << endl;
 	cout << "=================================================================" << endl;
 	cout << "1.전체보기 2.검색하기 3.추가하기 4.삭제하기 " << endl;
 	cout << "=================================================================" << endl;
@@ -208,6 +207,41 @@ void ViewState::PrintStudentInfo(Info<sData>* data)
 	cout << "======================================================================================" << endl;
 }
 
+void ViewState::PrintSorting(GradeSystem* system, E_SortingType sType)
+{
+	int num2 = 0;
+
+	cout << "======================================================================================" << endl;
+	cout << "정렬 방식을 선택하세요. (1)오름차 순 (2)내림차 순 :";
+	cin >> num2;
+
+	if (!cin)
+	{
+		cin.clear();
+		cin.ignore(INT_MAX, '\n');
+	}
+
+	if (num2 == 1)
+	{
+		system->SortingForDatabase(E_Sort::SORT_HIGH, sType);
+		_isIn = false;
+	}
+	else if (num2 == 2)
+	{
+		system->SortingForDatabase(E_Sort::SORT_LOW, sType);
+		_isIn = false;
+	}
+	else
+	{
+		cout << "============================= 올바른 숫자를 입력해주세요. ============================" << endl;
+		cout << "========================= 아무 키나 누르면 처음으로 돌아갑니다 =======================" << endl;
+		cout << endl;
+
+		if (_getche())
+			_isIn = false;
+	}
+}
+
 ViewState::ViewState()
 {
 	_isIn = false;
@@ -230,63 +264,82 @@ bool ViewState::Run(GradeSystem* system)
 		for (int i = 0; i < system->GetDataBase()->size(); i++)
 		{
 			PrintStudentInfo(system->GetDataBase()->SearchInfoForIndex(i));
-
 		}
 		cout << "======================================================================================" << endl;
-		cout << "========(1)번호 순 정렬 (2)학년 순 정렬 (3)국어점수 순 정렬 (4)수학점수 순 정렬=======" << endl;
-		cout << "========(5)영어점수 순 정렬 (6)총점 순 정렬 (7)평균 순 정렬 (8)나가기=================" << endl;
+		cout << "========(1)번호 순 정렬 (2)학년 순 정렬 (3)국어점수 순 정렬 (4)영어점수 순 정렬=======" << endl;
+		cout << "========(5)수학점수 순 정렬 (6)총점 순 정렬 (7)평균 순 정렬 (8)나가기          =======" << endl;
 		cout << "======================================================================================" << endl;
 		cout << "번호를 입력 하세요(1~8) :";
-
-		return true;
 	}
 	else
 	{
 		int num = 0;
+
 		cin >> num;
+
+		if (!cin)
+		{
+			cin.clear();
+			cin.ignore(INT_MAX, '\n');
+		}
 
 		switch (num)
 		{
 		case 1:
 		{
+			PrintSorting(system, E_SortingType::SORTING_NUMBER);
 			break;
 		}
 		case 2:
 		{
+			PrintSorting(system, E_SortingType::SORTING_GRADE);
 			break;
 		}
 		case 3:
 		{
+			PrintSorting(system, E_SortingType::SORINTG_KOR);
 			break;
 		}
 		case 4:
 		{
+			PrintSorting(system, E_SortingType::SORTING_ENG);
 			break;
 		}
 		case 5:
 		{
+			PrintSorting(system, E_SortingType::SORTING_MATH);
 			break;
 		}
 		case 6:
 		{
+			PrintSorting(system, E_SortingType::SORTING_TOTAL);
 			break;
 		}
 		case 7:
 		{
+			PrintSorting(system, E_SortingType::SORTING_AVERAGE);
 			break;
 		}
 		case 8:
 		{
+			system->SetState(E_SysState::SYSTEM_MAIN);
+			_isIn = false;
 			break;
 		}
 		default:
 		{
+			cout << "============================= 올바른 숫자를 입력해주세요. ============================" << endl;
+			cout << "========================= 아무 키나 누르면 처음으로 돌아갑니다 =======================" << endl;
+			cout << endl;
+
+			if (_getche())
+				_isIn = false;
 			break;
 		}
 		}
 	}
 
-	return false;
+	return true;
 }
 
 void ViewState::Print()
