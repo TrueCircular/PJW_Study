@@ -423,7 +423,6 @@ bool GradeSystem::SaveFile(const char* fName, E_SaveMode sMode, E_SaveType sType
 	{
 		if (sType == E_SaveType::SAVE_BIN)
 		{
-			
 			//경로 설정
 			string path = MYLOCALPATH_SAVE;
 			path.append("save_prev.bin");
