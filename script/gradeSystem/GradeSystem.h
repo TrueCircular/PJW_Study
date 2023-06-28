@@ -172,19 +172,21 @@ private:
 	SystemState*					_state;
 	GradeList<sData, GradeSystem>*	_dataBase;
 	StateList*						_stateList;
-	std::wifstream*					_inFile;
-	std::wofstream*					_outFile;
+	wifstream*						_inFile;
+	wofstream*						_outFile;
 	Sorting_Fun						_sortFun;
 private:
+	//init
 	void Init();
-	std::wstring CreateDataLine(const Info<sData>* iData);
 	void StateInit();
-	//sort
+	//sort require
 	void InsertionSortingHigh(Info<sData>* head, Info<sData>* tail, E_SortingType sType);
 	void InsertionSortingLow(Info<sData>* head, Info<sData>* tail, E_SortingType sType);
-	//load
+	//save load require
 	sData CreateLoadData(DynamicArray<std::wstring>* list);
 	bool LoadData(const std::string& path);
+	bool SaveData(const std::string& path, E_SaveType sType);
+	wstring CreateDataLine(const Info<sData>* iData);
 public:
 	GradeSystem();
 	~GradeSystem();
@@ -197,7 +199,7 @@ public:
 	//datalist get, fun
 	GradeList<sData, GradeSystem>* GetDataBase() const { return _dataBase; }
 	void SortingForDatabase(E_Sort type = E_Sort::SORT_HIGH, E_SortingType sType = E_SortingType::SORTING_NUMBER);
-	//file, data
+	//file save load
 	bool SaveFile(const char* fName = nullptr, E_SaveMode sMode = E_SaveMode::SAVE_PREV, E_SaveType sType = E_SaveType::SAVE_BIN);
 	bool LoadFile(const char* fName = nullptr, E_LoadMode lMode = E_LoadMode::LOAD_PREV, E_LoadType lType = E_LoadType::LOAD_BIN);
 };

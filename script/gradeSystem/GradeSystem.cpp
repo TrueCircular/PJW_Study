@@ -5,21 +5,20 @@
 void GradeSystem::Init()
 {
 	std::locale::global(std::locale("Korean"));
-
+	//state
 	_stateList = new StateList();
 	StateInit();
 	SetState(E_SysState::SYSTEM_MAIN);
-
+	//data
 	_dataBase = new GradeList<sData, GradeSystem>();
 	_inFile = new wifstream();
 	_outFile = new wofstream();
-
+	//file
 	LoadFile("", E_LoadMode::LOAD_PREV, E_LoadType::LOAD_BIN);
-
-	//SortingForDatabase();
+	SortingForDatabase();
 }
 
-std::wstring GradeSystem::CreateDataLine(const Info<sData>* iData)
+wstring GradeSystem::CreateDataLine(const Info<sData>* iData)
 {
 	wstring temp;
 	temp = to_wstring(iData->_data._index);
@@ -65,9 +64,6 @@ void GradeSystem::StateInit()
 GradeSystem::GradeSystem()
 {
 	Init();
-
-	//SaveFile("", Gsys::E_SaveMode::SAVE_PREV, Gsys::E_SaveType::SAVE_TXT);
-	//SaveFile();
 }
 
 GradeSystem::~GradeSystem()
@@ -353,11 +349,52 @@ bool GradeSystem::LoadData(const std::string& path)
 	}
 	//complete call
 	cout << "최근 저장 파일 불러오기 완료" << endl;
-	//닫기
+	//파일 닫기
 	_inFile->close();
 
 	delete parts;
 	delete wStream;
+
+	return true;
+}
+
+bool GradeSystem::SaveData(const std::string& path, E_SaveType sType)
+{
+	if (sType == E_SaveType::SAVE_BIN)
+	{
+		_outFile->open(path, ios::binary);
+		if (!_outFile->good())
+		{
+			std::cerr << "파일을 저장 할 수 없습니다. PATH :" << path << endl;
+			return false;
+		}
+	}
+	else if (sType == E_SaveType::SAVE_TXT)
+	{
+		_outFile->open(path);
+		if (!_outFile->good())
+		{
+			std::cerr << "파일을 저장 할 수 없습니다. PATH :" << path << endl;
+			return false;
+		}
+	}
+	if (_dataBase->size() == 0)
+	{
+		std::cerr << "파일을 저장 할 수 없습니다. PATH :" << path << endl;
+		return false;
+	}
+
+	for (int i = 0; i < _dataBase->size(); i++)
+	{
+		Info<sData>* _tdata = _dataBase->SearchInfoForIndex(i);
+		wstring  _tLine = CreateDataLine(_tdata);
+		_outFile->write(_tLine.c_str(), _tLine.size());
+	}
+
+	_outFile->close();
+
+	cout << "경로 : " << path << " <저장 완료>" << endl;
+	cout << "=================================================================" << endl;
 
 	return true;
 }
@@ -389,43 +426,19 @@ bool GradeSystem::SaveFile(const char* fName, E_SaveMode sMode, E_SaveType sType
 	{
 		if (sType == E_SaveType::SAVE_BIN)
 		{
+			//경로 설정
 			string path = MYLOCALPATH_SAVE;
 			path.append("save_prev.bin");
-
-			_outFile->open(path, ios::binary);
-
-			for (int i = 0; i < _dataBase->size(); i++)
-			{
-				Info<sData>* _tdata = _dataBase->SearchInfoForIndex(i);
-				wstring  _tLine = CreateDataLine(_tdata);
-				_outFile->write(_tLine.c_str(), _tLine.size());
-			}
-
-			_outFile->close();
-
-			cout << endl;
-			cout << "경로 : " << path << " <저장 완료>" << endl;
-			return true;
+			//파일 저장
+			return SaveData(path, sType);
 		}
 		else
 		{
+			//경로 설정
 			string _path = MYLOCALPATH_SAVE;
 			_path.append("save_prev.txt");
-
-			_outFile->open(_path, ios_base::out);
-
-			for (int i = 0; i < _dataBase->size(); i++)
-			{
-				Info<sData>* _tdata = _dataBase->SearchInfoForIndex(i);
-				wstring  _tLine = CreateDataLine(_tdata);
-				_outFile->write(_tLine.c_str(), _tLine.size());
-			}
-
-			_outFile->close();
-
-			cout << endl;
-			cout << "경로 : " <<  _path << " <저장 완료>" << endl;
-			return true;
+			//파일 저장
+			return SaveData(_path, sType);
 		}
 		break;
 	}
@@ -436,45 +449,21 @@ bool GradeSystem::SaveFile(const char* fName, E_SaveMode sMode, E_SaveType sType
 
 		if (sType == E_SaveType::SAVE_BIN)
 		{
+			//경로 설정
 			string path = MYLOCALPATH_SAVE;
 			path.append(fName);
 			path.append(".bin");
-
-			_outFile->open(path, ios::binary);
-
-			for (int i = 0; i < _dataBase->size(); i++)
-			{
-				Info<sData>* _tdata = _dataBase->SearchInfoForIndex(i);
-				wstring	_tLine = CreateDataLine(_tdata);
-				_outFile->write(_tLine.c_str(), _tLine.size());
-			}
-
-			_outFile->close();
-
-			cout << endl;
-			cout << "경로 : " << path << " <저장 완료>" << endl;
-			return true;
+			//파일 저장
+			return SaveData(path, sType);
 		}
 		else
 		{
+			//경로 설정
 			string path = MYLOCALPATH_SAVE;
 			path.append(fName);
 			path.append(".txt");
-
-			_outFile->open(path);
-
-			for (int i = 0; i < _dataBase->size(); i++)
-			{
-				Info<sData>* _tdata = _dataBase->SearchInfoForIndex(i);
-				wstring  _tLine = CreateDataLine(_tdata);
-				_outFile->write(_tLine.c_str(), _tLine.size());
-			}
-
-			_outFile->close();
-
-			cout << endl;
-			cout << "경로 : " << path << " <저장 완료>" << endl;
-			return true;
+			//파일 저장
+			return SaveData(path, sType);
 		}
 		break;
 	}

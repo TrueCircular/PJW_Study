@@ -62,13 +62,13 @@ bool MainState::Run(GradeSystem* system)
 		}
 		case 5:
 		{
-			system->SetState(E_SysState::SYSTEM_LOAD);
+			system->SetState(E_SysState::SYSTEM_SAVE);
 			_isIn = false;
 			break;
 		}
 		case 6:
 		{
-			system->SetState(E_SysState::SYSTEM_SAVE);
+			system->SetState(E_SysState::SYSTEM_LOAD);
 			_isIn = false;
 			break;
 		}
@@ -81,7 +81,7 @@ bool MainState::Run(GradeSystem* system)
 		default:
 		{
 			cout << "================== 올바른 숫자를 입력해주세요. ==================" << endl;
-			cout << "============= 아무 키나 누르면 처음으로 돌아갑니다 ==============" << endl;
+			cout << "============== 아무 키나 누르면 처음으로 돌아갑니다 =============" << endl;
 			cout << endl;
 			if (_getche())
 				_isIn = false;
@@ -97,7 +97,7 @@ bool MainState::Run(GradeSystem* system)
 void MainState::Print()
 {
 	cout << "=================================================================" << endl;
-	cout << "====================== 성적 관리 시스템 =========================" << endl;
+	cout << "====================== 학생 관리 시스템 =========================" << endl;
 	cout << "=================================================================" << endl;
 	cout << "1.전체보기 2.검색하기 3.추가하기 4.삭제하기 " << endl;
 	cout << "=================================================================" << endl;
@@ -133,14 +133,131 @@ SaveState::~SaveState()
 
 bool SaveState::Run(GradeSystem* system)
 {
+	int selNum = 0;
+
+	cout << endl;
+	cout << "| 파일 저장 방식 선택 | (1)최근 저장 파일 (2)새로운 파일 :";
+	cin >> selNum;
+	if (!cin)
+	{
+		cin.clear();
+		cin.ignore(INT_MAX, '\n');
+	}
+	switch (selNum)
+	{
+	case 1:
+	{
+		int num = 0;
+
+		cout << endl;
+		cout << "| 파일 저장 형식 선택 | (1)BIN (2)TXT :";
+		cin >> num;
+		if (!cin)
+		{
+			cin.clear();
+			cin.ignore(INT_MAX, '\n');
+		}
+		switch (num)
+		{
+		case 1:
+		{
+			cout << "============== 아무 키나 누르면 처음으로 돌아갑니다 =============" << endl;
+			system->SaveFile();
+			if (_getche())
+			{
+				system->SetState(E_SysState::SYSTEM_MAIN);
+			}
+			break;
+		}
+		case 2:
+		{
+			cout << "============== 아무 키나 누르면 처음으로 돌아갑니다 =============" << endl;
+			system->SaveFile("", E_SaveMode::SAVE_PREV, E_SaveType::SAVE_TXT);
+			if (_getche())
+			{
+				system->SetState(E_SysState::SYSTEM_MAIN);
+			}
+			break;
+		}
+		default:
+		{
+			cout << "================== 올바른 숫자를 입력해주세요. ==================" << endl;
+			cout << "============== 아무 키나 누르면 처음으로 돌아갑니다 =============" << endl;
+			cout << endl;
+			if (_getche())
+				_isIn = false;
+			break;
+		}
+		}
+		break;
+	}
+	case 2:
+	{
+		int num = 0;
+		string fName;
+		cout << endl;
+		cout << "| 파일 이름 작성 :";
+		cin >> fName;
+		cout << endl;
+		cout << "| 파일 저장 형식 선택 | (1)BIN (2)TXT :";
+		cin >> num;
+		if (!cin)
+		{
+			cin.clear();
+			cin.ignore(INT_MAX, '\n');
+		}
+		switch (num)
+		{
+		case 1:
+		{
+			cout << "============== 아무 키나 누르면 처음으로 돌아갑니다 =============" << endl;
+			system->SaveFile(fName.c_str(), E_SaveMode::SAVE_NEW, E_SaveType::SAVE_BIN);
+			if (_getche())
+			{
+				system->SetState(E_SysState::SYSTEM_MAIN);
+			}
+			break;
+		}
+		case 2:
+		{
+			cout << "============== 아무 키나 누르면 처음으로 돌아갑니다 =============" << endl;
+			system->SaveFile(fName.c_str(), E_SaveMode::SAVE_NEW, E_SaveType::SAVE_TXT);
+			if (_getche())
+			{
+				system->SetState(E_SysState::SYSTEM_MAIN);
+			}
+			break;
+		}
+		default:
+		{
+			cout << "================== 올바른 숫자를 입력해주세요. ==================" << endl;
+			cout << "============== 아무 키나 누르면 처음으로 돌아갑니다 =============" << endl;
+			cout << endl;
+			if (_getche())
+				_isIn = false;
+			break;
+		}
+		}
+		break;
+	}
+	default:
+	{
+		cout << "================== 올바른 숫자를 입력해주세요. ==================" << endl;
+		cout << "============== 아무 키나 누르면 처음으로 돌아갑니다 =============" << endl;
+		cout << endl;
+		if (_getche())
+			_isIn = false;
+
+		break;
+	}
+	}
 	
 
-	return false;
+	return true;
 }
 
 void SaveState::Print()
 {
-
 }
 
 LoadState::LoadState()
@@ -244,7 +361,6 @@ void ViewState::PrintSorting(GradeSystem* system, E_SortingType sType)
 
 ViewState::ViewState()
 {
-	_isIn = false;
 }
 
 ViewState::~ViewState()
@@ -322,6 +438,7 @@ bool ViewState::Run(GradeSystem* system)
 		}
 		case 8:
 		{
+			system->SortingForDatabase(E_Sort::SORT_HIGH, E_SortingType::SORTING_NUMBER);
 			system->SetState(E_SysState::SYSTEM_MAIN);
 			_isIn = false;
 			break;
@@ -345,7 +462,7 @@ bool ViewState::Run(GradeSystem* system)
 void ViewState::Print()
 {
 	cout << "======================================================================================" << endl;
-	cout << "======================================학생 명부=======================================" << endl;
+	cout << "===================================== 학생 명부 ======================================" << endl;
 	cout << "======================================================================================" << endl;
 }
 
