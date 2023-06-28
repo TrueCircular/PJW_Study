@@ -273,11 +273,5 @@ inline void DynamicArray<T>::clear()
 	delete[] _array;
 
 	_array = new T[_size];
-	//for (int i = 0; i < _size - 1; i++)
-	//{
-	//	_array[i].~T();
-	//}
-	//_used = 0;
-	//_size = 1;
 }
 #pragma endregion
