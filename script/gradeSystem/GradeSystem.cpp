@@ -14,7 +14,7 @@ void GradeSystem::Init()
 	_inFile = new wifstream();
 	_outFile = new wofstream();
 	//file
-	LoadFile("", E_LoadMode::LOAD_PREV, E_LoadType::LOAD_BIN);
+	LoadFile("", E_LoadMode::LOAD_PREV, E_LoadType::LOAD_TXT);
 	SortingForDatabase();
 }
 
@@ -77,9 +77,6 @@ GradeSystem::~GradeSystem()
 
 bool GradeSystem::Run()
 {
-	if (_state == nullptr)
-		return false;
-
 	if (_state->Run(this))
 	{
 		return true;
@@ -315,7 +312,7 @@ bool GradeSystem::LoadData(const std::string& path)
 {
 	//파일 오픈
 	_inFile->open(path);
-	if (!_inFile->is_open())
+	if (!_inFile->good())
 	{
 		std::cerr << "파일을 열 수 없습니다. PATH :" << path << endl;
 		return false;
@@ -426,19 +423,24 @@ bool GradeSystem::SaveFile(const char* fName, E_SaveMode sMode, E_SaveType sType
 	{
 		if (sType == E_SaveType::SAVE_BIN)
 		{
+			
 			//경로 설정
 			string path = MYLOCALPATH_SAVE;
 			path.append("save_prev.bin");
+			std::filesystem::path _path(path);
+			_path = std::filesystem::absolute(_path);
 			//파일 저장
-			return SaveData(path, sType);
+			return SaveData(_path.string(), sType);
 		}
 		else
 		{
 			//경로 설정
-			string _path = MYLOCALPATH_SAVE;
-			_path.append("save_prev.txt");
+			string path = MYLOCALPATH_SAVE;
+			path.append("save_prev.txt");
+			std::filesystem::path _path(path);
+			_path = std::filesystem::absolute(_path);
 			//파일 저장
-			return SaveData(_path, sType);
+			return SaveData(_path.string(), sType);
 		}
 		break;
 	}
@@ -453,8 +455,10 @@ bool GradeSystem::SaveFile(const char* fName, E_SaveMode sMode, E_SaveType sType
 			string path = MYLOCALPATH_SAVE;
 			path.append(fName);
 			path.append(".bin");
+			std::filesystem::path _path(path);
+			_path = std::filesystem::absolute(_path);
 			//파일 저장
-			return SaveData(path, sType);
+			return SaveData(_path.string(), sType);
 		}
 		else
 		{
@@ -462,8 +466,10 @@ bool GradeSystem::SaveFile(const char* fName, E_SaveMode sMode, E_SaveType sType
 			string path = MYLOCALPATH_SAVE;
 			path.append(fName);
 			path.append(".txt");
+			std::filesystem::path _path(path);
+			_path = std::filesystem::absolute(_path);
 			//파일 저장
-			return SaveData(path, sType);
+			return SaveData(_path.string(), sType);
 		}
 		break;
 	}
@@ -485,16 +491,20 @@ bool GradeSystem::LoadFile(const char* fName, E_LoadMode lMode, E_LoadType lType
 			//경로 설정
 			string path = MYLOCALPATH_SAVE;
 			path.append("save_prev.txt");
+			std::filesystem::path _path(path);
+			_path = std::filesystem::absolute(_path);
 			//파일 로드
-			return LoadData(path);	
+			return LoadData(_path.string());	
 		}
 		case Gsys::E_LoadType::LOAD_BIN:
 		{
 			//경로 설정
 			string path = MYLOCALPATH_SAVE;
 			path.append("save_prev.bin");
+			std::filesystem::path _path(path);
+			_path = std::filesystem::absolute(_path);
 			//파일 로드
-			return LoadData(path);
+			return LoadData(_path.string());
 		}
 		}
 		break;
@@ -509,8 +519,10 @@ bool GradeSystem::LoadFile(const char* fName, E_LoadMode lMode, E_LoadType lType
 			string path = MYLOCALPATH_SAVE;
 			path.append(fName);
 			path.append(".txt");
+			std::filesystem::path _path(path);
+			_path = std::filesystem::absolute(_path);
 			//파일 로드
-			return LoadData(path);
+			return LoadData(_path.string());
 		}
 		case Gsys::E_LoadType::LOAD_BIN:
 		{
@@ -518,8 +530,10 @@ bool GradeSystem::LoadFile(const char* fName, E_LoadMode lMode, E_LoadType lType
 			string path = MYLOCALPATH_SAVE;
 			path.append(fName);
 			path.append(".bin");
+			std::filesystem::path _path(path);
+			_path = std::filesystem::absolute(_path);
 			//파일 로드
-			return LoadData(path);
+			return LoadData(_path.string());
 		}
 		}
 		break;

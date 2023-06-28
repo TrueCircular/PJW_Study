@@ -270,7 +270,12 @@ LoadState::~LoadState()
 
 bool LoadState::Run(GradeSystem* system)
 {
-	return false;
+	if (_isIn == false)
+	{
+		system->LoadFile();
+		system->SetState(E_SysState::SYSTEM_MAIN);
+	}
+	return true;
 }
 
 void LoadState::Print()

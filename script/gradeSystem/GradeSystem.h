@@ -1,9 +1,9 @@
 #pragma once
+#include <filesystem>
 #include <iostream>
 #include <string>
 #include <sstream>
 #include <fstream>
-#include <filesystem>
 #include <locale>
 #include <cmath>
 #include "../gradeList/GradeList.h"
