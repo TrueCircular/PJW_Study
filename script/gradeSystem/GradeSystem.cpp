@@ -315,6 +315,53 @@ sData GradeSystem::CreateLoadData(DynamicArray<std::wstring>* list)
 	return tData;
 }
 
+bool GradeSystem::LoadData(const std::string& path)
+{
+	//파일 오픈
+	_inFile->open(path);
+	if (!_inFile->is_open())
+	{
+		std::cerr << "파일을 열 수 없습니다. PATH :" << path << endl;
+		return false;
+	}
+	//버퍼
+	wstring wTemp;
+	DynamicArray<wstring> wList;
+	//개행 읽기
+	while (std::getline(*_inFile, wTemp))
+	{
+		wList.push_back(wTemp);
+	}
+	//split 버퍼
+	wstringstream* wStream = new wstringstream();
+	DynamicArray<wstring>* parts = new DynamicArray<wstring>();
+	//database에 저장
+	for (int i = 0; i < wList.size() - 1; i++)
+	{
+		wstring in = wList[i].substr(), temp;
+		wStream->str(in);
+		sData tData;
+		while (std::getline(*wStream, temp, L','))
+		{
+			parts->push_back(temp);
+		}
+		tData = CreateLoadData(parts);
+		_dataBase->AddInfo(tData);
+
+		parts->clear();
+		wStream->clear();
+	}
+	//complete call
+	cout << "최근 저장 파일 불러오기 완료" << endl;
+	//닫기
+	_inFile->close();
+
+	delete parts;
+	delete wStream;
+
+	return true;
+}
+
 void GradeSystem::SortingForDatabase(E_Sort type, E_SortingType sType)
 {
 	switch (type)
@@ -449,86 +496,16 @@ bool GradeSystem::LoadFile(const char* fName, E_LoadMode lMode, E_LoadType lType
 			//경로 설정
 			string path = MYLOCALPATH_SAVE;
 			path.append("save_prev.txt");
-			//파일 오픈
-			_inFile->open(path);
-			//버퍼
-			wstring wTemp;
-			DynamicArray<wstring> wList;
-			//개행 읽기
-			while (std::getline(*_inFile, wTemp))
-			{
-				wList.push_back(wTemp);
-			}
-			//split 버퍼
-			wstringstream* wStream = new wstringstream();
-			DynamicArray<wstring>* parts = new DynamicArray<wstring>();
-			//database에 저장
-			for (int i = 0; i < wList.size() - 1; i++)
-			{
-				wstring in = wList[i].substr(), temp;
-				wStream->str(in);
-				sData tData;
-				while (std::getline(*wStream, temp, L','))
-				{
-					parts->push_back(temp);
-				}
-				tData = CreateLoadData(parts);
-				_dataBase->AddInfo(tData);
-
-				parts->clear();
-				wStream->clear();
-			}
-			//complete call
-			cout << "최근 저장 파일 불러오기 완료" << endl;
-			//해제
-			_inFile->close();
-			delete wStream;
-			delete parts;
-
-			return true;
+			//파일 로드
+			return LoadData(path);	
 		}
 		case Gsys::E_LoadType::LOAD_BIN:
 		{
 			//경로 설정
 			string path = MYLOCALPATH_SAVE;
 			path.append("save_prev.bin");
-			//파일 오픈
-			_inFile->open(path);
-			//버퍼
-			wstring wTemp;
-			DynamicArray<wstring> wList;
-			//개행 읽기
-			while (std::getline(*_inFile, wTemp))
-			{
-				wList.push_back(wTemp);
-			}
-			//split 버퍼
-			wstringstream* wStream = new wstringstream();
-			DynamicArray<wstring>* parts = new DynamicArray<wstring>();
-			//database에 저장
-			for (int i = 0; i < wList.size() - 1; i++)
-			{
-				wstring in = wList[i].substr(), temp;
-				wStream->str(in);
-				sData tData;
-				while (std::getline(*wStream, temp, L','))
-				{
-					parts->push_back(temp);
-				}
-				tData = CreateLoadData(parts);
-				_dataBase->AddInfo(tData);
-
-				parts->clear();
-				wStream->clear();
-			}
-			//complete call
-			cout << "최근 저장 파일 불러오기 완료" << endl;
-			//해제
-			_inFile->close();
-			delete wStream;
-			delete parts;
-
-			return true;
+			//파일 로드
+			return LoadData(path);
 		}
 		}
 		break;
@@ -543,43 +520,8 @@ bool GradeSystem::LoadFile(const char* fName, E_LoadMode lMode, E_LoadType lType
 			string path = MYLOCALPATH_SAVE;
 			path.append(fName);
 			path.append(".txt");
-			//파일 오픈
-			_inFile->open(path);
-			//버퍼
-			wstring wTemp;
-			DynamicArray<wstring> wList;
-			//개행 읽기
-			while (std::getline(*_inFile, wTemp))
-			{
-				wList.push_back(wTemp);
-			}
-			//split 버퍼
-			wstringstream* wStream = new wstringstream();
-			DynamicArray<wstring>* parts = new DynamicArray<wstring>();
-			//database에 저장
-			for (int i = 0; i < wList.size() - 1; i++)
-			{
-				wstring in = wList[i].substr(), temp;
-				wStream->str(in);
-				sData tData;
-				while (std::getline(*wStream, temp, L','))
-				{
-					parts->push_back(temp);
-				}
-				tData = CreateLoadData(parts);
-				_dataBase->AddInfo(tData);
-
-				parts->clear();
-				wStream->clear();
-			}
-			//complete call
-			cout << "최근 저장 파일 불러오기 완료" << endl;
-			//해제
-			_inFile->close();
-			delete wStream;
-			delete parts;
-
-			return true;
+			//파일 로드
+			return LoadData(path);
 		}
 		case Gsys::E_LoadType::LOAD_BIN:
 		{
@@ -587,43 +529,8 @@ bool GradeSystem::LoadFile(const char* fName, E_LoadMode lMode, E_LoadType lType
 			string path = MYLOCALPATH_SAVE;
 			path.append(fName);
 			path.append(".bin");
-			//파일 오픈
-			_inFile->open(path);
-			//버퍼
-			wstring wTemp;
-			DynamicArray<wstring> wList;
-			//개행 읽기
-			while (std::getline(*_inFile, wTemp))
-			{
-				wList.push_back(wTemp);
-			}
-			//split 버퍼
-			wstringstream* wStream = new wstringstream();
-			DynamicArray<wstring>* parts = new DynamicArray<wstring>();
-			//database에 저장
-			for (int i = 0; i < wList.size() - 1; i++)
-			{
-				wstring in = wList[i].substr(), temp;
-				wStream->str(in);
-				sData tData;
-				while (std::getline(*wStream, temp, L','))
-				{
-					parts->push_back(temp);
-				}
-				tData = CreateLoadData(parts);
-				_dataBase->AddInfo(tData);
-
-				parts->clear();
-				wStream->clear();
-			}
-			//complete call
-			cout << "최근 저장 파일 불러오기 완료" << endl;
-			//해제
-			_inFile->close();
-			delete wStream;
-			delete parts;
-
-			return true;
+			//파일 로드
+			return LoadData(path);
 		}
 		}
 		break;

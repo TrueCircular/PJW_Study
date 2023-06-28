@@ -129,6 +129,7 @@ class MainState;
 #pragma endregion
 
 using namespace Gsys;
+using namespace std;
 
 #pragma region DynamicArray
 
@@ -178,9 +179,12 @@ private:
 	void Init();
 	std::wstring CreateDataLine(const Info<sData>* iData);
 	void StateInit();
+	//sort
 	void InsertionSortingHigh(Info<sData>* head, Info<sData>* tail, E_SortingType sType);
 	void InsertionSortingLow(Info<sData>* head, Info<sData>* tail, E_SortingType sType);
+	//load
 	sData CreateLoadData(DynamicArray<std::wstring>* list);
+	bool LoadData(const std::string& path);
 public:
 	GradeSystem();
 	~GradeSystem();
@@ -267,5 +271,11 @@ inline void DynamicArray<T>::clear()
 	delete[] _array;
 
 	_array = new T[_size];
+	//for (int i = 0; i < _size - 1; i++)
+	//{
+	//	_array[i].~T();
+	//}
+	//_used = 0;
+	//_size = 1;
 }
 #pragma endregion
