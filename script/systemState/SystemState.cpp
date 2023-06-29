@@ -364,6 +364,14 @@ bool LoadState::Run(GradeSystem* system)
 				_rePath = MYLOCALPATH_SAVE;
 				_rePath.append("*.bin");
 				PrintSaveFileList(_rePath);
+
+				string fName;
+				cout << "| 파일 이름 입력 | :";
+				cin >> fName;
+				cout << "======================================================================================" << endl;
+				system->GetDataBase()->AllDelete();
+				system->LoadFile(fName.c_str(), E_LoadMode::LOAD_NEW, E_LoadType::LOAD_BIN);
+				cout << "======================================================================================" << endl;
 				break;
 			}
 			default:
