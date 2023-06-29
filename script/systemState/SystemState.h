@@ -1,4 +1,6 @@
 #pragma once
+#include <io.h>
+#include <filesystem>
 
 #pragma region F_declaration
 class GradeSystem;
@@ -76,6 +78,14 @@ public:
 
 class LoadState : public SystemState
 {
+private:
+	struct _finddata_t		_fd;
+	intptr_t				_handle;
+	string					_rePath;
+
+private:
+	void PrintSaveFileList(string path);
+	void ErrorPrint();
 public:
 	LoadState();
 	~LoadState() override;
@@ -90,7 +100,6 @@ public:
 	~SaveState() override;
 	bool Run(GradeSystem* system) override;
 	void Print() override;
-
 };
 
 class ExitState : public SystemState

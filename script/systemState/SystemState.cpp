@@ -135,9 +135,10 @@ bool SaveState::Run(GradeSystem* system)
 {
 	int selNum = 0;
 
-	cout << endl;
+	cout << "=================================================================" << endl;
 	cout << "| 파일 저장 방식 선택 | (1)최근 저장 파일 (2)새로운 파일 :";
 	cin >> selNum;
+	cout << "=================================================================" << endl;
 	if (!cin)
 	{
 		cin.clear();
@@ -149,9 +150,9 @@ bool SaveState::Run(GradeSystem* system)
 	{
 		int num = 0;
 
-		cout << endl;
 		cout << "| 파일 저장 형식 선택 | (1)BIN (2)TXT :";
 		cin >> num;
+		cout << "=================================================================" << endl;
 		if (!cin)
 		{
 			cin.clear();
@@ -172,6 +173,7 @@ bool SaveState::Run(GradeSystem* system)
 		case 2:
 		{
 			cout << "============== 아무 키나 누르면 처음으로 돌아갑니다 =============" << endl;
+			cout << "=================================================================" << endl;
 			system->SaveFile("", E_SaveMode::SAVE_PREV, E_SaveType::SAVE_TXT);
 			if (_getche())
 			{
@@ -195,10 +197,9 @@ bool SaveState::Run(GradeSystem* system)
 	{
 		int num = 0;
 		string fName;
-		cout << endl;
 		cout << "| 파일 이름 작성 :";
 		cin >> fName;
-		cout << endl;
+		cout << "=================================================================" << endl;
 		cout << "| 파일 저장 형식 선택 | (1)BIN (2)TXT :";
 		cin >> num;
 		if (!cin)
@@ -210,8 +211,11 @@ bool SaveState::Run(GradeSystem* system)
 		{
 		case 1:
 		{
+			cout << "=================================================================" << endl;
 			cout << "============== 아무 키나 누르면 처음으로 돌아갑니다 =============" << endl;
+			cout << "=================================================================" << endl;
 			system->SaveFile(fName.c_str(), E_SaveMode::SAVE_NEW, E_SaveType::SAVE_BIN);
+
 			if (_getche())
 			{
 				system->SetState(E_SysState::SYSTEM_MAIN);
@@ -220,7 +224,9 @@ bool SaveState::Run(GradeSystem* system)
 		}
 		case 2:
 		{
+			cout << "=================================================================" << endl;
 			cout << "============== 아무 키나 누르면 처음으로 돌아갑니다 =============" << endl;
+			cout << "=================================================================" << endl;
 			system->SaveFile(fName.c_str(), E_SaveMode::SAVE_NEW, E_SaveType::SAVE_TXT);
 			if (_getche())
 			{
@@ -260,8 +266,40 @@ void SaveState::Print()
 {
 }
 
+void LoadState::PrintSaveFileList(string path)
+{
+	std::filesystem::path _abPath;
+
+	_abPath = path;
+	_abPath = std::filesystem::absolute(_abPath);
+
+	if ((_handle = _findfirst(_abPath.string().c_str(), &_fd)) == -1L)
+	{
+		cout << "저장 된 세이브 파일이 없습니다." << endl;
+	}
+	cout << "===================================== 파일 목록 ======================================" << endl;
+	do
+	{
+		cout << _fd.name << endl;
+		cout << "======================================================================================" << endl;
+	} while (_findnext(_handle, &_fd) == 0);
+
+	_findclose(_handle);
+}
+
+void LoadState::ErrorPrint()
+{
+	cout << "================== 올바른 숫자를 입력해주세요. ==================" << endl;
+	cout << "============== 아무 키나 누르면 처음으로 돌아갑니다 =============" << endl;
+	cout << endl;
+	_isIn = false;
+	_getche();
+}
+
 LoadState::LoadState()
 {
+	_rePath = MYLOCALPATH_SAVE;
+
 }
 
 LoadState::~LoadState()
@@ -270,16 +308,94 @@ LoadState::~LoadState()
 
 bool LoadState::Run(GradeSystem* system)
 {
-	if (_isIn == false)
+	if (!_isIn)
 	{
-		system->LoadFile();
-		system->SetState(E_SysState::SYSTEM_MAIN);
+		std::system("cls");
+		_isIn = true;
+
+		Print();
+	}
+	else
+	{
+		int tNum = 0;
+		cout << "| 메뉴 선택 | (1)파일 목록 출력 (2) 나가기 :";
+		cin >> tNum;
+		cout << "======================================================================================" << endl;
+		if (!cin)
+		{
+			cin.clear();
+			cin.ignore(INT_MAX, '\n');
+		}
+		switch (tNum)
+		{
+		case 1:
+		{
+			string fName;
+			int selNum = 0;
+
+			cout << "| 출력 할 파일 목록 확장자 선택 | (1)TXT (2)BIN :";
+			cin >> selNum;
+			cout << "======================================================================================" << endl;
+
+			if (!cin)
+			{
+				cin.clear();
+				cin.ignore(INT_MAX, '\n');
+			}
+			switch (selNum)
+			{
+			case 1:
+			{
+				_rePath = MYLOCALPATH_SAVE;
+				_rePath.append("*.txt");
+				PrintSaveFileList(_rePath);
+
+				string fName;
+				cout << "| 파일 이름 입력 | :";
+				cin >> fName;
+				cout << "======================================================================================" << endl;
+				system->GetDataBase()->AllDelete();
+				system->LoadFile(fName.c_str(), E_LoadMode::LOAD_NEW, E_LoadType::LOAD_TXT);
+				cout << "======================================================================================" << endl;
+				break;
+			}
+			case 2:
+			{
+				_rePath = MYLOCALPATH_SAVE;
+				_rePath.append("*.bin");
+				PrintSaveFileList(_rePath);
+				break;
+			}
+			default:
+			{
+				ErrorPrint();
+				return true;
+			}
+			}
+
+			break;
+		}
+		case 2:
+		{
+			_isIn = false;
+			system->SetState(E_SysState::SYSTEM_MAIN);
+			break;
+		}
+		default:
+		{
+			ErrorPrint();
+			return true;
+		}
+		}
 	}
 	return true;
 }
 
 void LoadState::Print()
 {
+	cout << "======================================================================================" << endl;
+	cout << "====================================== 불러오기 ======================================" << endl;
+	cout << "======================================================================================" << endl;
 }
 
 DelState::DelState()

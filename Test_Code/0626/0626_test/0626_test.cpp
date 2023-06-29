@@ -38,6 +38,7 @@ int main()
         cout << fd.name << endl;
     } while (_findnext(handle, &fd) == 0);
 
+  
     _findclose(handle);
 
     return EXIT_SUCCESS;

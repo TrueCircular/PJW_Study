@@ -329,7 +329,7 @@ bool GradeSystem::LoadData(const std::string& path)
 	wstringstream* wStream = new wstringstream();
 	DynamicArray<wstring>* parts = new DynamicArray<wstring>();
 	//database에 저장
-	for (int i = 0; i < wList.size() - 1; i++)
+	for (int i = 0; i < wList.size(); i++)
 	{
 		wstring in = wList[i].substr(), temp;
 		wStream->str(in);
@@ -345,7 +345,7 @@ bool GradeSystem::LoadData(const std::string& path)
 		wStream->clear();
 	}
 	//complete call
-	cout << "최근 저장 파일 불러오기 완료" << endl;
+	cout << "경로 :" << path << " 불러오기 완료." << endl;
 	//파일 닫기
 	_inFile->close();
 

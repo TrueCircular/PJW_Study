@@ -124,8 +124,6 @@ class LoadState;
 class SaveState;
 class ExitState;
 class MainState;
-//template<typename T> class Info;
-//template<typename T, typename N> class GradeList;
 #pragma endregion
 
 using namespace Gsys;
@@ -150,7 +148,7 @@ public:
 	void push_back(const T& data);
 	void pop_back();
 	void clear();
-	int size() { return _size; }
+	int size() { return _used; }
 
 	T& operator[](int index)
 	{

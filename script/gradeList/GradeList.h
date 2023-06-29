@@ -58,6 +58,8 @@ template<typename T, typename N>
 inline GradeList<T,N>::~GradeList()
 {
 	AllDelete();
+	delete _head;
+	delete _tail;
 }
 
 template<typename T, typename N>
@@ -236,7 +238,5 @@ inline void GradeList<T,N>::AllDelete()
 	{
 		DelBack();
 	}
-	delete _head;
-	delete _tail;
 }
 #pragma endregion
