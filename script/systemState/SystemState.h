@@ -56,6 +56,7 @@ private:
 	void ErrorPrint();
 	void AddStudentInfo(GradeSystem* system);
 	bool OverlapCheck(GradeSystem* system, int number);
+	bool OverlapCheckName(GradeSystem* system, wstring name);
 public:
 	bool Run(GradeSystem* system) override;
 	void Print() override;

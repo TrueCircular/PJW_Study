@@ -450,9 +450,14 @@ void AddState::AddStudentInfo(GradeSystem* system)
 		cout << "| ÇÐ»ý Á¤º¸ ÀÔ·Â | ¹øÈ£(1~1000) :";
 		cin >> sTemp._index;
 		cout << "======================================================================================" << endl;
-		if ((sTemp._index <= 0 || sTemp._index > 1000) ||
-			!OverlapCheck(system, sTemp._index))
+		if ((sTemp._index <= 0 || sTemp._index > 1000))
+		{
 			throw sTemp._index;
+		}
+		if (OverlapCheck(system, sTemp._index) == false)
+		{
+			throw sTemp._index;
+		}
 
 		cout << "| ÇÐ»ý Á¤º¸ ÀÔ·Â | ÇÐ³â(1~10) :";
 		cin >> sTemp._grade;
@@ -463,16 +468,20 @@ void AddState::AddStudentInfo(GradeSystem* system)
 		cout << "| ÇÐ»ý Á¤º¸ ÀÔ·Â | ÀÌ¸§ :";
 		wcin >> sTemp._name;
 		cout << "======================================================================================" << endl;
+	
 		for (wchar_t ch : sTemp._name)
 		{
-			if (!((ch >= L'a' && ch <= L'z') || 
-				(ch >= L'A' && ch <= L'Z') || 
-				(ch >= L'°¡' && ch <= L'ÆR'))) 
+			if (!((ch >= L'a' && ch <= L'z') ||
+				(ch >= L'A' && ch <= L'Z') ||
+				(ch >= L'°¡' && ch <= L'ÆR')))
 			{
 				throw sTemp._name;
 			}
 		}
-
+		if (!OverlapCheckName(system, sTemp._name))
+		{
+			throw sTemp._name;
+		}
 
 		cout << "| ÇÐ»ý Á¤º¸ ÀÔ·Â | ±¹¾î Á¡¼ö(1~100) :";
 		cin >> sTemp._kor;
@@ -523,17 +532,35 @@ bool AddState::OverlapCheck(GradeSystem* system, int number)
 	{
 		buffer.push_back(system->GetDataBase()->SearchInfoForIndex(i));
 	}
-
-	for (Info<sData> i : buffer)
+	for (int i = 0; i < buffer.size(); i++)
 	{
-		if (i._data._index == number)
+		if (buffer[i]->_data._index == number)
 		{
 			cout << "Áßº¹µÈ ¹øÈ£ ÀÔ´Ï´Ù." << endl;
 			cout << "======================================================================================" << endl;
 			return false;
 		}
 	}
+	return true;
+}
 
+bool AddState::OverlapCheckName(GradeSystem* system, wstring name)
+{
+	DynamicArray<Info<sData>*> buffer;
+
+	for (int i = 0; i < system->GetDataBase()->size(); i++)
+	{
+		buffer.push_back(system->GetDataBase()->SearchInfoForIndex(i));
+	}
+	for (int i = 0; i < buffer.size(); i++)
+	{
+		if (buffer[i]->_data._name == name)
+		{
+			cout << "Áßº¹µÈ ÀÌ¸§ ÀÔ´Ï´Ù." << endl;
+			cout << "======================================================================================" << endl;
+			return false;
+		}
+	}
 	return true;
 }
 
