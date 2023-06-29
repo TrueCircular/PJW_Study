@@ -52,6 +52,10 @@ class AddState : public SystemState
 public:
 	AddState();
 	~AddState() override;
+private:
+	void ErrorPrint();
+	void AddStudentInfo(GradeSystem* system);
+	bool OverlapCheck(GradeSystem* system, int number);
 public:
 	bool Run(GradeSystem* system) override;
 	void Print() override;

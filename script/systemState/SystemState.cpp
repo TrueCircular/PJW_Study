@@ -432,13 +432,165 @@ AddState::~AddState()
 {
 }
 
+void AddState::ErrorPrint()
+{
+	cout << "============================= ¿Ã¹Ù¸¥ ¼ýÀÚ¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä. ============================" << endl;
+	cout << "========================= ¾Æ¹« Å°³ª ´©¸£¸é Ã³À½À¸·Î µ¹¾Æ°©´Ï´Ù =======================" << endl;
+	cout << endl;
+	_isIn = false;
+	_getche();
+}
+
+void AddState::AddStudentInfo(GradeSystem* system)
+{
+	sData sTemp;
+
+	try
+	{
+		cout << "| ÇÐ»ý Á¤º¸ ÀÔ·Â | ¹øÈ£(1~1000) :";
+		cin >> sTemp._index;
+		cout << "======================================================================================" << endl;
+		if ((sTemp._index <= 0 || sTemp._index > 1000) ||
+			!OverlapCheck(system, sTemp._index))
+			throw sTemp._index;
+
+		cout << "| ÇÐ»ý Á¤º¸ ÀÔ·Â | ÇÐ³â(1~10) :";
+		cin >> sTemp._grade;
+		cout << "======================================================================================" << endl;
+		if (sTemp._grade <= 0 || sTemp._grade > 10)
+			throw sTemp._grade;
+
+		cout << "| ÇÐ»ý Á¤º¸ ÀÔ·Â | ÀÌ¸§ :";
+		wcin >> sTemp._name;
+		cout << "======================================================================================" << endl;
+		for (wchar_t ch : sTemp._name)
+		{
+			if (!((ch >= L'a' && ch <= L'z') || 
+				(ch >= L'A' && ch <= L'Z') || 
+				(ch >= L'°¡' && ch <= L'ÆR'))) 
+			{
+				throw sTemp._name;
+			}
+		}
+
+
+		cout << "| ÇÐ»ý Á¤º¸ ÀÔ·Â | ±¹¾î Á¡¼ö(1~100) :";
+		cin >> sTemp._kor;
+		cout << "======================================================================================" << endl;
+		if (sTemp._kor <= 0 || sTemp._kor > 100)
+			throw sTemp._kor;
+
+		cout << "| ÇÐ»ý Á¤º¸ ÀÔ·Â | ¿µ¾î Á¡¼ö(1~100) :";
+		cin >> sTemp._eng;
+		cout << "======================================================================================" << endl;
+		if (sTemp._eng <= 0 || sTemp._eng > 100)
+			throw sTemp._eng;
+
+		cout << "| ÇÐ»ý Á¤º¸ ÀÔ·Â | ¼öÇÐ Á¡¼ö(1~100) :";
+		cin >> sTemp._math;
+		cout << "======================================================================================" << endl;
+		if (sTemp._math <= 0 || sTemp._math > 100)
+			throw sTemp._math;
+	}
+	catch (int number)
+	{
+		ErrorPrint();
+		return;
+	}
+	catch (wstring st)
+	{
+		ErrorPrint();
+		return;
+	}
+
+	sTemp._total = sTemp._kor + sTemp._eng + sTemp._math;
+	sTemp._average = trunc((sTemp._total / 3.f));
+	
+	system->GetDataBase()->AddInfo(sTemp);
+	cout << "| ¹øÈ£ :" << sTemp._index << "¹ø ÇÐ³â :" << sTemp._grade << "ÇÐ³â ÀÌ¸§ :";
+	wcout << sTemp._name;
+	cout << " ±¹¾î :" << sTemp._kor << "Á¡ ¿µ¾î :" << sTemp._eng << "Á¡ ¼öÇÐ :" << sTemp._math <<
+		"Á¡ ÃÑÁ¡ :" << sTemp._total << "Á¡ Æò±Õ :" << sTemp._average << " <Ãß°¡ ¿Ï·á>" << endl;
+	cout << "======================================================================================" << endl;
+	_getche();
+}
+
+bool AddState::OverlapCheck(GradeSystem* system, int number)
+{
+	DynamicArray<Info<sData>*> buffer;
+
+	for (int i = 0; i < system->GetDataBase()->size(); i++)
+	{
+		buffer.push_back(system->GetDataBase()->SearchInfoForIndex(i));
+	}
+
+	for (Info<sData> i : buffer)
+	{
+		if (i._data._index == number)
+		{
+			cout << "Áßº¹µÈ ¹øÈ£ ÀÔ´Ï´Ù." << endl;
+			cout << "======================================================================================" << endl;
+			return false;
+		}
+	}
+
+	return true;
+}
+
+
 bool AddState::Run(GradeSystem* system)
 {
-	return false;
+	if (!_isIn)
+	{
+		std::system("cls");
+
+		_isIn = true;
+
+		Print();
+	}
+	else
+	{
+		int num = 0;
+		cout << "| ¸Þ´º | (1)ÇÐ»ý Á¤º¸ Ãß°¡ (2)³ª°¡±â :";
+		cin >> num;
+		cout << "======================================================================================" << endl;
+		if (!cin)
+		{
+			cin.clear();
+			cin.ignore(INT_MAX, '\n');
+		}
+
+		switch (num)
+		{
+		case 1:
+		{
+			AddStudentInfo(system);
+			_isIn = false;
+			break;
+		}
+		case 2:
+		{
+			_isIn = false;
+			system->SetState(E_SysState::SYSTEM_MAIN);
+			break;
+		}
+		default:
+		{
+			ErrorPrint();
+			return true;
+		}
+		}
+	}
+
+
+	return true;
 }
 
 void AddState::Print()
 {
+	cout << "======================================================================================" << endl;
+	cout << "================================= ÇÐ»ý Á¤º¸ Ãß°¡ =====================================" << endl;
+	cout << "======================================================================================" << endl;
 }
 
 void ViewState::PrintStudentInfo(Info<sData>* data)
@@ -450,7 +602,7 @@ void ViewState::PrintStudentInfo(Info<sData>* data)
 
 	wcout << L"== ¹øÈ£:" << temp._index << L"¹ø ÇÐ³â:" << temp._grade << L"ÇÐ³â ÀÌ¸§:" << temp._name <<
 		L" ±¹¾î:" << temp._kor << L"Á¡ ¿µ¾î:" << temp._eng << L"Á¡ ¼öÇÐ:" << temp._math <<
-		L"Á¡ ÃÑÁ¡:" << temp._total << L"Á¡ Æò±Õ:" << temp._average << L" ==" << endl;
+		L"Á¡ ÃÑÁ¡:" << temp._total << L"Á¡ Æò±Õ:" << temp._average << endl;
 	cout << "======================================================================================" << endl;
 }
 
