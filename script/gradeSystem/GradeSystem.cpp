@@ -345,7 +345,7 @@ bool GradeSystem::LoadData(const std::string& path)
 		wStream->clear();
 	}
 	//complete call
-	cout << "경로 :" << path << " 불러오기 완료." << endl;
+	cout << "경로 :" << path << " <불러오기 완료>" << endl;
 	//파일 닫기
 	_inFile->close();
 

@@ -163,6 +163,7 @@ bool SaveState::Run(GradeSystem* system)
 		case 1:
 		{
 			cout << "============== 아무 키나 누르면 처음으로 돌아갑니다 =============" << endl;
+			cout << "=================================================================" << endl;
 			system->SaveFile();
 			if (_getche())
 			{

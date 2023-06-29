@@ -82,7 +82,6 @@ private:
 	struct _finddata_t		_fd;
 	intptr_t				_handle;
 	string					_rePath;
-
 private:
 	void PrintSaveFileList(string path);
 	void ErrorPrint();
