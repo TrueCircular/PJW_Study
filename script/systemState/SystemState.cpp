@@ -136,7 +136,7 @@ bool SaveState::Run(GradeSystem* system)
 	int selNum = 0;
 
 	cout << "=================================================================" << endl;
-	cout << "| ÆÄÀÏ ÀúÀå ¹æ½Ä ¼±ÅÃ | (1)ÃÖ±Ù ÀúÀå ÆÄÀÏ (2)»õ·Î¿î ÆÄÀÏ :";
+	cout << "| ÆÄÀÏ ÀúÀå ¹æ½Ä ¼±ÅÃ | (1)ÃÖ±Ù ÀúÀå ÆÄÀÏ (2)»õ·Î¿î ÆÄÀÏ (3)³ª°¡±â :";
 	cin >> selNum;
 	cout << "=================================================================" << endl;
 	if (!cin)
@@ -245,6 +245,12 @@ bool SaveState::Run(GradeSystem* system)
 			break;
 		}
 		}
+		break;
+	}
+	case 3:
+	{
+		_isIn = false;
+		system->SetState(E_SysState::SYSTEM_MAIN);
 		break;
 	}
 	default:
@@ -543,7 +549,7 @@ bool DelState::OverlapCheckNameToDelete(GradeSystem* system, wstring name)
 	DynamicArray<Info<sData>*> buffer;
 	for (int i = 0; i < system->GetDataBase()->size(); i++)
 	{
-		if (system->GetDataBase()->SearchInfoForIndex(i) != nullptr)
+		if (system->GetDataBase()->SearchInfoForIndex (i) != nullptr)
 			buffer.push_back(system->GetDataBase()->SearchInfoForIndex(i));
 	}
 	for (int i = 0; i < buffer.size(); i++)
@@ -558,8 +564,7 @@ bool DelState::OverlapCheckNameToDelete(GradeSystem* system, wstring name)
 				"Á¡ Æò±Õ :" << buffer[i]->_data._average << " <»èÁ¦ ¿Ï·á>" << endl;
 			cout << "======================================================================================" << endl;
 
-			sData temp = buffer[i]->_data;
-			system->GetDataBase()->DeleteInfo(temp);
+			system->GetDataBase()->DeleteInfo(buffer[i]->_data);
 			return true;
 		}
 	}
@@ -595,7 +600,6 @@ bool DelState::Run(GradeSystem* system)
 		case 1:
 		{
 			DelStudentInfo(system);
-			_isIn = false;
 			break;
 		}
 		case 2:
@@ -984,6 +988,154 @@ void ViewState::Print()
 	cout << "======================================================================================" << endl;
 }
 
+void SearchState::ErrorPrint()
+{
+	cout << "============================= ¿Ã¹Ù¸¥ ¼ýÀÚ¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä. ============================" << endl;
+	cout << "========================= ¾Æ¹« Å°³ª ´©¸£¸é Ã³À½À¸·Î µ¹¾Æ°©´Ï´Ù =======================" << endl;
+	cout << endl;
+	_isIn = false;
+	_getche();
+}
+
+void SearchState::SearchStudentInfo(GradeSystem* system)
+{
+	int num = 0;
+	cout << "| °Ë»ö ¹æ¹ý ¼±ÅÃ | (1)¹øÈ£ (2)ÀÌ¸§ :";
+	cin >> num;
+	cout << "======================================================================================" << endl;
+	if (!cin)
+	{
+		cin.clear();
+		cin.ignore(INT_MAX, '\n');
+		ErrorPrint();
+		return;
+	}
+
+	switch (num)
+	{
+	case 1:
+	{
+		int mNum = 0;
+		cout << "| °Ë»ö | ¹øÈ£ ÀÔ·Â :";
+		cin >> mNum;
+		cout << "======================================================================================" << endl;
+		if (!cin)
+		{
+			cin.clear();
+			cin.ignore(INT_MAX, '\n');
+			ErrorPrint();
+			return;
+		}
+		
+		if (OverlapCheckIndex(system, mNum))
+		{
+			_getche();
+			_isIn = false;
+		}
+		else
+		{
+			cout << "ÇØ´çÇÏ´Â ¹øÈ£ÀÇ ÇÐ»ýÀÌ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù." << endl;
+			ErrorPrint();
+		}
+		break;
+	}
+	case 2:
+	{
+		wstring mName;
+		cout << "| °Ë»ö | ÀÌ¸§ ÀÔ·Â :";
+		wcin >> mName;
+		cout << "======================================================================================" << endl;
+
+		for (wchar_t ch : mName)
+		{
+			if (!((ch >= L'a' && ch <= L'z') ||
+				(ch >= L'A' && ch <= L'Z') ||
+				(ch >= L'°¡' && ch <= L'ÆR')))
+			{
+				ErrorPrint();
+				return;
+			}
+		}
+		if (OverlapCheckName(system, mName))
+		{
+			_getche();
+			_isIn = false;
+		}
+		else
+		{
+			cout << "ÇØ´ç ÇÏ´Â ÀÌ¸§ÀÇ ÇÐ»ý Á¤º¸°¡ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù." << endl;
+			ErrorPrint();
+		}
+		break;
+	}
+	default:
+	{
+		ErrorPrint();
+		break;
+	}
+	}
+
+}
+
+bool SearchState::OverlapCheckIndex(GradeSystem* system, int Index)
+{
+	if (system->GetDataBase()->size() <= 0)
+		return false;
+
+	DynamicArray<Info<sData>*> buffer;
+
+	for (int i = 0; i < system->GetDataBase()->size(); i++)
+	{
+		if (system->GetDataBase()->SearchInfoForIndex(i) != nullptr)
+			buffer.push_back(system->GetDataBase()->SearchInfoForIndex(i));
+	}
+	for (int i = 0; i < buffer.size(); i++)
+	{
+		if (buffer[i]->_data._index == Index)
+		{
+			cout << "| Á¤º¸ | ¹øÈ£ :" << buffer[i]->_data._index << "¹ø ÇÐ³â :" <<
+				buffer[i]->_data._grade << "ÇÐ³â ÀÌ¸§ :";
+			wcout << buffer[i]->_data._name;
+			cout << " ±¹¾î :" << buffer[i]->_data._kor << "Á¡ ¿µ¾î :" << buffer[i]->_data._eng <<
+				"Á¡ ¼öÇÐ :" << buffer[i]->_data._math << "Á¡ ÃÑÁ¡ :" << buffer[i]->_data._total <<
+				"Á¡ Æò±Õ :" << buffer[i]->_data._average << " <°Ë»ö ¿Ï·á>" << endl;
+			cout << "======================================================================================" << endl;
+			return true;
+		}
+	}
+
+	return false;
+}
+
+bool SearchState::OverlapCheckName(GradeSystem* system, wstring name)
+{
+	if (system->GetDataBase()->size() <= 0)
+		return false;
+
+	DynamicArray<Info<sData>*> buffer;
+	for (int i = 0; i < system->GetDataBase()->size(); i++)
+	{
+		if (system->GetDataBase()->SearchInfoForIndex(i) != nullptr)
+			buffer.push_back(system->GetDataBase()->SearchInfoForIndex(i));
+	}
+	for (int i = 0; i < buffer.size(); i++)
+	{
+		if (buffer[i]->_data._name == name)
+		{
+			cout << "| Á¤º¸ | ¹øÈ£ :" << buffer[i]->_data._index << "¹ø ÇÐ³â :" <<
+				buffer[i]->_data._grade << "ÇÐ³â ÀÌ¸§ :";
+			wcout << buffer[i]->_data._name;
+			cout << " ±¹¾î :" << buffer[i]->_data._kor << "Á¡ ¿µ¾î :" << buffer[i]->_data._eng <<
+				"Á¡ ¼öÇÐ :" << buffer[i]->_data._math << "Á¡ ÃÑÁ¡ :" << buffer[i]->_data._total <<
+				"Á¡ Æò±Õ :" << buffer[i]->_data._average << " <°Ë»ö ¿Ï·á>" << endl;
+			cout << "======================================================================================" << endl;
+			return true;
+		}
+	}
+
+	return false;
+}
+
 SearchState::SearchState()
 {
 }
@@ -994,9 +1146,53 @@ SearchState::~SearchState()
 
 bool SearchState::Run(GradeSystem* system)
 {
-	return false;
+	if (!_isIn)
+	{
+		std::system("cls");
+
+		_isIn = true;
+
+		Print();
+	}
+	else
+	{
+		int sNum = 0;
+		cout << "| ¸Þ´º | (1)ÇÐ»ý Á¤º¸ °Ë»ö (2)³ª°¡±â :";
+		cin >> sNum;
+		cout << "======================================================================================" << endl;
+		if (!cin)
+		{
+			cin.clear();
+			cin.ignore(INT_MAX, '\n');
+		}
+
+		switch (sNum)
+		{
+		case 1:
+		{
+			SearchStudentInfo(system);
+			break;
+		}
+		case 2:
+		{
+			_isIn = false;
+			system->SetState(E_SysState::SYSTEM_MAIN);
+			break;
+		}
+		default:
+		{
+			ErrorPrint();
+			break;
+		}
+		}
+	}
+
+	return true;
 }
 
 void SearchState::Print()
 {
+	cout << "======================================================================================" << endl;
+	cout << "===================================== ÇÐ»ý Á¤º¸ ======================================" << endl;
+	cout << "======================================================================================" << endl;
 }

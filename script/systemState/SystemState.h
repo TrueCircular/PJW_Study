@@ -79,6 +79,11 @@ public:
 
 class SearchState : public SystemState
 {
+private:
+	void ErrorPrint();
+	void SearchStudentInfo(GradeSystem* system);
+	bool OverlapCheckIndex(GradeSystem* system, int Index);
+	bool OverlapCheckName(GradeSystem* system, wstring name);
 public:
 	SearchState();
 	~SearchState() override;
