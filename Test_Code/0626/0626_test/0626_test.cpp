@@ -10,7 +10,6 @@
 #define MYLOCALPATH_SAVE (const char*)"../../../data/Gsys_Save/"
 
 using namespace std;
-using std::filesystem::directory_iterator;
 
 
 int main()

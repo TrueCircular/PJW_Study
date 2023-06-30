@@ -81,7 +81,6 @@
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LinkIncremental>true</LinkIncremental>
     <OutDir>../../Output/</OutDir>
     <IntDir>../../Output/W_GradeSystem/</IntDir>
   </PropertyGroup>
