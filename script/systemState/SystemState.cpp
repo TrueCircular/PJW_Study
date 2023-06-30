@@ -300,7 +300,6 @@ void LoadState::ErrorPrint()
 LoadState::LoadState()
 {
 	_rePath = MYLOCALPATH_SAVE;
-
 }
 
 LoadState::~LoadState()
@@ -355,7 +354,6 @@ bool LoadState::Run(GradeSystem* system)
 				cout << "| ÆÄÀÏ ÀÌ¸§ ÀÔ·Â | :";
 				cin >> fName;
 				cout << "======================================================================================" << endl;
-				system->GetDataBase()->AllDelete();
 				system->LoadFile(fName.c_str(), E_LoadMode::LOAD_NEW, E_LoadType::LOAD_TXT);
 				cout << "======================================================================================" << endl;
 				break;
@@ -370,7 +368,6 @@ bool LoadState::Run(GradeSystem* system)
 				cout << "| ÆÄÀÏ ÀÌ¸§ ÀÔ·Â | :";
 				cin >> fName;
 				cout << "======================================================================================" << endl;
-				system->GetDataBase()->AllDelete();
 				system->LoadFile(fName.c_str(), E_LoadMode::LOAD_NEW, E_LoadType::LOAD_BIN);
 				cout << "======================================================================================" << endl;
 				break;
@@ -415,13 +412,217 @@ DelState::~DelState()
 {
 }
 
+void DelState::ErrorPrint()
+{
+	cout << "============================= ¿Ã¹Ù¸¥ ¼ýÀÚ¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä. ============================" << endl;
+	cout << "========================= ¾Æ¹« Å°³ª ´©¸£¸é Ã³À½À¸·Î µ¹¾Æ°©´Ï´Ù =======================" << endl;
+	cout << endl;
+	_isIn = false;
+	_getche();
+}
+
+void DelState::DelStudentInfo(GradeSystem* system)
+{
+	int tNum = 0;
+	wstring tName;
+
+	cout << "| »èÁ¦ ¹æ¹ý ¼±ÅÃ | (1)¹øÈ£ (2)ÀÌ¸§ :";
+	cin >> tNum;
+	cout << "======================================================================================" << endl;
+	if (!cin)
+	{
+		cin.clear();
+		cin.ignore(INT_MAX, '\n');
+	}
+
+	switch (tNum)
+	{
+	case 1:
+	{
+		int idx = 0;
+		cout << "| ÇÐ»ý Á¤º¸ »èÁ¦ | ¹øÈ£ ÀÔ·Â :";
+		cin >> idx;
+		cout << "======================================================================================" << endl;
+
+		if (!cin)
+		{
+			cin.clear();
+			cin.ignore(INT_MAX, '\n');
+			ErrorPrint();
+			return;
+		}
+
+		if (OverlapCheckIndexToDelete(system, idx))
+		{
+			_getche();
+			_isIn = false;
+		}
+		else
+		{
+			cout << "ÇØ´ç ÇÏ´Â ¹øÈ£ÀÇ ÇÐ»ý Á¤º¸°¡ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù." << endl;
+			ErrorPrint();
+		}
+
+		break;
+	}
+	case 2:
+	{
+		wstring name;
+		cout << "| ÇÐ»ý Á¤º¸ »èÁ¦ | ¹øÈ£ ÀÔ·Â :";
+		wcin >> name;
+		cout << "======================================================================================" << endl;
+
+		for (wchar_t ch : name)
+		{
+			if (!((ch >= L'a' && ch <= L'z') ||
+				(ch >= L'A' && ch <= L'Z') ||
+				(ch >= L'°¡' && ch <= L'ÆR')))
+			{
+				ErrorPrint();
+				return;
+			}
+		}
+
+		if (OverlapCheckNameToDelete(system, name))
+		{
+			_getche();
+			_isIn = false;
+		}
+		else
+		{
+			cout << "ÇØ´ç ÇÏ´Â ÀÌ¸§ÀÇ ÇÐ»ý Á¤º¸°¡ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù." << endl;
+			ErrorPrint();
+		}
+
+		break;
+	}
+	default:
+	{
+		break;
+	}
+	}
+}
+
+bool DelState::OverlapCheckIndexToDelete(GradeSystem* system, int idx)
+{
+	if (system->GetDataBase()->size() <= 0)
+		return false;
+
+	DynamicArray<Info<sData>*> buffer;
+
+	for (int i = 0; i < system->GetDataBase()->size(); i++)
+	{
+		if (system->GetDataBase()->SearchInfoForIndex(i) != nullptr)
+			buffer.push_back(system->GetDataBase()->SearchInfoForIndex(i));
+	}
+	for (int i = 0; i < buffer.size(); i++)
+	{
+		if (buffer[i]->_data._index == idx)
+		{
+			cout << "| Á¤º¸ | ¹øÈ£ :" << buffer[i]->_data._index << "¹ø ÇÐ³â :" <<
+				buffer[i]->_data._grade << "ÇÐ³â ÀÌ¸§ :";
+			wcout << buffer[i]->_data._name;
+			cout << " ±¹¾î :" << buffer[i]->_data._kor << "Á¡ ¿µ¾î :" << buffer[i]->_data._eng <<
+				"Á¡ ¼öÇÐ :" << buffer[i]->_data._math << "Á¡ ÃÑÁ¡ :" << buffer[i]->_data._total <<
+				"Á¡ Æò±Õ :" << buffer[i]->_data._average << " <»èÁ¦ ¿Ï·á>" << endl;
+			cout << "======================================================================================" << endl;
+
+			system->GetDataBase()->DeleteInfo(buffer[i]->_data);
+			return true;
+		}
+	}
+
+	return false;
+}
+
+bool DelState::OverlapCheckNameToDelete(GradeSystem* system, wstring name)
+{
+	if (system->GetDataBase()->size() <= 0)
+		return false;
+
+	DynamicArray<Info<sData>*> buffer;
+	for (int i = 0; i < system->GetDataBase()->size(); i++)
+	{
+		if (system->GetDataBase()->SearchInfoForIndex(i) != nullptr)
+			buffer.push_back(system->GetDataBase()->SearchInfoForIndex(i));
+	}
+	for (int i = 0; i < buffer.size(); i++)
+	{
+		if (buffer[i]->_data._name == name)
+		{
+			cout << "| Á¤º¸ | ¹øÈ£ :" << buffer[i]->_data._index << "¹ø ÇÐ³â :" <<
+				buffer[i]->_data._grade << "ÇÐ³â ÀÌ¸§ :";
+			wcout << buffer[i]->_data._name;
+			cout << " ±¹¾î :" << buffer[i]->_data._kor << "Á¡ ¿µ¾î :" << buffer[i]->_data._eng <<
+				"Á¡ ¼öÇÐ :" << buffer[i]->_data._math << "Á¡ ÃÑÁ¡ :" << buffer[i]->_data._total <<
+				"Á¡ Æò±Õ :" << buffer[i]->_data._average << " <»èÁ¦ ¿Ï·á>" << endl;
+			cout << "======================================================================================" << endl;
+
+			sData temp = buffer[i]->_data;
+			system->GetDataBase()->DeleteInfo(temp);
+			return true;
+		}
+	}
+
+	return false;
+}
+
 bool DelState::Run(GradeSystem* system)
 {
-	return false;
+	if (!_isIn)
+	{
+		std::system("cls");
+
+		_isIn = true;
+
+		Print();
+	}
+	else
+	{
+		int num = 0;
+		
+		cout << "| ¸Þ´º | (1)ÇÐ»ý Á¤º¸ »èÁ¦ (2)³ª°¡±â :";
+		cin >> num;
+		cout << "======================================================================================" << endl;
+		if (!cin)
+		{
+			cin.clear();
+			cin.ignore(INT_MAX, '\n');
+		}
+
+		switch (num)
+		{
+		case 1:
+		{
+			DelStudentInfo(system);
+			_isIn = false;
+			break;
+		}
+		case 2:
+		{
+			_isIn = false;
+			system->SetState(E_SysState::SYSTEM_MAIN);
+			break;
+		}
+		default:
+		{
+			ErrorPrint();
+			break;
+		}
+		}
+
+
+	}
+
+
+	return true;
 }
 
 void DelState::Print()
 {
+	cout << "======================================================================================" << endl;
+	cout << "======================================================================================" << endl;
+	cout << "======================================================================================" << endl;
 }
 
 AddState::AddState()
@@ -526,11 +727,15 @@ void AddState::AddStudentInfo(GradeSystem* system)
 
 bool AddState::OverlapCheck(GradeSystem* system, int number)
 {
+	if (system->GetDataBase()->size() <= 0)
+		return false;
+
 	DynamicArray<Info<sData>*> buffer;
 
 	for (int i = 0; i < system->GetDataBase()->size(); i++)
 	{
-		buffer.push_back(system->GetDataBase()->SearchInfoForIndex(i));
+		if (system->GetDataBase()->SearchInfoForIndex(i) != nullptr)
+			buffer.push_back(system->GetDataBase()->SearchInfoForIndex(i));
 	}
 	for (int i = 0; i < buffer.size(); i++)
 	{
@@ -541,16 +746,21 @@ bool AddState::OverlapCheck(GradeSystem* system, int number)
 			return false;
 		}
 	}
+
 	return true;
 }
 
 bool AddState::OverlapCheckName(GradeSystem* system, wstring name)
 {
+	if (system->GetDataBase()->size() <= 0)
+		return false;
+
 	DynamicArray<Info<sData>*> buffer;
 
 	for (int i = 0; i < system->GetDataBase()->size(); i++)
 	{
-		buffer.push_back(system->GetDataBase()->SearchInfoForIndex(i));
+		if (system->GetDataBase()->SearchInfoForIndex(i) != nullptr)
+			buffer.push_back(system->GetDataBase()->SearchInfoForIndex(i));
 	}
 	for (int i = 0; i < buffer.size(); i++)
 	{
@@ -563,7 +773,6 @@ bool AddState::OverlapCheckName(GradeSystem* system, wstring name)
 	}
 	return true;
 }
-
 
 bool AddState::Run(GradeSystem* system)
 {

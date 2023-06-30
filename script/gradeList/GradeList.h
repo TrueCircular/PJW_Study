@@ -93,8 +93,18 @@ inline Info<T>* GradeList<T,N>::DelNode(Info<T>* node)
 	Info<T>* pNode = node->_prev;
 	Info<T>* nNode = node->_next;
 
+	//int prevInt = node->_id - 1;
+	//int nextInt = node->_id;
+
+	//if (prevInt < 0)
+	//	prevInt = 0;
+
+	//if (nNode == _tail)
+	//	node->_id = _size;
+
 	pNode->_next = nNode;
 	nNode->_prev = pNode;
+
 
 	delete node;
 
@@ -127,15 +137,15 @@ inline Info<T>* GradeList<T,N>::FindeNodeForIndex(int idex)
 {
 	Info<T>* nFind = _head->_next;
 
-	while (nFind != _tail)
+	for (int i = 0; i < idex; i++)
 	{
-		if (nFind->_id == idex)
-			return nFind;
-		else
-			nFind = nFind->_next;
+		if (nFind == _tail)
+			return nullptr;
+
+		nFind = nFind->_next;
 	}
 
-	return nullptr;
+	return nFind;
 }
 
 template<typename T, typename N>

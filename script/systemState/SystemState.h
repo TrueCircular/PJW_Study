@@ -67,6 +67,11 @@ class DelState : public SystemState
 public:
 	DelState();
 	~DelState() override;
+private:
+	void ErrorPrint();
+	void DelStudentInfo(GradeSystem* system);
+	bool OverlapCheckIndexToDelete(GradeSystem* system, int idx);
+	bool OverlapCheckNameToDelete(GradeSystem* system, wstring name);
 public:
 	bool Run(GradeSystem* system) override;
 	void Print() override;

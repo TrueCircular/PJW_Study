@@ -97,7 +97,7 @@ namespace Gsys
 					(_total == input._total) &&
 					(_average == input._average);
 		}
-		sData& operator=(const sData& input)
+		sData& operator=(const sData& input) 
 		{
 			_index = input._index;
 			_name = input._name;
@@ -109,6 +109,32 @@ namespace Gsys
 			_average = input._average;
 
 			return *this;
+		}
+		sData& operator=(int num)
+		{
+			if (num == 0)
+			{
+				_index = num;
+				_name = L"";
+				_grade = num;
+				_kor = num;
+				_eng = num;
+				_math = num;
+				_total = num;
+				_average = 0.f;
+				return *this;
+			}
+			else
+			{
+				_index = num;
+				_grade = num;
+				_kor = num;
+				_eng = num;
+				_math = num;
+				_total = num;
+				_average = static_cast<float>(num);
+				return *this;
+			}
 		}
 	};
 #pragma endregion
@@ -158,7 +184,7 @@ public:
 			return this->_array[index];
 	}
 	T& begin() { return _array[0]; }
-	T& end() { return _array[_used]; }
+	T& end() { return _array[_used - 1]; }
 };
 #pragma endregion
 

@@ -6,6 +6,7 @@ void GradeSystem::Init()
 {
 	std::locale::global(std::locale("Korean"));
 	//state
+	_state = nullptr;
 	_stateList = new StateList();
 	StateInit();
 	SetState(E_SysState::SYSTEM_MAIN);
@@ -14,7 +15,7 @@ void GradeSystem::Init()
 	_inFile = new wifstream();
 	_outFile = new wofstream();
 	//file
-	LoadFile("", E_LoadMode::LOAD_PREV, E_LoadType::LOAD_TXT);
+	LoadFile();
 	SortingForDatabase();
 }
 
@@ -310,13 +311,15 @@ sData GradeSystem::CreateLoadData(DynamicArray<std::wstring>* list)
 
 bool GradeSystem::LoadData(const std::string& path)
 {
-	//파일 오픈
+	//파일 오픈 예외처리
 	_inFile->open(path);
 	if (!_inFile->good())
 	{
 		std::cerr << "파일을 열 수 없습니다. PATH :" << path << endl;
 		return false;
 	}
+	if (_dataBase->size() > 0)
+		_dataBase->AllDelete();
 	//버퍼
 	wstring wTemp;
 	DynamicArray<wstring> wList;
@@ -375,7 +378,7 @@ bool GradeSystem::SaveData(const std::string& path, E_SaveType sType)
 			return false;
 		}
 	}
-	if (_dataBase->size() == 0)
+	if (_dataBase->size() <= 0)
 	{
 		std::cerr << "파일을 저장 할 수 없습니다. PATH :" << path << endl;
 		return false;
