@@ -81,7 +81,6 @@ inline Info<T>* GradeList<T,N>::AddNode(Info<T>* node, const T& data)
 	_size++;
 
 	return tNode;
-	return nullptr;
 }
 
 template<typename T, typename N>
@@ -93,18 +92,8 @@ inline Info<T>* GradeList<T,N>::DelNode(Info<T>* node)
 	Info<T>* pNode = node->_prev;
 	Info<T>* nNode = node->_next;
 
-	//int prevInt = node->_id - 1;
-	//int nextInt = node->_id;
-
-	//if (prevInt < 0)
-	//	prevInt = 0;
-
-	//if (nNode == _tail)
-	//	node->_id = _size;
-
 	pNode->_next = nNode;
 	nNode->_prev = pNode;
-
 
 	delete node;
 
@@ -121,7 +110,7 @@ inline Info<T>* GradeList<T,N>::FindNode(Info<T>* node, const T& value)
 
 	Info<T>* nFind = node;
 
-	while (nFind != nullptr)
+	while (nFind != _tail)
 	{
 		if (nFind->_data == value)
 			return nFind;
@@ -136,13 +125,12 @@ template<typename T, typename N>
 inline Info<T>* GradeList<T,N>::FindeNodeForIndex(int idex)
 {
 	Info<T>* nFind = _head->_next;
+	int currentIndex = 0;
 
-	for (int i = 0; i < idex; i++)
+	while (nFind != _tail && currentIndex != idex)
 	{
-		if (nFind == _tail)
-			return nullptr;
-
 		nFind = nFind->_next;
+		currentIndex++;
 	}
 
 	return nFind;
@@ -194,7 +182,7 @@ inline void GradeList<T,N>::AddInfo(const T& value) //data push back
 }
 
 template<typename T, typename N>
-inline void GradeList<T,N>::DeleteInfo(const T& value) 
+inline void GradeList<T,N>::DeleteInfo(const T& value) //find data and delete
 {
 	DelNode(FindNode(_head, value));
 }
@@ -218,7 +206,7 @@ inline Info<T>* GradeList<T,N>::SearchInfo(const T& value) //if find value retur
 }
 
 template<typename T, typename N>
-inline Info<T>* GradeList<T,N>::SearchInfoForIndex(int idex)
+inline Info<T>* GradeList<T,N>::SearchInfoForIndex(int idex) //index search
 {
 	if (FindeNodeForIndex(idex) != nullptr)
 	{
@@ -230,7 +218,7 @@ inline Info<T>* GradeList<T,N>::SearchInfoForIndex(int idex)
 }
 
 template<typename T, typename N>
-inline bool GradeList<T, N>::Sorting(Sorting_Fun fun, N* ptr, E_SortingType sType)
+inline bool GradeList<T, N>::Sorting(Sorting_Fun fun, N* ptr, E_SortingType sType) //sort
 {
 	if (fun == nullptr ||
 		ptr == nullptr)

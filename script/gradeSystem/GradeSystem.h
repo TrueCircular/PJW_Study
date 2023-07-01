@@ -184,7 +184,7 @@ public:
 			return this->_array[index];
 	}
 	T& begin() { return _array[0]; }
-	T& end() { return _array[_used - 1]; }
+	T& end() { return _array[_used + 1]; }
 };
 #pragma endregion
 
