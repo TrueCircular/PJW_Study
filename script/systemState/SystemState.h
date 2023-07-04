@@ -69,6 +69,7 @@ public:
 	~DelState() override;
 private:
 	void ErrorPrint();
+	void ErrorPrint2();
 	void DelStudentInfo(GradeSystem* system);
 	bool OverlapCheckIndexToDelete(GradeSystem* system, int idx);
 	bool OverlapCheckNameToDelete(GradeSystem* system, wstring name);
@@ -81,6 +82,7 @@ class SearchState : public SystemState
 {
 private:
 	void ErrorPrint();
+	void ErrorPrint2();
 	void SearchStudentInfo(GradeSystem* system);
 	bool OverlapCheckIndex(GradeSystem* system, int Index);
 	bool OverlapCheckName(GradeSystem* system, wstring name);

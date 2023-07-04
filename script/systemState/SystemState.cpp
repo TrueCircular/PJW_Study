@@ -427,6 +427,15 @@ void DelState::ErrorPrint()
 	_getche();
 }
 
+void DelState::ErrorPrint2()
+{
+	cout << "============================= ¿Ã¹Ù¸¥ ÀÌ¸§À» ÀÔ·ÂÇØÁÖ¼¼¿ä. ============================" << endl;
+	cout << "========================= ¾Æ¹« Å°³ª ´©¸£¸é Ã³À½À¸·Î µ¹¾Æ°©´Ï´Ù =======================" << endl;
+	cout << endl;
+	_isIn = false;
+	_getche();
+}
+
 void DelState::DelStudentInfo(GradeSystem* system)
 {
 	int tNum = 0;
@@ -474,7 +483,7 @@ void DelState::DelStudentInfo(GradeSystem* system)
 	case 2:
 	{
 		wstring name;
-		cout << "| ÇÐ»ý Á¤º¸ »èÁ¦ | ¹øÈ£ ÀÔ·Â :";
+		cout << "| ÇÐ»ý Á¤º¸ »èÁ¦ | ÀÌ¸§ ÀÔ·Â :";
 		wcin >> name;
 		cout << "======================================================================================" << endl;
 
@@ -484,7 +493,7 @@ void DelState::DelStudentInfo(GradeSystem* system)
 				(ch >= L'A' && ch <= L'Z') ||
 				(ch >= L'°¡' && ch <= L'ÆR')))
 			{
-				ErrorPrint();
+				ErrorPrint2();
 				return;
 			}
 		}
@@ -497,7 +506,7 @@ void DelState::DelStudentInfo(GradeSystem* system)
 		else
 		{
 			cout << "ÇØ´ç ÇÏ´Â ÀÌ¸§ÀÇ ÇÐ»ý Á¤º¸°¡ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù." << endl;
-			ErrorPrint();
+			ErrorPrint2();
 		}
 
 		break;
@@ -997,6 +1006,15 @@ void SearchState::ErrorPrint()
 	_getche();
 }
 
+void SearchState::ErrorPrint2()
+{
+	cout << "============================= ¿Ã¹Ù¸¥ ÀÌ¸§À» ÀÔ·ÂÇØÁÖ¼¼¿ä. ============================" << endl;
+	cout << "========================= ¾Æ¹« Å°³ª ´©¸£¸é Ã³À½À¸·Î µ¹¾Æ°©´Ï´Ù =======================" << endl;
+	cout << endl;
+	_isIn = false;
+	_getche();
+}
+
 void SearchState::SearchStudentInfo(GradeSystem* system)
 {
 	int num = 0;
@@ -1052,7 +1070,7 @@ void SearchState::SearchStudentInfo(GradeSystem* system)
 				(ch >= L'A' && ch <= L'Z') ||
 				(ch >= L'°¡' && ch <= L'ÆR')))
 			{
-				ErrorPrint();
+				ErrorPrint2();
 				return;
 			}
 		}
@@ -1064,7 +1082,7 @@ void SearchState::SearchStudentInfo(GradeSystem* system)
 		else
 		{
 			cout << "ÇØ´ç ÇÏ´Â ÀÌ¸§ÀÇ ÇÐ»ý Á¤º¸°¡ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù." << endl;
-			ErrorPrint();
+			ErrorPrint2();
 		}
 		break;
 	}
