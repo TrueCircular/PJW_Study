@@ -1,0 +1,151 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Info&lt;T&gt;" Collapsed="true">
+    <Position X="0.75" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAAAAAAABAAABAAAAAAAAgAAAAAEAAAAA=</HashCode>
+      <FileName>script\gradeList\GradeList.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GradeList&lt;T, N&gt;" Collapsed="true">
+    <Position X="2.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACCAAAAAACAQACAQCIAAAAAQAABAIBgAQAABQAIJAAA=</HashCode>
+      <FileName>script\gradeList\GradeList.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SystemState" Collapsed="true">
+    <Position X="10.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAIAAAAAAAAAAAACAAAAAAAAAAIAAEAAI=</HashCode>
+      <FileName>script\systemState\SystemState.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ViewState" Collapsed="true">
+    <Position X="5.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAAQAAAAAAAAAAAAAABAAFAAI=</HashCode>
+      <FileName>script\systemState\SystemState.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AddState" Collapsed="true">
+    <Position X="9.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAAAAAAAAAACAACAAAAAAAEAAAAAAECAM=</HashCode>
+      <FileName>script\systemState\SystemState.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DelState" Collapsed="true">
+    <Position X="14.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAACAAAAAAAAACAAAAAAAIAAAMAAAAAUAAI=</HashCode>
+      <FileName>script\systemState\SystemState.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SearchState" Collapsed="true">
+    <Position X="18.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BEAAAAAAAAAiAAAAAAAAACAAAAAAAAAAGAAAAAAEAAI=</HashCode>
+      <FileName>script\systemState\SystemState.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LoadState" Collapsed="true">
+    <Position X="3" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAUAAAAAAAAAIACAAAAIAAABAAAAAAAAEAAI=</HashCode>
+      <FileName>script\systemState\SystemState.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SaveState" Collapsed="true">
+    <Position X="7.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAEAAI=</HashCode>
+      <FileName>script\systemState\SystemState.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ExitState" Collapsed="true">
+    <Position X="12" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAEAAI=</HashCode>
+      <FileName>script\systemState\SystemState.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MainState" Collapsed="true">
+    <Position X="16.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAEAAI=</HashCode>
+      <FileName>script\systemState\SystemState.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DynamicArray&lt;T&gt;" Collapsed="true">
+    <Position X="0.75" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAACAAAAAAAECIEAAAAQAAEAAAAAAAEAAAIAEAA=</HashCode>
+      <FileName>script\gradeSystem\GradeSystem.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GradeSystem" Collapsed="true">
+    <Position X="4.25" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABEAABCYQAEAACAEACAIQAAAAAIQgBEACAAIABgI=</HashCode>
+      <FileName>script\gradeSystem\GradeSystem.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="Gsys::sData" Collapsed="true">
+    <Position X="0.75" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAYAAAAEAAAIAAgAAkAQAABAAAAAAAAAAgAAgAAAA=</HashCode>
+      <FileName>script\gradeSystem\GradeSystem.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Enum Name="Gsys::E_SortingType" Collapsed="true">
+    <Position X="4.25" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAgAAAAAABAQAAEAAAAAAAAAAAAAAEAEAAAAAAA=</HashCode>
+      <FileName>script\gradeSystem\GradeSystem.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Gsys::E_Sort" Collapsed="true">
+    <Position X="2.5" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAgAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>script\gradeSystem\GradeSystem.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Gsys::E_SaveMode" Collapsed="true">
+    <Position X="4.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAIAAAAABAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>script\gradeSystem\GradeSystem.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Gsys::E_SaveType" Collapsed="true">
+    <Position X="0.75" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAIAAAAAA=</HashCode>
+      <FileName>script\gradeSystem\GradeSystem.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Gsys::E_LoadMode" Collapsed="true">
+    <Position X="0.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAAAAAAAAAAQAAAAAAAAAAAA=</HashCode>
+      <FileName>script\gradeSystem\GradeSystem.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Gsys::E_LoadType" Collapsed="true">
+    <Position X="2.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAIAABAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>script\gradeSystem\GradeSystem.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Gsys::E_SysState" Collapsed="true">
+    <Position X="0.75" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAABAAAABAAAEAAAQAAAACAAAAAAAAAAAQCAAAAAQA=</HashCode>
+      <FileName>script\gradeSystem\GradeSystem.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="맑은 고딕" Size="9" />
+</ClassDiagram>
