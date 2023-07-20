@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="Info&lt;T&gt;">
-    <Position X="31.5" Y="3.75" Width="1.5" />
+    <Position X="30.25" Y="3" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAABAAAAAAAAABAAABAAAAAAAAgAAAAAEAAAAA=</HashCode>
       <FileName>script\gradeList\GradeList.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="GradeList&lt;T, N&gt;">
-    <Position X="33.25" Y="3.75" Width="1.5" />
+    <Position X="32" Y="3" Width="1.5" />
     <NestedTypes>
       <Typedef Name="GradeList&lt;T, N&gt;::Sorting_Fun" Collapsed="true">
         <TypeIdentifier>
@@ -111,7 +111,7 @@
     </TypeIdentifier>
   </Class>
   <Struct Name="Gsys::sData">
-    <Position X="35" Y="3.75" Width="1.5" />
+    <Position X="33.75" Y="3" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAYAAAAEAAAIAAgAAkAQAABAAAAAAAAAAgAAgAAAA=</HashCode>
       <FileName>script\gradeSystem\GradeSystem.h</FileName>
