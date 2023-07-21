@@ -146,6 +146,7 @@
     <ClCompile Include="Scripts\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Myheaders.h" />
     <ClInclude Include="Scripts\MyEnums.h" />
     <ClInclude Include="Scripts\QNode\QNode.h" />
     <ClInclude Include="Scripts\QObject\QObject.h" />

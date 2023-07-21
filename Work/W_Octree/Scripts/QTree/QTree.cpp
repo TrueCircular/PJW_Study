@@ -25,6 +25,10 @@ bool QTree::Release()
 	return false;
 }
 
+void QTree::SetDefault()
+{
+}
+
 void QTree::BuildTree()
 {
 }
@@ -36,4 +40,12 @@ void QTree::AddObject(E_ObjectType eType)
 QNode* QTree::FindNode(QObject* fObj)
 {
 	return nullptr;
+}
+
+void QTree::PreOrder()
+{
+}
+
+void QTree::LevelOrder()
+{
 }

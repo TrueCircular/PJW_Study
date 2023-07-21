@@ -1,8 +1,13 @@
 #pragma once
 #include<Windows.h>
 #include<iostream>
+#include<string>
+#include<queue>
+#include<vector>
 #include<math.h>
+#include"MyEnums.h"
 #pragma comment(lib, "winmm.lib") //timeGetTime()
+
 #define randstep(fmin, fmax) ((float)fmin+((float)fmax-(float)fmin)* rand() / RAND_MAX)
 
 using namespace std;
@@ -323,6 +328,51 @@ struct TBox : public TFloat3
     TPoint3 v;
     TPoint3 s;
 
+    bool operator == (TBox& box)
+    {
+        if (fabs(m_fx - box.m_fx) > 0.0001f)
+        {
+            if (fabs(m_fy - box.m_fy) > 0.0001f)
+            {
+                if (fabs(m_fz - box.m_fz) > 0.0001f)
+                {
+                    if (fabs(m_fWidth - box.m_fWidth) > 0.0001f)
+                    {
+                        if (fabs(m_fHeight - box.m_fHeight) > 0.0001f)
+                        {
+                            if (fabs(m_fDepth - box.m_fDepth) > 0.0001f)
+                            {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+    bool operator != (TBox& box)
+    {
+        return !(*this == box);
+    }
+    TBox operator + (TBox& p)
+    {
+        TBox temp;
+
+        float minX = min(m_fx, p.m_fx);
+        float minY = min(m_fy, p.m_fy);
+        float minZ = min(m_fz, p.m_fz);
+        float maxX = max(m_Point[6].x, p.m_Point[6].x);
+        float maxY = max(m_Point[6].y, p.m_Point[6].y);
+        float maxZ = max(m_Point[6].z, p.m_Point[6].z);
+
+        TPoint3 ptemp = { minX,minY,minZ };
+        TPoint3 ptemp2 = { maxX - minX, maxY - minY, maxZ - minZ };
+
+        temp.Set(ptemp, ptemp2);
+        return temp;
+    }
+
     void Set(float fSizeX, float fSizeY, float fSizeZ)
     {
         m_fWidth = fSizeX;
@@ -371,6 +421,11 @@ struct TBox : public TFloat3
         m_bEnable = true;
         Set(fx, fy, fz, fw, fh, fz);
     }
+    TBox(TPoint3 pos, TPoint3 surface)
+    {
+        m_bEnable = true;
+        Set(pos, surface);
+    }
 };
 class TTimer
 {
@@ -388,48 +443,6 @@ public:
     bool	Render();	// 실시간 랜더링, 드로우
     bool	Release();	// 객체의 소멸 작업
 };
-#pragma region TimerFun
-bool	TTimer::Init()
-{
-    m_fFramePerSecond = 0.0f;
-    m_fGameTimer = 0.0f;
-    m_fSecondPerFrame = 0.0f;
-    m_dwBeforeTime = timeGetTime();// tick coounter 1000 => 1초
-    return true;
-}
-bool	TTimer::Frame()
-{
-    DWORD dwCurrentTime = timeGetTime();
-    DWORD dwElapseTime = dwCurrentTime - m_dwBeforeTime;
-    m_fSecondPerFrame = dwElapseTime / 1000.0f;
-    m_fGameTimer += m_fSecondPerFrame;
-    m_dwBeforeTime = dwCurrentTime;
-
-    m_fFramePerSecond += m_fSecondPerFrame;
-    return true;
-}
-int   TTimer::GetFPS()
-{
-    static int iFPS = 0;
-    if (m_fFramePerSecond >= 1.0f)
-    {
-        m_iFPS = iFPS;
-        iFPS = 0;
-        m_fFramePerSecond -= 1.0f;
-    }
-    iFPS++;
-    return m_iFPS;
-}
-bool	TTimer::Render()
-{
-    std::cout << "[FPS]" << GetFPS() << " [GT]" << m_fGameTimer << " [SPF]" << m_fSecondPerFrame << std::endl;
-    return true;
-}
-bool	TTimer::Release()
-{
-    return true;
-}
-#pragma endregion
 class Util
 {
 private:
@@ -449,11 +462,25 @@ public:
 	}
     TTimer* GetTimer() { return _timer; }
 public:
-    inline bool BoxToBox()
+    inline bool BoxToBox(TBox& bx1, TBox& bx2)
     {
+        TBox temp = bx1 + bx2;
+        float wi = bx1.m_fWidth + bx2.m_fWidth;
+        float he = bx1.m_fHeight + bx2.m_fHeight;
+        float de = bx1.m_fDepth + bx2.m_fDepth;
+
+        if (temp.m_fWidth <= wi)
+        {
+            if (temp.m_fHeight <= he)
+            {
+                if (temp.m_fDepth <= de)
+                {
+                    return true;
+                }
+            }
+        }
         return false;
     }
-
     inline bool RectToRect(TRect& rt1, TRect& rt2)
     {
         TRect sum = rt1 + rt2;
@@ -477,6 +504,5 @@ public:
             return true;
         }
         return false;
-
     }
 };

@@ -1,8 +1,6 @@
 #pragma once
 #include"../QNode/QNode.h"
 
-using namespace std;
-
 class QTree
 {
 private:

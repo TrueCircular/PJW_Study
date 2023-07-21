@@ -6,3 +6,12 @@ enum class E_ObjectType
 	OBJECT_DYNAMIC,
 	NONE
 };
+
+enum class E_MoveType
+{
+	MOVE_UP,
+	MOVE_DOWN,
+	MOVE_LEFT,
+	MOVE_RIGHT,
+	NONE
+};

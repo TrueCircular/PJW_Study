@@ -1,5 +1,5 @@
-
-#include"Scripts/QTree/QTree.h"
+#pragma once
+#include"Myheaders.h"
 
 int main()
 {
