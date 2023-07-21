@@ -40,13 +40,10 @@
       <Filter>Scripts\QObject</Filter>
     </ClCompile>
     <ClCompile Include="Scripts\Utils.cpp">
-      <Filter>헤더 파일</Filter>
+      <Filter>Scripts</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Scripts\MyEnums.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Scripts\QTree\QTree.h">
       <Filter>Scripts\QTree</Filter>
     </ClInclude>
@@ -56,11 +53,14 @@
     <ClInclude Include="Scripts\QObject\QObject.h">
       <Filter>Scripts\QObject</Filter>
     </ClInclude>
-    <ClInclude Include="Scripts\Utils.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="Scripts\MyEnums.h">
+      <Filter>Scripts</Filter>
     </ClInclude>
     <ClInclude Include="Myheaders.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Utils.h">
+      <Filter>Scripts</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
