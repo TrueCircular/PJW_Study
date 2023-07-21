@@ -1,13 +1,18 @@
 #include "QObject.h"
 
-void QStaticObject::move(E_ObjectType oType, E_MoveType mType, float second)
-{
-}
-
 void QDynamicObject::SetTarget(TPoint3& tPos)
 {
 }
 
-void QDynamicObject::move(E_ObjectType oType, E_MoveType mType, float second)
+void QDynamicObject::Move(E_MoveType mType, float second)
 {
+}
+
+void QDynamicObject::MoveToTarget(TPoint3& tPos, float second)
+{
+}
+
+void QObject::SetObject(TPoint3& pos, TPoint3& surface)
+{
+	_box.Set(pos, surface);
 }

@@ -9,6 +9,8 @@ enum class E_ObjectType
 
 enum class E_MoveType
 {
+	MOVE_FORWARD,
+	MOVE_BACK,
 	MOVE_UP,
 	MOVE_DOWN,
 	MOVE_LEFT,
