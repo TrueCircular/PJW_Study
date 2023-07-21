@@ -13,5 +13,51 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Scripts">
+      <UniqueIdentifier>{85ea5874-e455-4c0c-b5ae-dfb6bf7310ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\QTree">
+      <UniqueIdentifier>{5afb99eb-e1d1-4ce6-9e66-4d669a25e334}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\QNode">
+      <UniqueIdentifier>{7fc5ef53-1311-4faa-b739-f2a331f2ee9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\QObject">
+      <UniqueIdentifier>{25ce8751-e535-4e5d-8c5f-160bcb83acb0}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Main.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\QTree\QTree.cpp">
+      <Filter>Scripts\QTree</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\QNode\QNode.cpp">
+      <Filter>Scripts\QNode</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\QObject\QObject.cpp">
+      <Filter>Scripts\QObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Utils.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Scripts\MyEnums.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\QTree\QTree.h">
+      <Filter>Scripts\QTree</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\QNode\QNode.h">
+      <Filter>Scripts\QNode</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\QObject\QObject.h">
+      <Filter>Scripts\QObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Utils.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
