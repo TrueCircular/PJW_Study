@@ -5,4 +5,4 @@
 #include "Scripts/QNode/QNode.h"
 #include "Scripts/QTree/QTree.h"
 #pragma comment(lib, "winmm.lib") //timeGetTime()
-Util* Util::_uinstance = nullptr;
+Util* Util::_instance = nullptr;
