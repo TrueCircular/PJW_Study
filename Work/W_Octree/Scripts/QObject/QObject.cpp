@@ -76,6 +76,10 @@ void QDynamicObject::MoveToTarget(TPoint3& tPos, float second)
 		TPoint3 velocity = tDir * _speed * second;
 		_position += velocity;
 	}
+	else
+	{
+		cout << "목표에 도달 했습니다." << endl;
+	}
 }
 
 void QObject::SetObject(TPoint3& pos, TPoint3& surface)
