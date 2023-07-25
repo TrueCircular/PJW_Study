@@ -69,7 +69,7 @@ void QDynamicObject::MoveToTarget(TPoint3& tPos, float second)
 	TPoint3 tDir = _position - _target;
 	//거리, 정규화
 	float dist = Util::GetInstance()->GetLength(tDir);
-	tDir = Util::GetInstance()->Normalize(tDir);
+	Util::GetInstance()->Normalize(tDir);
 	//이동
 	if (dist > 12.f)
 	{

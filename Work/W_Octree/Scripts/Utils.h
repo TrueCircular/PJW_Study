@@ -515,11 +515,9 @@ public:
         return false;
     }
 
-    TPoint3 Normalize(TPoint3 vec3)
+    void Normalize(TPoint3& vec3)
     {
         vec3 /= sqrt(vec3.x * vec3.x + vec3.y * vec3.y + vec3.z * vec3.z);
-
-        return vec3;
     }
     float GetLength(TPoint3& vec3)
     {
