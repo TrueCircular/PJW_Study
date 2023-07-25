@@ -454,10 +454,10 @@ class Util
 {
 private:
     static Util*    _instance;
-    TTimer* _timer;
+    TTimer*         _timer;
+private:
     Util() : _timer(new TTimer()) {}
     ~Util() { delete _timer; }
-
 public:
     Util(Util const&) = delete;
     Util& operator=(Util const&) = delete;
