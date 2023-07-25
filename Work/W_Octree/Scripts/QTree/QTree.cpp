@@ -10,7 +10,7 @@ QNode* QTree::CreateNode(QNode* parent, SpaceData data)
 
 void QTree::Build(QNode* node)
 {
-	if (node->_depth > 3)
+	if (node->_depth > 2)
 		return;
 
 	TPoint3 vTC1 = { node->_box.m_Center.x, node->_box.m_Point[0].y,
