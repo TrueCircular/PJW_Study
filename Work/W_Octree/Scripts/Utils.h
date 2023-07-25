@@ -515,15 +515,11 @@ public:
         return false;
     }
 
-    TPoint3 Normalize(TPoint3& vec3)
+    TPoint3 Normalize(TPoint3 vec3)
     {
-        float xtemp = vec3.x / sqrt(vec3.x * vec3.x + vec3.y * vec3.y + vec3.z * vec3.z);
-        float ytemp = vec3.y / sqrt(vec3.x * vec3.x + vec3.y * vec3.y + vec3.z * vec3.z);
-        float ztemp = vec3.z / sqrt(vec3.x * vec3.x + vec3.y * vec3.y + vec3.z * vec3.z);
+        vec3 /= sqrt(vec3.x * vec3.x + vec3.y * vec3.y + vec3.z * vec3.z);
 
-        TPoint3 nomal = { xtemp, ytemp, ztemp };
-
-        return nomal;
+        return vec3;
     }
     float GetLength(TPoint3& vec3)
     {
