@@ -453,7 +453,7 @@ public:
 class Util
 {
 private:
-    static Util*    _uinstance;
+    static Util*    _instance;
     TTimer* _timer;
     Util() : _timer(new TTimer()) {}
     ~Util() { delete _timer; }
@@ -464,10 +464,10 @@ public:
 
 	static Util* GetInstance()
 	{
-        if (_uinstance == nullptr)
-            _uinstance = new Util();
+        if (_instance == nullptr)
+            _instance = new Util();
 
-		return _uinstance;
+		return _instance;
 	}
     TTimer* GetTimer() { if (_timer == nullptr) _timer = new TTimer(); return _timer; }
 public:

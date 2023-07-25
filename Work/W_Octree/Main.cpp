@@ -1,7 +1,6 @@
 #pragma once
 #include"Myheaders.h"
 
-
 int main()
 {
 	vector<QObject*> StaticObjList;
