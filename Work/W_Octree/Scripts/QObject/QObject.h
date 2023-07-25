@@ -12,7 +12,6 @@ public:
 	virtual ~QObject() {}
 public:
 	void SetObject(TPoint3& pos, TPoint3& surface);
-	virtual void SetTarget(TPoint3& tPos) = 0;
 	virtual void Move(E_MoveType mType, float second) = 0;
 	virtual void MoveToTarget(TPoint3& tPos, float second) = 0;
 };
@@ -40,7 +39,6 @@ public:
 		_dirArray[5] = { 1,0,0 };
 	}
 public:
-	void SetTarget(TPoint3& tPos) override;
 	void Move(E_MoveType mType, float second) override;
 	void MoveToTarget(TPoint3& tPos, float second) override;
 };
