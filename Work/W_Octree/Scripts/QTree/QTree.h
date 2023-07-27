@@ -24,6 +24,8 @@ private:
 	vector<QNode*>	_nodeList;
 	SpaceData		_sData;
 	bool			_isDataSet = false;
+	set<QNode*>		_staticObjNode;
+	set<QNode*>		_dynamicObjNode;
 private:
 	QNode*	CreateNode(QNode* parent, SpaceData data);
 	void	Build(QNode* node);
@@ -36,17 +38,18 @@ public:
 	bool	Init();
 	bool	PreFrame();
 	bool	Frame();
+	bool	PostFrame();
 	bool	Render();
 	bool	Release();
 public:
 	void	BuildTree();
-	void	AddObject(E_ObjectType eType);
+	void	AddObject(E_ObjectType eType, QObject* obj);
 	QNode*	FindNode(QObject* fObj);
 public:
 	void	PreOrder();
 	void	LevelOrder();
 public:
 	QNode*	GetRootNode()const { return _root; }
-	void	SetSpaceData(SpaceData data) { _sData = data; }
+	void	SetSpaceData(SpaceData data) { _sData = data; _isDataSet = true; }
 };
 

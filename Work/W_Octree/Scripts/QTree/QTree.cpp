@@ -10,7 +10,7 @@ QNode* QTree::CreateNode(QNode* parent, SpaceData data)
 
 void QTree::Build(QNode* node)
 {
-	if (node->_depth > 2)
+	if (node->_depth > 1)
 		return;
 
 	TPoint3 vTC1 = { node->_box.m_Center.x, node->_box.m_Point[0].y,
@@ -51,7 +51,7 @@ void QTree::Build(QNode* node)
 	nodebox.pos = vLC2;
 	AddNodeToTree(node, nodebox);
 
-	PrintNode(node);
+	//PrintNode(node);
 
 	for (int i = 0; i < node->_child.size(); i++)
 	{
@@ -90,11 +90,49 @@ bool QTree::Init()
 
 bool QTree::PreFrame()
 {
+	for (auto n : _dynamicObjNode)
+	{
+		n->_dynamicObj.clear();
+	}
+
+
+	_dynamicObjNode.clear();
 	return true;
 }
 
 bool QTree::Frame()
 {
+	if (_dynamicObjNode.size() > 0)
+	{
+		for (auto a : _dynamicObjNode)
+		{
+			if (a->_staticObj.size() > 0)
+			{
+				for (auto b : a->_staticObj)
+				{
+				}
+			}
+		}
+	}
+	return true;
+}
+
+bool QTree::PostFrame()
+{
+	for (auto n : _dynamicObjNode)
+	{
+		for (auto c : n->_dynamicObj)
+		{
+			c->_isCollision = false;
+		}
+	}
+	for (auto n : _staticObjNode)
+	{
+		for (auto c : n->_staticObj)
+		{
+			c->_isCollision = false;
+		}
+	}
 	return true;
 }
 
@@ -106,6 +144,7 @@ bool QTree::Render()
 bool QTree::Release()
 {
 	delete _root;
+	_isDataSet = false;
 
 	return true;
 }
@@ -116,13 +155,62 @@ void QTree::BuildTree()
 	Build(_root);
 }
 
-void QTree::AddObject(E_ObjectType eType)
+void QTree::AddObject(E_ObjectType eType, QObject* obj)
 {
+	switch (eType)
+	{
+	case E_ObjectType::OBJECT_STATIC:
+	{
+		QNode* toAddNode = FindNode(obj);
+		if (toAddNode != nullptr)
+		{
+			obj->_nodeIndex = toAddNode->_index;
+			toAddNode->_staticObj.push_back(obj);
+			_staticObjNode.insert(toAddNode);
+		}
+		break;
+	}
+	case E_ObjectType::OBJECT_DYNAMIC:
+	{
+		QNode* toAddNode = FindNode(obj);
+		if (toAddNode != nullptr)
+		{
+			obj->_nodeIndex = toAddNode->_index;
+			toAddNode->_dynamicObj.push_back(obj);
+			_dynamicObjNode.insert(toAddNode);
+		}
+		break;
+	}
+	}
+
 }
 
 QNode* QTree::FindNode(QObject* fObj)
 {
-	return nullptr;
+	if (_root == nullptr) return nullptr;
+
+	QNode* temp = _root;
+
+	do
+	{
+		for (int i = 0; i < temp->_child.size(); i++)
+		{
+			if (temp->_child[i] != nullptr)
+			{
+				if (Util::GetInstance()->BoxToBox(temp->_child[i]->_box, fObj->_box))
+				{
+					_queue.push(temp->_child[i]);
+					break;
+				}
+			}
+		}
+		if (_queue.empty()) break;
+		temp = _queue.front();
+		_queue.pop();
+
+	} while (temp);
+
+	return temp;
 }
 
 void QTree::PreOrder()

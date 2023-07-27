@@ -1,6 +1,7 @@
 #pragma once
 #include<Windows.h>
 #include<iostream>
+#include<conio.h>
 #include<string>
 #include<queue>
 #include<vector>
@@ -454,7 +455,7 @@ class Util
 {
 private:
     static Util*    _instance;
-    TTimer*         _timer;
+    TTimer* _timer = new TTimer();
 private:
     Util() : _timer(new TTimer()) {}
     ~Util() { delete _timer; }
@@ -469,7 +470,7 @@ public:
 
 		return _instance;
 	}
-    TTimer* GetTimer() { if (_timer == nullptr) _timer = new TTimer(); return _timer; }
+    TTimer* GetTimer() { return _timer; }
 public:
     bool BoxToBox(TBox& bx1, TBox& bx2)
     {
