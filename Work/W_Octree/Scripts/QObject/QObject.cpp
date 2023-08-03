@@ -5,7 +5,6 @@ bool QDynamicObject::CollisionCheck()
 	if (_isCollision)
 	{
 		cout << "물체에 충돌했습니다." << endl;
-		_isCollision = false;
 		return false;
 	}
 
@@ -15,9 +14,9 @@ bool QDynamicObject::CollisionCheck()
 		cout << "벽에 부딛혔습니다." << endl;
 		return false;
 	}
-	else if (_position.x > 600.f)
+	if (_position.x > 600.f)
 	{
-		_position.x = 600.f - _box.v.x;
+		_position.x = 600.f;
 		cout << "벽에 부딛혔습니다." << endl;
 
 		return false;
@@ -29,13 +28,12 @@ bool QDynamicObject::CollisionCheck()
 
 		return false;
 	}
-	else if (_position.y > 600.f)
+	if (_position.y > 600.f)
 	{
-		_position.y = 600.f - _box.v.y;
+		_position.y = 600.f;
 		cout << "벽에 부딛혔습니다." << endl;
 		return false;
 	}
-
 	if (_position.z < 0.f)
 	{
 		_position.z = 0.f;
@@ -44,7 +42,7 @@ bool QDynamicObject::CollisionCheck()
 	}
 	if (_position.z > 600.f)
 	{
-		_position.z = 600.f - _box.v.z;
+		_position.z = 600.f;
 		cout << "벽에 부딛혔습니다." << endl;
 		return false;
 	}
@@ -70,7 +68,6 @@ void QDynamicObject::Move(E_MoveType mType, float second)
 		cout << "뒤로 이동하였습니다." << endl;
 		break;
 	}
-
 	case E_MoveType::MOVE_UP:
 	{
 		_dir = _dirArray[2];
@@ -108,12 +105,16 @@ void QDynamicObject::Move(E_MoveType mType, float second)
 	default:
 		break;
 	}
+
+	TPoint3 velocity = _dir * _speed * second;
+	_position = _position + velocity;
+
 	if (CollisionCheck())
 	{
-		TPoint3 velocity = _dir * _speed * second;
-		_position = _position + velocity;
 		_box.Set(_position, _box.s);
 	}
+	
+
 }
 
 void QDynamicObject::MoveToTarget(TPoint3& tPos, float second)

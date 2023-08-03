@@ -42,7 +42,7 @@ private:
 public:
 	QDynamicObject()
 	{
-		_speed = 10.0f;
+		_speed = 50.0f;
 		_dirArray[0] = { 0,0,1 };
 		_dirArray[1] = { 0,0,-1 };
 		_dirArray[2] = { 0,1,0 };

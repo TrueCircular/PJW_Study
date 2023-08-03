@@ -28,9 +28,9 @@ void StaticObjSet(QTree& tree, vector<QObject*>& StaticObjList)
 		sObject->_name += to_wstring(i+1);
 		sObject->_name += L"]";
 
-		sObject->_position = { (float)(rand() % width),
-							   (float)(rand() % height),
-							   (float)(rand() % depth) };
+		sObject->_position = { (float)(rand() % width) + 1,
+							   (float)(rand() % height) + 1,
+							   (float)(rand() % depth) + 1 };
 		TPoint3 sPoint = { 10.f, 10.f, 10.f };
 		sObject->SetObject(sObject->_position, sPoint);
 
@@ -45,6 +45,43 @@ void StaticObjSet(QTree& tree, vector<QObject*>& StaticObjList)
 	//test->SetObject(test->_position, tpo);
 	//tree.AddObject(E_ObjectType::OBJECT_STATIC, test);
 	//StaticObjList.push_back(test);
+}
+void ObjectMove(int a, QObject* user) {
+	switch (a)
+	{
+	case 1:
+	{
+		user->Move(E_MoveType::MOVE_FORWARD, 1.f);
+		break;
+	}
+	case 2:
+	{
+		user->Move(E_MoveType::MOVE_BACK, 1.f);
+		break;
+	}
+	case 3:
+	{
+		user->Move(E_MoveType::MOVE_UP, 1.f);
+		break;
+	}
+	case 4:
+	{
+		user->Move(E_MoveType::MOVE_DOWN, 1.f);
+		break;
+	}
+	case 5:
+	{
+		user->Move(E_MoveType::MOVE_LEFT, 1.f);
+		break;
+	}
+	case 6:
+	{
+		user->Move(E_MoveType::MOVE_RIGHT, 1.f);
+		break;
+	}
+	default:
+		break;
+	}
 }
 
 int main()
@@ -100,43 +137,8 @@ int main()
 		cout << "===========================" << endl;
 		cout << "동적 오브젝트 이동 : [1]앞 [2]뒤 [3]위 [4]아래 [5]왼쪽 [6]오른쪽 :";
 		cin >> sel;
-		switch (sel)
-		{
-		case 1:
-		{
-			user->Move(E_MoveType::MOVE_FORWARD, 1.f);
-			break;
-		}
-		case 2:
-		{
-			user->Move(E_MoveType::MOVE_BACK, 1.f);
-			break;
-		}
-		case 3:
-		{
-			user->Move(E_MoveType::MOVE_UP, 1.f);
-			break;
-		}
-		case 4:
-		{
-			user->Move(E_MoveType::MOVE_DOWN, 1.f);
-			break;
-		}
-		case 5:
-		{
-			user->Move(E_MoveType::MOVE_LEFT, 1.f);
-			break;
-		}
-		case 6:
-		{
-			user->Move(E_MoveType::MOVE_RIGHT, 1.f);
-			break;
-		}
-		default:
-			break;
-		}
+		ObjectMove(sel, user);
 		cout << "===========================" << endl;
-		mTimer->Render();
 		_getche();
 
 		ocTree.PostFrame();
