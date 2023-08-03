@@ -7,6 +7,7 @@ public:
 	int				_nodeIndex = 0;
 	wstring			_name;
 	TPoint3			_position;
+	TPoint3			_prevPos;
 	TBox			_box;
 	bool			_isCollision = false;
 	E_ObjectType	_oType;
@@ -42,7 +43,7 @@ private:
 public:
 	QDynamicObject()
 	{
-		_speed = 50.0f;
+		_speed = 10.0f;
 		_dirArray[0] = { 0,0,1 };
 		_dirArray[1] = { 0,0,-1 };
 		_dirArray[2] = { 0,1,0 };

@@ -131,9 +131,9 @@ int main()
 		cout << "===========================" << endl;
 		cout << "====== 동적 오브젝트 ======" << endl;
 		wcout << L"=" << user->_name <<
-			L" X:" << user->_box.m_fx <<
-			L" Y:" << user->_box.m_fy <<
-			L" Z:" << user->_box.m_fz << endl;
+			L" X:" << user->_box.v.x <<
+			L" Y:" << user->_box.v.y <<
+			L" Z:" << user->_box.v.z << endl;
 		cout << "===========================" << endl;
 		cout << "동적 오브젝트 이동 : [1]앞 [2]뒤 [3]위 [4]아래 [5]왼쪽 [6]오른쪽 :";
 		cin >> sel;

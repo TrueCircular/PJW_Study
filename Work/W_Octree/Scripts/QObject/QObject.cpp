@@ -5,44 +5,45 @@ bool QDynamicObject::CollisionCheck()
 	if (_isCollision)
 	{
 		cout << "¹°Ã¼¿¡ Ãæµ¹Çß½À´Ï´Ù." << endl;
+		_position = _prevPos;
 		return false;
 	}
 
 	if (_position.x < 0.f)
 	{
-		_position.x = 0.f;
+		_position = _prevPos;
 		cout << "º®¿¡ ºÎµóÇû½À´Ï´Ù." << endl;
 		return false;
 	}
 	if (_position.x > 600.f)
 	{
-		_position.x = 600.f;
+		_position = _prevPos;
 		cout << "º®¿¡ ºÎµóÇû½À´Ï´Ù." << endl;
 
 		return false;
 	}
 	if (_position.y < 0.f)
 	{
-		_position.y = 0.f;
+		_position = _prevPos;
 		cout << "º®¿¡ ºÎµóÇû½À´Ï´Ù." << endl;
 
 		return false;
 	}
 	if (_position.y > 600.f)
 	{
-		_position.y = 600.f;
+		_position = _prevPos;
 		cout << "º®¿¡ ºÎµóÇû½À´Ï´Ù." << endl;
 		return false;
 	}
 	if (_position.z < 0.f)
 	{
-		_position.z = 0.f;
+		_position = _prevPos;
 		cout << "º®¿¡ ºÎµóÇû½À´Ï´Ù." << endl;
 		return false;
 	}
 	if (_position.z > 600.f)
 	{
-		_position.z = 600.f;
+		_position = _prevPos;
 		cout << "º®¿¡ ºÎµóÇû½À´Ï´Ù." << endl;
 		return false;
 	}
@@ -105,16 +106,14 @@ void QDynamicObject::Move(E_MoveType mType, float second)
 	default:
 		break;
 	}
-
 	TPoint3 velocity = _dir * _speed * second;
+	_prevPos = _position;
 	_position = _position + velocity;
 
 	if (CollisionCheck())
 	{
 		_box.Set(_position, _box.s);
 	}
-	
-
 }
 
 void QDynamicObject::MoveToTarget(TPoint3& tPos, float second)

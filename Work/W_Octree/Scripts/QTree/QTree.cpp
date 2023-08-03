@@ -90,20 +90,6 @@ bool QTree::Init()
 
 bool QTree::PreFrame()
 {
-	//for (auto n : _dynamicObjNode)
-	//{
-	//	for (auto c : n->_dynamicObj)
-	//	{
-	//		c->_isCollision = false;
-	//	}
-	//}
-	//for (auto n : _staticObjNode)
-	//{
-	//	for (auto c : n->_staticObj)
-	//	{
-	//		c->_isCollision = false;
-	//	}
-	//}
 	for (auto n : _dynamicObjNode)
 	{
 		n->_dynamicObj.clear();
@@ -119,6 +105,26 @@ bool QTree::Frame()
 	if (_dynamicObjNode.size() > 0 &&
 		_staticObjNode.size() > 0)
 	{
+		QObject* mObj = nullptr;
+		for (auto a : _dynamicObjNode)
+		{
+			mObj = a->_dynamicObj[0];
+		}
+
+		if (mObj != nullptr)
+		{
+			for (auto a : _staticObjNode)
+			{
+				for (int i = 0; i < a->_staticObj.size(); i++)
+				{
+					if (Util::GetInstance()->BoxToBox(a->_staticObj[i]->_box, mObj->_box))
+					{
+						a->_staticObj[i]->_isCollision = true;
+						mObj->_isCollision = true;
+					}
+				}
+			}
+		}
 
 	}
 	return true;
@@ -126,7 +132,6 @@ bool QTree::Frame()
 
 bool QTree::PostFrame()
 {
-
 	return true;
 }
 
