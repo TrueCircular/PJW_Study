@@ -117,11 +117,8 @@ bool QTree::Frame()
 			{
 				for (int i = 0; i < a->_staticObj.size(); i++)
 				{
-					if (Util::GetInstance()->BoxToBox(a->_staticObj[i]->_box, mObj->_box))
-					{
-						a->_staticObj[i]->_isCollision = true;
-						mObj->_isCollision = true;
-					}
+					if (mObj->Collision(a->_staticObj[i]->_box))
+						break;	
 				}
 			}
 		}

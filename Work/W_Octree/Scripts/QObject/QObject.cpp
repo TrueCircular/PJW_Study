@@ -5,50 +5,54 @@ bool QDynamicObject::CollisionCheck()
 	if (_isCollision)
 	{
 		cout << "¹°Ã¼¿¡ Ãæµ¹Çß½À´Ï´Ù." << endl;
-		_position = _prevPos;
-		return false;
+		_isCollision = false;
+		return true;
 	}
 
 	if (_position.x < 0.f)
 	{
-		_position = _prevPos;
 		cout << "º®¿¡ ºÎµóÇû½À´Ï´Ù." << endl;
-		return false;
+		_isCollision = false;
+
+		return true;
 	}
 	if (_position.x > 600.f)
 	{
-		_position = _prevPos;
 		cout << "º®¿¡ ºÎµóÇû½À´Ï´Ù." << endl;
+		_isCollision = false;
 
-		return false;
+		return true;
 	}
 	if (_position.y < 0.f)
 	{
-		_position = _prevPos;
 		cout << "º®¿¡ ºÎµóÇû½À´Ï´Ù." << endl;
+		_isCollision = false;
 
-		return false;
+		return true;
 	}
 	if (_position.y > 600.f)
 	{
-		_position = _prevPos;
 		cout << "º®¿¡ ºÎµóÇû½À´Ï´Ù." << endl;
-		return false;
+		_isCollision = false;
+
+		return true;
 	}
 	if (_position.z < 0.f)
 	{
-		_position = _prevPos;
 		cout << "º®¿¡ ºÎµóÇû½À´Ï´Ù." << endl;
-		return false;
+		_isCollision = false;
+
+		return true;
 	}
 	if (_position.z > 600.f)
 	{
-		_position = _prevPos;
 		cout << "º®¿¡ ºÎµóÇû½À´Ï´Ù." << endl;
-		return false;
+		_isCollision = false;
+
+		return true;
 	}
 
-	return true;
+	return false;
 }
 
 void QDynamicObject::Move(E_MoveType mType, float second)
@@ -112,6 +116,61 @@ void QDynamicObject::Move(E_MoveType mType, float second)
 
 	if (CollisionCheck())
 	{
+		switch (mType)
+		{
+		case E_MoveType::MOVE_FORWARD:
+		{
+			_position = _prevPos;
+			_position.z -= 10.f;
+			_box.Set(_position, _box.s);
+			break;
+		}
+		case E_MoveType::MOVE_BACK:
+		{
+			_position = _prevPos;
+
+			_position.z += 10.f;
+			_box.Set(_position, _box.s);
+			break;
+		}
+		case E_MoveType::MOVE_UP:
+		{
+			_position = _prevPos;
+
+			_position.y -= 10.f;
+			_box.Set(_position, _box.s);
+			break;
+		}
+		case E_MoveType::MOVE_DOWN:
+		{
+			_position = _prevPos;
+
+			_position.y += 10.f;
+			_box.Set(_position, _box.s);
+			break;
+		}
+		case E_MoveType::MOVE_LEFT:
+		{
+			_position = _prevPos;
+
+			_position.x += 10.f;
+			_box.Set(_position, _box.s);
+			break;
+		}
+		case E_MoveType::MOVE_RIGHT:
+		{
+			_position = _prevPos;
+
+			_position.x -= 10.f;
+			_box.Set(_position, _box.s);
+			break;
+		}
+		default:
+			break;
+		}
+	}
+	else
+	{	
 		_box.Set(_position, _box.s);
 	}
 }
@@ -140,4 +199,14 @@ void QObject::SetObject(TPoint3& pos, TPoint3& surface)
 {
 	_position = pos;
 	_box.Set(pos, surface);
+}
+
+bool QObject::Collision(TBox& compare)
+{
+	if(Util::GetInstance()->BoxToBox(compare, _box))
+	{
+		_isCollision = true;
+		return true;
+	}
+	return false;
 }

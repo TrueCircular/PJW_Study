@@ -8,6 +8,7 @@ public:
 	wstring			_name;
 	TPoint3			_position;
 	TPoint3			_prevPos;
+	TPoint3			_target;
 	TBox			_box;
 	bool			_isCollision = false;
 	E_ObjectType	_oType;
@@ -16,6 +17,7 @@ public:
 	virtual ~QObject() {}
 public:
 	void SetObject(TPoint3& pos, TPoint3& surface);
+	bool Collision(TBox& compare);
 	virtual void Move(E_MoveType mType, float second) = 0;
 	virtual void MoveToTarget(TPoint3& tPos, float second) = 0;
 };
