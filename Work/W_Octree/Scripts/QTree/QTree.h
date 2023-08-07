@@ -46,9 +46,6 @@ public:
 	void	AddObject(E_ObjectType eType, QObject* obj);
 	QNode*	FindNode(QObject* fObj);
 public:
-	void	PreOrder();
-	void	LevelOrder();
-public:
 	QNode*	GetRootNode()const { return _root; }
 	void	SetSpaceData(SpaceData data) { _sData = data; _isDataSet = true; }
 };

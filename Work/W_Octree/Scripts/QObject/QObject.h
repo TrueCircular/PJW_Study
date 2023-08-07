@@ -38,7 +38,6 @@ class QDynamicObject : public QObject
 private:
 	float _speed;
 	TPoint3 _dir;
-	TPoint3 _target;
 	TPoint3 _dirArray[6];
 private:
 	bool CollisionCheck();

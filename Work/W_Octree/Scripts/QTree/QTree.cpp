@@ -51,7 +51,7 @@ void QTree::Build(QNode* node)
 	nodebox.pos = vLC2;
 	AddNodeToTree(node, nodebox);
 
-	//PrintNode(node);
+	PrintNode(node);
 
 	for (int i = 0; i < node->_child.size(); i++)
 	{
@@ -207,12 +207,4 @@ QNode* QTree::FindNode(QObject* fObj)
 	} while (temp);
 
 	return temp;
-}
-
-void QTree::PreOrder()
-{
-}
-
-void QTree::LevelOrder()
-{
 }
