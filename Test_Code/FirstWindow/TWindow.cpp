@@ -40,12 +40,19 @@ bool TWindow::SetWindow(const WCHAR* szTitle, DWORD dwWindowWidth, DWORD dwWindo
 #else
     m_dwExStyle = WS_EX_APPWINDOW;
 #endif // _DEBUG
+
+    RECT size{ 0,0,m_dwWindowWidth,m_dwWindowHeight };
+    AdjustWindowRect(&size, m_dwStyle, FALSE);
+
     m_hWnd = CreateWindowEx(m_dwExStyle, L"KGCAÀ©µµ¿ì", szTitle, m_dwStyle,
-        m_dwWindowPosX, m_dwWindowPosY, dwWindowWidth, dwWindowHeight, nullptr, nullptr, m_hInstance, nullptr);
+        m_dwWindowPosX, m_dwWindowPosY, size.right - size.left, size.bottom - size.top, nullptr, nullptr, m_hInstance, nullptr);
     if (!m_hWnd)
     {
         return FALSE;
     }
+    RECT t = { 0,0,0,0 };
+    GetClientRect(m_hWnd, &t);
+
     ShowWindow(m_hWnd, SW_SHOWNORMAL);
     return true;
 }
