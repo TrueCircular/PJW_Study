@@ -23,7 +23,7 @@ bool TWindow::SetRegisterClassWindow(HINSTANCE hInstance)
     wcex.lpfnWndProc = WndProc;
     wcex.hInstance = hInstance;
     wcex.lpszClassName = L"KGCAÀ©µµ¿ì";
-    wcex.hbrBackground = (HBRUSH)CreateSolidBrush(RGB(255, 0, 0)); //(COLOR_WINDOW + 1);
+    wcex.hbrBackground = (HBRUSH)CreateSolidBrush(RGB(255, 255, 255)); //(COLOR_WINDOW + 1);
     wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
 
     WORD ret = RegisterClassExW(&wcex);

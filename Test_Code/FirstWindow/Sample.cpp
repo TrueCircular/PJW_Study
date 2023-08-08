@@ -1,4 +1,3 @@
-#include <Windows.h>
 #include "Sample.h"
 
 
@@ -26,7 +25,7 @@ bool Sample::Init()
     sDesc.BufferCount = 1;
     sDesc.OutputWindow = m_hWnd;
     sDesc.Windowed = true;
-
+    
     D3D_DRIVER_TYPE driverType = D3D_DRIVER_TYPE_HARDWARE;
     UINT flags = 0;
     D3D_FEATURE_LEVEL featureLevel = D3D_FEATURE_LEVEL_11_0;
@@ -73,8 +72,11 @@ bool Sample::Frame()
 bool Sample::Render()
 { 
     float color[4] = { 0.219f, 0.156f, 0.255f, 1 };
+    //float color2[4] = { 1, 1, 1, 1 };
     m_pImmediateContext->ClearRenderTargetView(m_pRenderTargetView, color);
     HRESULT hr = m_pSwapChain->Present(0, 0);
+    //m_pImmediateContext->ClearRenderTargetView(m_pRenderTargetView, color2);
+    //m_pSwapChain->Present(0, 0);
     if (FAILED(hr))
     {
         return false;
@@ -85,9 +87,16 @@ bool Sample::Render()
 
 bool Sample::Release()
 {
+    if (m_pImmediateContext) m_pImmediateContext->ClearState();
+    if (m_pRenderTargetView) m_pRenderTargetView->Release();
     if (m_pSwapChain) m_pSwapChain->Release();
-    if (m_pDevice) m_pDevice->Release();
     if (m_pImmediateContext) m_pImmediateContext->Release();
+    if (m_pDevice) m_pDevice->Release();
+
+    m_pDevice = NULL;
+    m_pSwapChain = NULL; 
+    m_pRenderTargetView = NULL;
+    m_pImmediateContext = NULL;
 
     return true;
 }
