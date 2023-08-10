@@ -5,11 +5,9 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmd
 {
     Sample mySample;
     mySample.SetRegisterClassWindow(hInstance);
-    mySample.SetWindow(L"나다", 1600, 900);
+    mySample.SetWindow(L"박진원", 1600, 900);
     mySample.Run();
 
-
-    
     return 0;
 }
 
@@ -199,8 +197,7 @@ bool Sample::Init()
                 {
                     return true;
                 }
-            }
-           
+            }         
         }
     }
     return false;
