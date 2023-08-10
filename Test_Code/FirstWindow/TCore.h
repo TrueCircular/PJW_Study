@@ -1,17 +1,17 @@
 #pragma once
-#include "TWindow.h"
-class TCore : public TWindow
+#include "TDevice.h"
+class TCore : public TDevice
 {
 private:
-	virtual bool EngineInit();
-	virtual bool EngineFrame();
-	virtual bool EngineRender();
-	virtual bool EngineRelease();
+	bool EngineInit();
+	bool EngineFrame();
+	bool EngineRender();
+	bool EngineRelease();
 public:
-	virtual bool Init();
-	virtual bool Frame();
-	virtual bool Render();
-	virtual bool Release();
+	bool Init() override;
+	bool Frame() override;
+	bool Render() override;
+	bool Release() override;
 public:
 	bool Run();
 };

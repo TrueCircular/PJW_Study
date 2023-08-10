@@ -5,63 +5,205 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmd
 {
     Sample mySample;
     mySample.SetRegisterClassWindow(hInstance);
-    mySample.SetWindow(L"나다", 800, 600);
+    mySample.SetWindow(L"나다", 1600, 900);
     mySample.Run();
 
+
+    
     return 0;
+}
+
+bool Sample::CreateVertexBuffer()
+{
+    HRESULT hr = S_OK;
+    P3_VERTEX vertices[] =
+    {
+        -0.5f,0.5f,0.5f,
+        0.5f, 0.5f, 0.5f,
+        -0.5f, -0.5f, 0.5f,
+        0.5f, 0.5f, 0.5f,
+        0.5f, -0.5f, 0.5f,
+        -0.5f, -0.5f, 0.5f
+    };
+    D3D11_BUFFER_DESC bd;
+    ZeroMemory(&bd, sizeof(D3D11_BUFFER_DESC));
+    bd.Usage = D3D11_USAGE_DEFAULT;
+    bd.ByteWidth = sizeof(P3_VERTEX) * 6;
+    bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+
+    D3D11_SUBRESOURCE_DATA sd;
+    ZeroMemory(&sd, sizeof(D3D11_SUBRESOURCE_DATA));
+    sd.pSysMem = vertices;
+    hr = m_pDevice->CreateBuffer(
+        &bd, &sd, &m_pVertexBuffer
+    );
+
+    if (FAILED(hr))
+        return false;
+
+    return true;
+}
+
+bool Sample::LoadVertexShader()
+{
+    HRESULT hr = S_OK;
+    ID3DBlob* vError = NULL;
+
+    if (FAILED(hr = D3DCompileFromFile(
+        L"VertexShader.vsh",
+        nullptr,
+        nullptr,
+        "VS",
+        "vs_5_0",
+        0,
+        0,
+        &m_pVSBlob,
+        &vError
+    )))
+    {
+        if (vError) vError->Release();
+        return false;
+    }
+    if (FAILED(hr = m_pDevice->CreateVertexShader(
+        m_pVSBlob->GetBufferPointer(),
+        m_pVSBlob->GetBufferSize(),
+        nullptr,
+        &m_pVS
+    )))
+    {
+        if (vError) vError->Release();
+        return false;
+    }
+
+    if (vError) vError->Release();
+
+    return true;
+}
+
+bool Sample::LoadPixelShader()
+{
+    HRESULT hr = S_OK;
+    ID3DBlob* vPixel = NULL;
+    ID3DBlob* vError = NULL;
+
+    if (FAILED(hr = D3DCompileFromFile(
+        L"PixelShader.psh",
+        nullptr,
+        nullptr,
+        "PS",
+        "ps_5_0",
+        0,
+        0,
+        &vPixel,
+        &vError
+    )))
+    {
+        return false;
+    }
+    if (FAILED(hr = m_pDevice->CreatePixelShader(
+        vPixel->GetBufferPointer(),
+        vPixel->GetBufferSize(),
+        nullptr,
+        &m_pPS
+    )))
+    {
+        if (vPixel) vPixel->Release();
+        if (vError) vError->Release();
+        return false;
+    }
+
+    if (FAILED(hr = D3DCompileFromFile(
+        L"PixelShader.psh",
+        nullptr,
+        nullptr,
+        "PS2",
+        "ps_5_0",
+        0,
+        0,
+        &vPixel,
+        &vError
+    )))
+    {
+        return false;
+    }
+    if (FAILED(hr = m_pDevice->CreatePixelShader(
+        vPixel->GetBufferPointer(),
+        vPixel->GetBufferSize(),
+        nullptr,
+        &m_pPS2
+    )))
+    {
+        if (vPixel) vPixel->Release();
+        if (vError) vError->Release();
+        return false;
+    }
+
+    if (vError) vError->Release();
+    if (vPixel) vPixel->Release();
+
+    return true;
+}
+
+bool Sample::CreateVertexInputLayout()
+{
+    HRESULT hr = S_OK;
+
+    D3D11_INPUT_ELEMENT_DESC layout[] =
+    {
+        {"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
+    };
+    UINT iNumCount = sizeof(layout) / sizeof(layout[0]);
+
+    hr = m_pDevice->CreateInputLayout(
+        layout,
+        iNumCount,
+        m_pVSBlob->GetBufferPointer(),
+        m_pVSBlob->GetBufferSize(),
+        &m_pVertexLayout
+    );
+
+    if (FAILED(hr))
+        return false;
+
+    return true;
+}
+
+bool Sample::LoadShader(E_SHADER_LOAD_TYPE eType)
+{
+    switch (eType)
+    {
+    case E_SHADER_LOAD_TYPE::LOAD_VERTEX:
+    {
+        if (LoadVertexShader())
+            return true;
+    }
+    case E_SHADER_LOAD_TYPE::LOAD_PIXEL:
+    {
+        if (LoadPixelShader())
+            return true;
+        break;
+    }
+    }
+    return false;
 }
 
 bool Sample::Init()
 {
-    DXGI_SWAP_CHAIN_DESC sDesc;
-    ZeroMemory(&sDesc, sizeof(DXGI_SWAP_CHAIN_DESC));
-    sDesc.BufferDesc.Width = 800;
-    sDesc.BufferDesc.Height = 600;
-    sDesc.BufferDesc.RefreshRate.Numerator = 60;
-    sDesc.BufferDesc.RefreshRate.Denominator = 1;
-    sDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-    sDesc.SampleDesc.Count = 1;
-    sDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-    sDesc.BufferCount = 1;
-    sDesc.OutputWindow = m_hWnd;
-    sDesc.Windowed = true;
-    
-    D3D_DRIVER_TYPE driverType = D3D_DRIVER_TYPE_HARDWARE;
-    UINT flags = 0;
-    D3D_FEATURE_LEVEL featureLevel = D3D_FEATURE_LEVEL_11_0;
-    HRESULT hr = D3D11CreateDeviceAndSwapChain(
-        NULL,
-        driverType,
-        NULL,
-        flags,
-        &featureLevel,
-        1,
-        D3D11_SDK_VERSION,
-        &sDesc,
-        &m_pSwapChain,
-        &m_pDevice,
-        NULL,
-        &m_pImmediateContext
-    );
-    if (FAILED(hr))
+    if (CreateVertexBuffer())
     {
-        return false;
-    }
-    ID3D11Texture2D* pBackBuffer;
-    hr = m_pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBuffer);
-    if (SUCCEEDED(hr))
-    {
-        hr = m_pDevice->CreateRenderTargetView(pBackBuffer, NULL, &m_pRenderTargetView);
-        if (FAILED(hr))
+        if (LoadShader(E_SHADER_LOAD_TYPE::LOAD_VERTEX))
         {
-            pBackBuffer->Release();
-            return false;
-       }
-        m_pImmediateContext->OMSetRenderTargets(1, &m_pRenderTargetView, NULL);
+            if (LoadShader(E_SHADER_LOAD_TYPE::LOAD_PIXEL))
+            {
+                if (CreateVertexInputLayout())
+                {
+                    return true;
+                }
+            }
+           
+        }
     }
-    pBackBuffer->Release();
-   
-    return true;
+    return false;
 }
 
 bool Sample::Frame()
@@ -71,32 +213,35 @@ bool Sample::Frame()
 
 bool Sample::Render()
 { 
-    float color[4] = { 0.219f, 0.156f, 0.255f, 1 };
-    //float color2[4] = { 1, 1, 1, 1 };
-    m_pImmediateContext->ClearRenderTargetView(m_pRenderTargetView, color);
-    HRESULT hr = m_pSwapChain->Present(0, 0);
-    //m_pImmediateContext->ClearRenderTargetView(m_pRenderTargetView, color2);
-    //m_pSwapChain->Present(0, 0);
-    if (FAILED(hr))
-    {
-        return false;
-    }
+    m_pImmediateContext->IASetInputLayout(m_pVertexLayout);
+    m_pImmediateContext->VSSetShader(m_pVS, NULL, 0);
+    m_pImmediateContext->PSSetShader(m_pPS, NULL, 0);
+    UINT stride = sizeof(P3_VERTEX);
+    UINT offset = 0;
+    m_pImmediateContext->IASetVertexBuffers(0, 1, &m_pVertexBuffer, &stride, &offset);
+    m_pImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+    m_pImmediateContext->Draw(3, 0);
+
+    m_pImmediateContext->PSSetShader(m_pPS2, NULL, 0);
+    m_pImmediateContext->Draw(3, 3);
 
     return true;
 }
 
 bool Sample::Release()
 {
-    if (m_pImmediateContext) m_pImmediateContext->ClearState();
-    if (m_pRenderTargetView) m_pRenderTargetView->Release();
-    if (m_pSwapChain) m_pSwapChain->Release();
-    if (m_pImmediateContext) m_pImmediateContext->Release();
-    if (m_pDevice) m_pDevice->Release();
+    if (m_pVertexBuffer) m_pVertexBuffer->Release();
+    if (m_pVertexLayout) m_pVertexLayout->Release();
+    if (m_pVS) m_pVS->Release();
+    if (m_pVSBlob) m_pVSBlob->Release();
+    if (m_pPS) m_pPS->Release();
 
-    m_pDevice = NULL;
-    m_pSwapChain = NULL; 
-    m_pRenderTargetView = NULL;
-    m_pImmediateContext = NULL;
+    m_pVertexBuffer = NULL;
+    m_pVertexLayout = NULL;
+    m_pVS = NULL;
+    m_pVSBlob = NULL;
+    m_pPS = NULL;
 
     return true;
 }
+

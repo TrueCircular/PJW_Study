@@ -2,25 +2,30 @@
 
 bool TCore::EngineInit()
 {
+	TDevice::Init();
 	Init();
 	return true;
 }
 
 bool TCore::EngineFrame()
 {
+	TDevice::Frame();
 	Frame();
 	return true;
 }
 
 bool TCore::EngineRender()
 {
+	TDevice::PreRender();
 	Render();
+	TDevice::PostRender();
 	return true;
 }
 
 bool TCore::EngineRelease()
 {
 	Release();
+	TDevice::Release();
 	return true;
 }
 
