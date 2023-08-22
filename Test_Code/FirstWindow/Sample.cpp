@@ -5,7 +5,7 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmd
 {
     Sample mySample;
     mySample.SetRegisterClassWindow(hInstance);
-    mySample.SetWindow(L"박진원", 1600, 900);
+    mySample.SetWindow(L"박진원", 800, 600);
     mySample.Run();
 
     return 0;
@@ -16,12 +16,12 @@ bool Sample::CreateVertexBuffer()
     HRESULT hr = S_OK;
     P3_VERTEX vertices[] =
     {
-        -0.5f,0.5f,0.5f,
-        0.5f, 0.5f, 0.5f,
-        -0.5f, -0.5f, 0.5f,
-        0.5f, 0.5f, 0.5f,
-        0.5f, -0.5f, 0.5f,
-        -0.5f, -0.5f, 0.5f
+        -1.0f,1.0f,0.5f,
+        1.0f, 1.0f, 0.5f,
+        -1.0f, -1.0f, 0.5f,
+        1.0f, 1.0f, 0.5f,
+        1.0f, -1.0f, 0.5f,
+        -1.0f, -1.0f, 0.5f
     };
     D3D11_BUFFER_DESC bd;
     ZeroMemory(&bd, sizeof(D3D11_BUFFER_DESC));
