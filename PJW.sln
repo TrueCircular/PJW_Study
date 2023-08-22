@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.33328.57
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "W_GradeSystem", "temp.vcxproj", "{E368F0A2-E205-4F61-8175-6C98D053221C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test_Code", "Test_Code", "{53B7FB6C-7CB4-4DE5-B237-C6CFBE1F4F54}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{53B7FB6C-7CB4-4DE5-B237-C6CFBE1F4F54}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "0619_test", "Test_Code\0619\0619_test\0619_test.vcxproj", "{CBD724FA-3F73-491C-8F24-E082F8E6F7E9}"
 EndProject
@@ -24,6 +24,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "0807", "Test_Code\0807\0807.vcxproj", "{65A573D1-F4F1-4F4E-84A3-B63B571C7CAB}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FirstWindow", "Test_Code\FirstWindow\FirstWindow.vcxproj", "{46D16863-BF3C-45E1-8E7D-0B915DFD3A65}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lib", "Lib", "{56C900C6-FCC9-4951-A5F4-9F33E265F471}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
