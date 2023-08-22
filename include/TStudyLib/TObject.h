@@ -19,6 +19,7 @@ public:
 public:
     virtual bool  Create(std::wstring shaderFilename,
                          std::wstring texFilename);
+    virtual void  UpdateMatrix();
     virtual bool  Init() override;
     virtual bool  Frame()override;
     virtual bool  Render()override;

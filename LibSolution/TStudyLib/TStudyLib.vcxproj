@@ -18,6 +18,57 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="DirectXTex.h" />
+    <ClInclude Include="TCamera.h" />
+    <ClInclude Include="TCollision.h" />
+    <ClInclude Include="TCore.h" />
+    <ClInclude Include="TDevice.h" />
+    <ClInclude Include="TDxObject.h" />
+    <ClInclude Include="TInput.h" />
+    <ClInclude Include="TMath.h" />
+    <ClInclude Include="TNpcObj.h" />
+    <ClInclude Include="TObject.h" />
+    <ClInclude Include="TPlaneObj.h" />
+    <ClInclude Include="TPlayer.h" />
+    <ClInclude Include="TShaderMgr.h" />
+    <ClInclude Include="TStd.h" />
+    <ClInclude Include="TTextureMgr.h" />
+    <ClInclude Include="TTimer.h" />
+    <ClInclude Include="TUtils.h" />
+    <ClInclude Include="TWindow.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DirectXTex.inl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="TCamera.cpp" />
+    <ClCompile Include="TCore.cpp" />
+    <ClCompile Include="TDevice.cpp" />
+    <ClCompile Include="TDxObject.cpp" />
+    <ClCompile Include="TInput.cpp" />
+    <ClCompile Include="TMath.cpp" />
+    <ClCompile Include="TNpcObj.cpp" />
+    <ClCompile Include="TObject.cpp" />
+    <ClCompile Include="TPlaneObj.cpp" />
+    <ClCompile Include="TPlayer.cpp" />
+    <ClCompile Include="TShaderMgr.cpp" />
+    <ClCompile Include="TTextureMgr.cpp" />
+    <ClCompile Include="TTimer.cpp" />
+    <ClCompile Include="TUtils.cpp" />
+    <ClCompile Include="TWindow.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="DirectXTex.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Plane.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -106,8 +157,8 @@
       <OutputFile>TStudyLib.lib</OutputFile>
     </Lib>
     <PostBuildEvent>
-      <Command>copy ".\\header\\*.h" "..\\..\\include\\TStudyLib"
-copy ".\\header\\*.inl" "..\\..\\include\\TStudyLib"
+      <Command>copy ".\*.h" "..\\..\\include\\TStudyLib"
+copy ".\*.inl" "..\\..\\include\\TStudyLib"
 copy ".\TStudyLib.lib" "..\\..\\lib\\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -131,8 +182,8 @@ copy ".\TStudyLib.lib" "..\\..\\lib\\"</Command>
       <OutputFile>TStudyLib.lib</OutputFile>
     </Lib>
     <PostBuildEvent>
-      <Command>copy ".\\header\\*.h" "..\\..\\include\\TStudyLib"
-copy ".\\header\\*.inl" "..\\..\\include\\TStudyLib"
+      <Command>copy ".\*.h" "..\\..\\include\\TStudyLib"
+copy ".\*.inl" "..\\..\\include\\TStudyLib"
 copy ".\TStudyLib.lib" "..\\..\\lib\\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -152,8 +203,8 @@ copy ".\TStudyLib.lib" "..\\..\\lib\\"</Command>
       <OutputFile>TStudyLib.lib</OutputFile>
     </Lib>
     <PostBuildEvent>
-      <Command>copy ".\\header\\*.h" "..\\..\\include\\TStudyLib"
-copy ".\\header\\*.inl" "..\\..\\include\\TStudyLib"
+      <Command>copy ".\*.h" "..\\..\\include\\TStudyLib"
+copy ".\*.inl" "..\\..\\include\\TStudyLib"
 copy ".\TStudyLib.lib" "..\\..\\lib\\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -177,48 +228,11 @@ copy ".\TStudyLib.lib" "..\\..\\lib\\"</Command>
       <OutputFile>TStudyLib.lib</OutputFile>
     </Lib>
     <PostBuildEvent>
-      <Command>copy ".\\header\\*.h" "..\\..\\include\\TStudyLib"
-copy ".\\header\\*.inl" "..\\..\\include\\TStudyLib"
+      <Command>copy ".\*.h" "..\\..\\include\\TStudyLib"
+copy ".\*.inl" "..\\..\\include\\TStudyLib"
 copy ".\TStudyLib.lib" "..\\..\\lib\\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="header\DirectXTex.h" />
-    <ClInclude Include="header\TCamera.h" />
-    <ClInclude Include="header\TCollision.h" />
-    <ClInclude Include="header\TCore.h" />
-    <ClInclude Include="header\TDevice.h" />
-    <ClInclude Include="header\TDxObject.h" />
-    <ClInclude Include="header\TInput.h" />
-    <ClInclude Include="header\TMath.h" />
-    <ClInclude Include="header\TNpcObj.h" />
-    <ClInclude Include="header\TObject.h" />
-    <ClInclude Include="header\TPlaneObj.h" />
-    <ClInclude Include="header\TPlayer.h" />
-    <ClInclude Include="header\TShaderMgr.h" />
-    <ClInclude Include="header\TStd.h" />
-    <ClInclude Include="header\TTextureMgr.h" />
-    <ClInclude Include="header\TTimer.h" />
-    <ClInclude Include="header\TUtils.h" />
-    <ClInclude Include="header\TWindow.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="cpp\TCamera.cpp" />
-    <ClCompile Include="cpp\TCore.cpp" />
-    <ClCompile Include="cpp\TDevice.cpp" />
-    <ClCompile Include="cpp\TDxObject.cpp" />
-    <ClCompile Include="cpp\TInput.cpp" />
-    <ClCompile Include="cpp\TMath.cpp" />
-    <ClCompile Include="cpp\TNpcObj.cpp" />
-    <ClCompile Include="cpp\TObject.cpp" />
-    <ClCompile Include="cpp\TPlaneObj.cpp" />
-    <ClCompile Include="cpp\TPlayer.cpp" />
-    <ClCompile Include="cpp\TShaderMgr.cpp" />
-    <ClCompile Include="cpp\TTextureMgr.cpp" />
-    <ClCompile Include="cpp\TTimer.cpp" />
-    <ClCompile Include="cpp\TUtils.cpp" />
-    <ClCompile Include="cpp\TWindow.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

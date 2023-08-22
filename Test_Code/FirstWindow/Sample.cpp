@@ -1,3 +1,4 @@
+#include "..\WindowsProject1\Sample.h"
 #include "Sample.h"
 
 
@@ -187,19 +188,6 @@ bool Sample::LoadShader(E_SHADER_LOAD_TYPE eType)
 
 bool Sample::Init()
 {
-    if (CreateVertexBuffer())
-    {
-        if (LoadShader(E_SHADER_LOAD_TYPE::LOAD_VERTEX))
-        {
-            if (LoadShader(E_SHADER_LOAD_TYPE::LOAD_PIXEL))
-            {
-                if (CreateVertexInputLayout())
-                {
-                    return true;
-                }
-            }         
-        }
-    }
     return false;
 }
 

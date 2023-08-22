@@ -15,106 +15,117 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="header\DirectXTex.h">
+    <ClInclude Include="DirectXTex.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="header\TCamera.h">
+    <ClInclude Include="TCamera.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="header\TCollision.h">
+    <ClInclude Include="TCollision.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="header\TCore.h">
+    <ClInclude Include="TCore.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="header\TDevice.h">
+    <ClInclude Include="TDevice.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="header\TDxObject.h">
+    <ClInclude Include="TDxObject.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="header\TInput.h">
+    <ClInclude Include="TInput.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="header\TMath.h">
+    <ClInclude Include="TMath.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="header\TNpcObj.h">
+    <ClInclude Include="TNpcObj.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="header\TObject.h">
+    <ClInclude Include="TObject.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="header\TPlaneObj.h">
+    <ClInclude Include="TPlaneObj.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="header\TPlayer.h">
+    <ClInclude Include="TPlayer.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="header\TShaderMgr.h">
+    <ClInclude Include="TShaderMgr.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="header\TStd.h">
+    <ClInclude Include="TStd.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="header\TTextureMgr.h">
+    <ClInclude Include="TTextureMgr.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="header\TTimer.h">
+    <ClInclude Include="TTimer.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="header\TUtils.h">
+    <ClInclude Include="TUtils.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="header\TWindow.h">
+    <ClInclude Include="TWindow.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="cpp\TCamera.cpp">
+    <None Include="DirectXTex.inl">
+      <Filter>헤더 파일</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="TCamera.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="cpp\TCore.cpp">
+    <ClCompile Include="TCore.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="cpp\TDevice.cpp">
+    <ClCompile Include="TDevice.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="cpp\TDxObject.cpp">
+    <ClCompile Include="TDxObject.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="cpp\TInput.cpp">
+    <ClCompile Include="TInput.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="cpp\TMath.cpp">
+    <ClCompile Include="TMath.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="cpp\TNpcObj.cpp">
+    <ClCompile Include="TNpcObj.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="cpp\TObject.cpp">
+    <ClCompile Include="TObject.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="cpp\TPlaneObj.cpp">
+    <ClCompile Include="TPlaneObj.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="cpp\TPlayer.cpp">
+    <ClCompile Include="TPlayer.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="cpp\TShaderMgr.cpp">
+    <ClCompile Include="TShaderMgr.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="cpp\TTextureMgr.cpp">
+    <ClCompile Include="TTextureMgr.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="cpp\TTimer.cpp">
+    <ClCompile Include="TTimer.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="cpp\TUtils.cpp">
+    <ClCompile Include="TUtils.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="cpp\TWindow.cpp">
+    <ClCompile Include="TWindow.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="DirectXTex.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Plane.hlsl" />
   </ItemGroup>
 </Project>
