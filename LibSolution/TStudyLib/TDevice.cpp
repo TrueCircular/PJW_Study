@@ -13,6 +13,18 @@ bool  TDevice::Init()
     SwapChainDesc.BufferCount = 1;
     SwapChainDesc.OutputWindow = m_hWnd;
     SwapChainDesc.Windowed = true;
+    
+    D3D11_RASTERIZER_DESC resDesc;
+    ZeroMemory(&resDesc, sizeof(D3D11_RASTERIZER_DESC));
+    resDesc.AntialiasedLineEnable = false;
+    resDesc.CullMode = D3D11_CULL_BACK;
+    resDesc.DepthClipEnable = true;
+    resDesc.FillMode = D3D11_FILL_SOLID;
+    resDesc.FrontCounterClockwise = false;
+    resDesc.MultisampleEnable = false;
+    resDesc.ScissorEnable = false;
+    
+
 
     D3D_DRIVER_TYPE DriverType = D3D_DRIVER_TYPE_HARDWARE;
     UINT Flags = 0;
@@ -49,6 +61,10 @@ bool  TDevice::Init()
         }
         m_pImmediateContext->OMSetRenderTargets(1, &m_pRenderTargetView, NULL);
     }
+
+    hr = m_pDevice->CreateRasterizerState(&resDesc, &m_pRasState);
+    m_pImmediateContext->RSSetState(m_pRasState);
+
     pBackBuffer->Release();
 
 
