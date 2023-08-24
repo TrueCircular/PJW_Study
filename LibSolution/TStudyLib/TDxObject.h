@@ -17,13 +17,13 @@ struct PT_Vertex
 class TDxObject
 {
 public:
-    ID3D11Device*           m_pDevice = nullptr;
-    ID3D11DeviceContext*    m_pImmediateContext = nullptr;
-    ID3D11Buffer*           m_pVertexBuffer = nullptr;
-    ID3D11Buffer*           m_pConstantBuffer = nullptr;
-    ID3D11InputLayout*      m_pVertexLayout = nullptr;
-    const TShader*          m_pShader = nullptr;
-    const TTexture*         m_pTex = nullptr;
+    ID3D11Device* m_pDevice = nullptr;
+    ID3D11DeviceContext* m_pImmediateContext = nullptr;
+    ID3D11Buffer* m_pVertexBuffer = nullptr;
+    ID3D11Buffer* m_pConstantBuffer = nullptr;
+    ID3D11InputLayout* m_pVertexLayout = nullptr;
+    const TShader* m_pShader = nullptr;
+    const TTexture* m_pTex = nullptr;
     CB_Data                 m_cbData;
     std::vector< PT_Vertex> m_VertexList;
 public:
@@ -34,7 +34,9 @@ public:
 public:
     virtual bool    Init();
     virtual bool    Frame();
+    virtual bool    PreRender();
     virtual bool    Render();
+    virtual bool    PostRender();
     virtual bool    Release();
 public:
     virtual ~TDxObject() {};
