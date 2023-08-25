@@ -37,6 +37,7 @@
     <ClInclude Include="TTimer.h" />
     <ClInclude Include="TUtils.h" />
     <ClInclude Include="TWindow.h" />
+    <ClInclude Include="TWriter.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="DirectXTex.inl" />
@@ -57,6 +58,7 @@
     <ClCompile Include="TTimer.cpp" />
     <ClCompile Include="TUtils.cpp" />
     <ClCompile Include="TWindow.cpp" />
+    <ClCompile Include="TWriter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="DirectXTex.lib" />

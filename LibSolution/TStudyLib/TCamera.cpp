@@ -1,5 +1,4 @@
 #include "TCamera.h"
-#include "TInput.h"
 bool  TCamera::Create(TVector3 vPos, TVector2 size )
 {
     m_vCameraPos = vPos;
@@ -14,7 +13,6 @@ bool  TCamera::Create(TVector3 vPos, TVector2 size )
 }
 bool  TCamera::Frame()
 {
-
     float fHalfWidth  = m_dwWindowWidth / 2.0f;
     float fHalfHeight = m_dwWindowHeight / 2.0f;
 	if (m_vCameraPos.x < -(g_fMapHalfSizeX) + fHalfWidth)

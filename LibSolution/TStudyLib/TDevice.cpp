@@ -13,21 +13,9 @@ bool  TDevice::Init()
     SwapChainDesc.BufferCount = 1;
     SwapChainDesc.OutputWindow = m_hWnd;
     SwapChainDesc.Windowed = true;
-    
-    D3D11_RASTERIZER_DESC resDesc;
-    ZeroMemory(&resDesc, sizeof(D3D11_RASTERIZER_DESC));
-    resDesc.AntialiasedLineEnable = false;
-    resDesc.CullMode = D3D11_CULL_BACK;
-    resDesc.DepthClipEnable = true;
-    resDesc.FillMode = D3D11_FILL_SOLID;
-    resDesc.FrontCounterClockwise = false;
-    resDesc.MultisampleEnable = false;
-    resDesc.ScissorEnable = false;
-    
-
 
     D3D_DRIVER_TYPE DriverType = D3D_DRIVER_TYPE_HARDWARE;
-    UINT Flags = 0;
+    UINT Flags = D3D11_CREATE_DEVICE_BGRA_SUPPORT;
     D3D_FEATURE_LEVEL pFeatureLevels = D3D_FEATURE_LEVEL_11_0;
     // 1) 디바이스
     HRESULT hr = D3D11CreateDeviceAndSwapChain(
@@ -61,10 +49,6 @@ bool  TDevice::Init()
         }
         m_pImmediateContext->OMSetRenderTargets(1, &m_pRenderTargetView, NULL);
     }
-
-    hr = m_pDevice->CreateRasterizerState(&resDesc, &m_pRasState);
-    m_pImmediateContext->RSSetState(m_pRasState);
-
     pBackBuffer->Release();
 
 
@@ -82,9 +66,8 @@ bool  TDevice::Frame()
     return true;
 }
 bool  TDevice::PreRender()
-{
-    float color[4] = { 1.0f,1.0f,1.0f,1 };
-    //float color[4] = { 0.343f,0.34522f,0.64333f,1 };
+{   
+    float color[4] = { 0.343f,0.34522f,0.64333f,1 };
     m_pImmediateContext->ClearRenderTargetView(m_pRenderTargetView, color);   
     return true;
 }
