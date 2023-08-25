@@ -12,6 +12,7 @@ bool Sample::Init()
 	m_pMapObj->SetScale(TVector3(g_fMapHalfSizeX, g_fMapHalfSizeY, 1.0f));
 	m_pMapObj->Create(L"../../resource/map01.png", L"../../resource/shader/Plane.hlsl");
 
+
 	m_MainCamera.Create({ 0.0f,0.0f, 0.0f }, { (float)m_dwWindowWidth, (float)m_dwWindowHeight });
 	return true;
 }
