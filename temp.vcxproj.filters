@@ -37,7 +37,4 @@
       <Filter>Script\SystemState</Filter>
     </ClInclude>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram2.cd" />
-  </ItemGroup>
 </Project>

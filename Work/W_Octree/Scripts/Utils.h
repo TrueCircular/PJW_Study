@@ -1,9 +1,11 @@
 #pragma once
 #include<Windows.h>
 #include<iostream>
+#include<conio.h>
 #include<string>
 #include<queue>
 #include<vector>
+#include<set>
 #include<math.h>
 #include"MyEnums.h"
 #pragma comment(lib, "winmm.lib") //timeGetTime()
@@ -112,12 +114,17 @@ struct TPoint3
         z = z / fValue;
         return *this;
     }
+    TPoint3& operator+= (TPoint3& p)
+    {
+        *this = *this + p;
+        return *this;
+    }
     float GetDistance()
     {
         float fDistance = sqrt(x * x + y * y + z * z);
         return fDistance;
     }
-    static float GetDistance(TPoint3& p)
+    static float GetLength(TPoint3& p)
     {
         float fDistance = sqrt(p.x * p.x + p.y * p.y + p.z * p.z);
         return fDistance;
@@ -362,9 +369,9 @@ struct TBox : public TFloat3
         float minX = min(m_fx, p.m_fx);
         float minY = min(m_fy, p.m_fy);
         float minZ = min(m_fz, p.m_fz);
-        float maxX = max(m_Point[6].x, p.m_Point[6].x);
-        float maxY = max(m_Point[6].y, p.m_Point[6].y);
-        float maxZ = max(m_Point[6].z, p.m_Point[6].z);
+        float maxX = max(m_Max.x, p.m_Max.x);
+        float maxY = max(m_Max.y, p.m_Max.y);
+        float maxZ = max(m_Max.z, p.m_Max.z);
 
         TPoint3 ptemp = { minX,minY,minZ };
         TPoint3 ptemp2 = { maxX - minX, maxY - minY, maxZ - minZ };
@@ -379,6 +386,7 @@ struct TBox : public TFloat3
         m_fHeight = fSizeY;
         m_fDepth = fSizeZ;
         m_Half = { m_fWidth * 0.5f,m_fHeight * 0.5f, m_fDepth * 0.5f };
+
         m_Point[0] = { m_fx, m_fy, m_fz };
         m_Point[1] = { m_fx + m_fWidth, m_fy, m_fz };
         m_Point[2] = { m_fx + m_fWidth, m_fy + m_fHeight, m_fz };
@@ -389,9 +397,9 @@ struct TBox : public TFloat3
         m_Point[6] = { m_fx + m_fWidth, m_fy + m_fHeight, m_fz + fSizeZ };
         m_Point[7] = { m_fx, m_fy + m_fHeight, m_fz + fSizeZ };
 
-        m_Center = (m_Point[0] + m_Point[6]) * 0.5f;
         m_Min = m_Point[0];
         m_Max = m_Point[6];
+        m_Center = (m_Min + m_Max) * 0.5f;
     }
     void Set(TPoint3 p, TPoint3 surface)
     {
@@ -446,23 +454,25 @@ public:
 class Util
 {
 private:
-	static Util* _instance;
-    TTimer* _timer;
-	Util() : _timer(new TTimer()) {}
-    ~Util(){}
+    static Util*    _instance;
+    TTimer* _timer = new TTimer();
+private:
+    Util() : _timer(new TTimer()) {}
+    ~Util() { delete _timer; }
 public:
+    Util(Util const&) = delete;
+    Util& operator=(Util const&) = delete;
+
 	static Util* GetInstance()
 	{
-		if (_instance == nullptr)
-		{
-			_instance = new Util();
-		}
+        if (_instance == nullptr)
+            _instance = new Util();
 
 		return _instance;
 	}
     TTimer* GetTimer() { return _timer; }
 public:
-    inline bool BoxToBox(TBox& bx1, TBox& bx2)
+    bool BoxToBox(TBox& bx1, TBox& bx2)
     {
         TBox temp = bx1 + bx2;
         float wi = bx1.m_fWidth + bx2.m_fWidth;
@@ -481,7 +491,7 @@ public:
         }
         return false;
     }
-    inline bool RectToRect(TRect& rt1, TRect& rt2)
+    bool RectToRect(TRect& rt1, TRect& rt2)
     {
         TRect sum = rt1 + rt2;
         float fX = rt1.m_fWidth + rt2.m_fWidth;
@@ -495,7 +505,7 @@ public:
         }
         return false;
     }
-    inline bool RectToPoint(TRect& rt, TPoint2& p)
+    bool RectToPoint(TRect& rt, TPoint2& p)
     {
         if (rt.m_Min.x <= p.x && rt.m_Max.x >= p.x
             &&
@@ -505,4 +515,15 @@ public:
         }
         return false;
     }
+
+    void Normalize(TPoint3& vec3)
+    {
+        vec3 /= sqrt(vec3.x * vec3.x + vec3.y * vec3.y + vec3.z * vec3.z);
+    }
+    float GetLength(TPoint3& vec3)
+    {
+        float temp = sqrt(vec3.x * vec3.x + vec3.y * vec3.y + vec3.z * vec3.z);
+        return temp;
+    }
 };
+

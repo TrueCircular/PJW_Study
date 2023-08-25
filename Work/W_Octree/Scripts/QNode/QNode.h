@@ -14,6 +14,7 @@ public:
 public:
 	QNode(){}
 	QNode(int idex) { _index = idex; }
+	QNode(TPoint3& pos, TPoint3& surf);
 	virtual ~QNode()
 	{
 		for (int i = 0; i < _child.size(); i++)

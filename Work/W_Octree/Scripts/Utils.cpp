@@ -37,5 +37,9 @@ bool	TTimer::Render()
 }
 bool	TTimer::Release()
 {
+    if (this != nullptr)
+    {
+        delete this;
+    }
     return true;
 }
