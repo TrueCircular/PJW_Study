@@ -6,6 +6,7 @@ public:
     TMatrix                 m_matView;
     TMatrix                 m_matOrthoProjection;
     TVector3                m_vCameraPos;
+    TVector3                m_vCameraMovePos;
     DWORD                   m_dwWindowWidth;
     DWORD                   m_dwWindowHeight;
 public:
