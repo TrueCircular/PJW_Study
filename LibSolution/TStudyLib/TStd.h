@@ -19,7 +19,8 @@
 #pragma comment (lib, "d3d11.lib") // d3d11.dll
 #pragma comment (lib, "d3dcompiler.lib") // d3d11.dll
 #pragma comment (lib, "DirectXTex.lib")
-#pragma comment (lib, "TCoreLib.lib")
+#pragma comment (lib, "TStudyLib.lib")
+
 #define T_PI (3.141592f)
 #define T_EPSILON ( 0.0001f)
 #define RadianToDegree(radian) ( radian *( 180.0f / T_PI))
@@ -55,6 +56,8 @@ extern float g_fMapHalfSizeX;
 extern float g_fMapHalfSizeY;
 extern DWORD g_dwWindowWidth;
 extern DWORD g_dwWindowHeight;
+
+
 
 
 static std::wstring mtw(std::string str)

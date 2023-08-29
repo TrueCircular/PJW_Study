@@ -36,16 +36,16 @@ int   TTimer::GetFPS()
 }
 bool	TTimer::Render()
 {
-	std::wstring msg = L"[FPS]";
-	msg += std::to_wstring(GetFPS());
-	msg += L"[GT]";
-	msg += std::to_wstring(m_fGameTimer);
-	msg += L"[SPF]";
-	msg += std::to_wstring(m_fSecondPerFrame);
+	//std::wstring msg = L"[FPS]";
+	//msg += std::to_wstring(GetFPS());
+	//msg += L"[GT]";
+	//msg += std::to_wstring(m_fGameTimer);
+	//msg += L"[SPF]";
+	//msg += std::to_wstring(m_fSecondPerFrame);
 
-	I_Writer.AddText(
-		msg.c_str(), 0, 0,
-		{ 1.0f, 1.0f, 0.0f, 1.0f });	
+	//I_Writer.AddText(
+	//	msg.c_str(), 0, 0,
+	//	{ 1.0f, 1.0f, 0.0f, 1.0f });	
 	return true;
 }
 bool	TTimer::Release()

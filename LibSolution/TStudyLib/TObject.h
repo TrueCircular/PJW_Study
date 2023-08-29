@@ -4,6 +4,8 @@ class TObject : public TDxObject
 {     
 public:
     bool            m_bDead=false;
+    int             m_iCollisionID = -1;
+    int             m_iSelectID = -1;
 public:
     TVector3        m_vPos;
     TVector3        m_vScale;
