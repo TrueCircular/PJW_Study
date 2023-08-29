@@ -16,6 +16,7 @@ bool Sample::Init()
     music = I_Sound.Load(L"../../resource/Sound/Scene/Main.wav");
     music->Play(true);
 
+
     return true;
 }
 
