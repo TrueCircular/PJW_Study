@@ -6,6 +6,8 @@ float g_fMapHalfSizeY = 450;
 
 bool Sample::Init()
 {
+	srand(time(NULL));
+
 	main = new TPlaneObj;
 	main->Set(m_pDevice, m_pImmediateContext);
 	main->SetPos({ 0,0,0, });
@@ -16,8 +18,8 @@ bool Sample::Init()
 
 	music = I_Sound.Load(L"../../resource/Sound/Scene/Main.wav");
 	music->Play(true);
-
-	bird = std::make_unique<TSpriteTexture>();
+	music->Volume(0.35f);
+	
 	T_STR_VECTOR birdVec;
 	birdVec.push_back(L"../../resource/Sprite/Pet/bird/move_01.png");
 	birdVec.push_back(L"../../resource/Sprite/Pet/bird/move_02.png");
@@ -30,7 +32,7 @@ bool Sample::Init()
 
 	TSpriteInfo info;
 	info.Reset();
-	info.p = { -700.f,380.f,0.f };
+	info.p = { -700.f,360.f,0.f };
 	info.s = { 30.f,30.f,1.0f };
 	info.iNumRow = 16;
 	info.iNumColumn = 16;
@@ -38,8 +40,32 @@ bool Sample::Init()
 	info.texFile = L"../../resource/Sprite/Pet/bird/move_01.png";
 	info.texList = birdVec;
 	info.shaderFile = L"../../resource/shader/Plane.hlsl";
-	bird->m_isFlip = true;
-	bird->Load(m_pDevice, m_pImmediateContext, info);
+
+	for (int i = 1; i <= 10; i++)
+	{
+		SPRITE_OBJ temp = std::make_shared<TSpriteTexture>();
+		if (i % 2 == 0)
+		{	
+			info.p.y = 360.f - 50.f;
+		}
+		else if (i % 3 == 0)
+		{
+			info.p.y = 360.f + 50.f;
+		}
+		else if (i % 5 == 0)
+		{
+			info.p.y = 360.f - 100.f;
+		}
+		else
+		{
+			info.p.y = 360.f;
+		}
+		info.p.x += 50.f;
+		temp->m_isFlip = true;
+		temp->Load(m_pDevice, m_pImmediateContext, info);
+		bird.push_back(temp);
+	}
+
 	
 	
 	return true;
@@ -65,7 +91,15 @@ bool Sample::Frame()
 	I_Sound.Frame();
 	main->Frame();
 
-	bird->Frame();
+	for (int i = 0; i < bird.size(); i++)
+	{
+		bird[i]->m_vPos.x += randstep(100, 600.f) * g_fSecondPerFrame;
+
+		if (bird[i]->m_vPos.x >= g_fMapHalfSizeX)
+			bird[i]->m_vPos.x = -g_fMapHalfSizeX;
+
+		bird[i]->Frame();
+	}
 
 	return true;
 }
@@ -75,8 +109,12 @@ bool Sample::Render()
 	main->SetMatrix(nullptr, &m_pMainCamera->m_matView, &m_pMainCamera->m_matOrthoProjection);
 	main->Render();
 
-	bird->SetMatrix(nullptr, &m_pMainCamera->m_matView, &m_pMainCamera->m_matOrthoProjection);
-	bird->Render();
+
+	for (int i = 0; i < bird.size(); i++)
+	{
+		bird[i]->SetMatrix(nullptr, &m_pMainCamera->m_matView, &m_pMainCamera->m_matOrthoProjection);
+		bird[i]->Render();
+	}
 
 	std::wstring temp = L"New World";
 	I_Writer.AddText(temp, 330, 225 - 180, { 1,1,0.5f,gradation });
