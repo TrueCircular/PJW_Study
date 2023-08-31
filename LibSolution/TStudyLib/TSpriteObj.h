@@ -12,6 +12,7 @@ struct TSpriteInfo
 	W_STR		texAlphaFile;
 	W_STR		shaderFile;
 	T_STR_VECTOR texList;
+
 	void Reset()
 	{
 		iNumRow = 1;
@@ -33,6 +34,7 @@ struct TSpriteInfo
 class TSpriteObj : public TPlaneObj
 {
 public:
+	std::vector<TUVRect>  m_pUVList;
 	const	TTexture* m_pAlphaTex = nullptr;
 	float	m_fAnimTimer = 1.0f;  // 전체 시간
 	float	m_fOffsetTime = 0.0f;	// 1프레임 교체시간
@@ -63,7 +65,8 @@ public:
 	bool Init() override;
 	bool Frame() override;
 	bool Render() override;
-	bool Release() override;	
+	bool Release() override;
+	virtual void  SpriteFlip(bool isFlip) override;
 public:
 	TSpriteTexture();
 	virtual ~TSpriteTexture();
@@ -72,7 +75,7 @@ public:
 class TSpriteUV : public TSpriteObj
 {
 public:
-	std::vector<TUVRect>  m_pUVList;
+	//std::vector<TUVRect>  m_pUVList;
 	void  SetUVFrame(int iNumRow, int iNumColumn) override;
 	void  SetNumSprite(int x, int y)
 	{

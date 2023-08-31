@@ -48,7 +48,7 @@ bool TWriter::Create(IDXGISurface1* pBackBuffer)
 		if (SUCCEEDED(hr))
 		{
 			m_pDWriteFactory->CreateTextFormat(
-				L"궁서",
+				L"던파 비트비트체 TTF",
 				nullptr,
 				DWRITE_FONT_WEIGHT_NORMAL,
 				DWRITE_FONT_STYLE_NORMAL,

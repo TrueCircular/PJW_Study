@@ -64,6 +64,20 @@ bool TSpriteTexture::Frame()
 }
 bool TSpriteTexture::Render()
 {
+	//TUVRect uv;
+	//m_VertexList[1].t.x = uv.m_Max.x;
+	//m_VertexList[1].t.y = uv.m_Min.y;
+
+	//m_VertexList[2].t.x = uv.m_Min.x;
+	//m_VertexList[2].t.y = uv.m_Max.y;
+	//m_VertexList[3].t = m_VertexList[2].t;
+
+	//m_VertexList[4].t = m_VertexList[1].t;
+	//m_VertexList[5].t = uv.m_Max;
+
+	//m_pImmediateContext->UpdateSubresource(
+	//	m_pVertexBuffer, 0, nullptr, &m_VertexList.at(0), 0, 0);
+
 	PreRender();
 	m_pTexList[m_iCurrentAnimIndex]->Apply(m_pImmediateContext, 0);
 	PostRender();
@@ -73,6 +87,11 @@ bool TSpriteTexture::Release()
 {
 	TPlaneObj::Release();
 	return true;
+}
+
+void TSpriteTexture::SpriteFlip(bool isFlip)
+{
+	TObject::SpriteFlip(isFlip);
 }
 
 TSpriteTexture::TSpriteTexture()

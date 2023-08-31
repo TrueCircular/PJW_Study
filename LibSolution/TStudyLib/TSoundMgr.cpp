@@ -62,6 +62,10 @@ void  TSound::Paused()
 	m_pChannel->getPaused(&paused);
 	m_pChannel->setPaused(!paused);
 }
+void TSound::Volume(float val)
+{
+	m_pChannel->setVolume(val);
+}
 void  TSound::VolumeUp()
 {
 	float fVolume;

@@ -20,21 +20,20 @@ cbuffer cb0
 };
 VS_OUT VS(VS_IN vIn)
 {
-    VS_OUT vOut = (VS_OUT)0;   
+    VS_OUT vOut = (VS_OUT)0;
     // v * m ->(За->c0,c1,c2,c3)
     // v dot c0 = v.x
     // v dot c1 = v.y
     // v dot c2 = v.z
     // v dot c3 = v.w     
-    float4 vWorld = mul(float4(vIn.p,1.0f),g_matWorld);
+    float4 vWorld = mul(float4(vIn.p, 1.0f), g_matWorld);
     float4 vView = mul(vWorld, g_matView);
     float4 vProj = mul(vView, g_matProj);
-    vOut.p = vProj;
     //vOut.p = float4(vIn.p.x, vIn.p.y, vIn.p.z, 1);
+    vOut.p = vProj;
     vOut.t = vIn.t;
     return vOut;
 }
-
 Texture2D g_txDiffuse1 : register(t0);
 SamplerState sample0 : register(s0);
 struct PS_IN

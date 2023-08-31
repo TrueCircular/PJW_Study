@@ -1,42 +1,100 @@
 #include "Sample.h"
+#include "TWriter.h"
 
 float g_fMapHalfSizeX = 800;
 float g_fMapHalfSizeY = 450;
 
 bool Sample::Init()
 {
-    main = new TPlaneObj;
-    main->Set(m_pDevice, m_pImmediateContext);
-    main->SetPos({ 0,0,0, });
-    main->SetScale({ g_fMapHalfSizeX, g_fMapHalfSizeY, 1.0f });
-    main->Create(L"../../resource/Background/Main.png", L"../../resource/shader/Plane.hlsl");
+	main = new TPlaneObj;
+	main->Set(m_pDevice, m_pImmediateContext);
+	main->SetPos({ 0,0,0, });
+	main->SetScale({ g_fMapHalfSizeX, g_fMapHalfSizeY, 1.0f });
+	main->Create(L"../../resource/Background/Main.png", L"../../resource/shader/Plane.hlsl");
 
-    m_pMainCamera->Create({ 0,0,0 }, { (float)g_dwWindowWidth, (float)g_dwWindowHeight });
+	m_pMainCamera->Create({ 0,0,0 }, { (float)g_dwWindowWidth, (float)g_dwWindowHeight });
 
-    music = I_Sound.Load(L"../../resource/Sound/Scene/Main.wav");
-    music->Play(true);
+	music = I_Sound.Load(L"../../resource/Sound/Scene/Main.wav");
+	music->Play(true);
 
+	bird = std::make_unique<TSpriteTexture>();
+	T_STR_VECTOR birdVec;
+	birdVec.push_back(L"../../resource/Sprite/Pet/bird/move_01.png");
+	birdVec.push_back(L"../../resource/Sprite/Pet/bird/move_02.png");
+	birdVec.push_back(L"../../resource/Sprite/Pet/bird/move_03.png");
+	birdVec.push_back(L"../../resource/Sprite/Pet/bird/move_04.png");
+	birdVec.push_back(L"../../resource/Sprite/Pet/bird/move_05.png");
+	birdVec.push_back(L"../../resource/Sprite/Pet/bird/move_06.png");
+	birdVec.push_back(L"../../resource/Sprite/Pet/bird/move_07.png");
+	birdVec.push_back(L"../../resource/Sprite/Pet/bird/move_08.png");
 
-    return true;
+	TSpriteInfo info;
+	info.Reset();
+	info.p = { -700.f,380.f,0.f };
+	info.s = { 30.f,30.f,1.0f };
+	info.iNumRow = 16;
+	info.iNumColumn = 16;
+	info.fAnimTimer = 1.f;
+	info.texFile = L"../../resource/Sprite/Pet/bird/move_01.png";
+	info.texList = birdVec;
+	info.shaderFile = L"../../resource/shader/FlipPlane.hlsl";
+	//bird->m_isFlip = true;
+	bird->Load(m_pDevice, m_pImmediateContext, info);
+	
+	
+	return true;
 }
 
 bool Sample::Frame()
 {
-    I_Sound.Frame();
-    main->Frame();
-    return true;
+	if (_isBack == false)
+	{
+		gradation += 0.45f * g_fSecondPerFrame;
+
+		if (gradation > 1.0f)
+			_isBack = true;
+	}
+	else
+	{
+		gradation -= 0.45f * g_fSecondPerFrame;
+
+		if (gradation < 0.f)
+			_isBack = false;
+	}
+
+	I_Sound.Frame();
+	main->Frame();
+
+	bird->Frame();
+
+	return true;
 }
 
 bool Sample::Render()
 {
-    main->SetMatrix(nullptr, &m_pMainCamera->m_matView, &m_pMainCamera->m_matOrthoProjection);
-    main->Render();
-    return true;
+	main->SetMatrix(nullptr, &m_pMainCamera->m_matView, &m_pMainCamera->m_matOrthoProjection);
+	main->Render();
+
+	bird->SetMatrix(nullptr, &m_pMainCamera->m_matView, &m_pMainCamera->m_matOrthoProjection);
+	bird->Render();
+
+	std::wstring temp = L"New World";
+	I_Writer.AddText(temp, 330, 225 - 180, { 1,1,0.5f,gradation });
+
+	std::wstring temp2 = L"-New Game-";
+	I_Writer.AddText(temp2, 315, 225 + 215, { 0.124f,0.206f,0.118f,0.75f });
+
+	std::wstring temp3 = L"-Continue-";
+	I_Writer.AddText(temp3, 320, 225 + 255, { 0.124f,0.206f,0.118f,0.75f });
+
+	std::wstring temp4 = L"-Exit-";
+	I_Writer.AddText(temp4, 355, 225 + 295, { 0.124f,0.206f,0.118f,0.75f });
+	return true;
 }
 
 bool Sample::Release()
 {
-    return true;
+	return true;
 }
 
 

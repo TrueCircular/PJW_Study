@@ -30,7 +30,7 @@ public:
 	void  PlayEffect();
 	void  Stop();
 	void  Paused();
-	void  Volume();
+	void  Volume(float val); //0f~1f
 	void  VolumeUp();
 	void  VolumeDown();
 };

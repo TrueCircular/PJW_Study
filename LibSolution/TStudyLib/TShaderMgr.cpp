@@ -71,6 +71,7 @@ bool  TShader::LoadVertexShader(ID3D11Device* pDevice, std::wstring filename)
     }    
     return true;
 }
+
 bool  TShader::LoadPixelShader(ID3D11Device* pDevice, std::wstring filename)
 {
     ID3DBlob* ShaderCode;

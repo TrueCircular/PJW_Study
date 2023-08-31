@@ -28,6 +28,8 @@ public:
 	ID2D1SolidColorBrush* m_pDefaultBrush = nullptr;
 public:
 	bool Create(IDXGISurface1* pBackBuffer);
+	bool Create(IDXGISurface1* pBackBuffer, std::wstring formet);
+
 	bool Init();
 	bool Frame();
 	bool PreRender();
