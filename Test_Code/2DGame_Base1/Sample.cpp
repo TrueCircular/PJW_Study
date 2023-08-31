@@ -37,8 +37,8 @@ bool Sample::Init()
 	info.fAnimTimer = 1.f;
 	info.texFile = L"../../resource/Sprite/Pet/bird/move_01.png";
 	info.texList = birdVec;
-	info.shaderFile = L"../../resource/shader/FlipPlane.hlsl";
-	//bird->m_isFlip = true;
+	info.shaderFile = L"../../resource/shader/Plane.hlsl";
+	bird->m_isFlip = true;
 	bird->Load(m_pDevice, m_pImmediateContext, info);
 	
 	

@@ -23,6 +23,15 @@ bool  TPlaneObj::CreateVertexBuffer()
         m_VertexList[4].t.x = 1.0f; m_VertexList[4].t.y = 0.0f;
         m_VertexList[5].t.x = 1.0f; m_VertexList[5].t.y = 1.0f;
     }
+    else
+    {
+        m_VertexList[0].t.x = 1.0f; m_VertexList[0].t.y = 0.0f;
+        m_VertexList[1].t.x = 0.0f; m_VertexList[1].t.y = 0.0f;
+        m_VertexList[2].t.x = 1.0f; m_VertexList[2].t.y = 1.0f;
+        m_VertexList[3].t.x = 1.0f; m_VertexList[3].t.y = 1.0f;
+        m_VertexList[4].t.x = 0.0f; m_VertexList[4].t.y = 0.0f;
+        m_VertexList[5].t.x = 0.0f; m_VertexList[5].t.y = 1.0f;
+    }
 
 
     m_VertexList[0].p.x = -1.0f; m_VertexList[0].p.y = 1.0f;  m_VertexList[0].p.z = 0.0f;
