@@ -41,20 +41,18 @@ bool Sample::Init()
 	info.texList = birdVec;
 	info.shaderFile = L"../../resource/shader/Plane.hlsl";
 
-	for (int i = 1; i <= 10; i++)
+	for (int i = 1; i <= 8; i++)
 	{
 		SPRITE_OBJ temp = std::make_shared<TSpriteTexture>();
-		if (i % 2 == 0)
-		{	
-			info.p.y = 360.f - 50.f;
-		}
-		else if (i % 3 == 0)
+
+		if (i % 3 == 0 ||
+			i % 5 == 0)
 		{
-			info.p.y = 360.f + 50.f;
+			info.p.y = 360.f + randstep(0, 50.f);
 		}
-		else if (i % 5 == 0)
+		else if (i % 2 == 0)
 		{
-			info.p.y = 360.f - 100.f;
+			info.p.y = 360.f + randstep(-50, 0);
 		}
 		else
 		{
@@ -66,8 +64,6 @@ bool Sample::Init()
 		bird.push_back(temp);
 	}
 
-	
-	
 	return true;
 }
 
