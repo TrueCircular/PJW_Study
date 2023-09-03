@@ -21,6 +21,7 @@ bool Sample::Init()
 	//make and AddComponent
 	_testBackground = make_shared<GameObject>();
 	_testBackground->AddComponent(L"Image", image);
+	_testBackground->Init();
 	//_testBackground->AddComponent(L"Image", image); 같은 이름을 가진 컴포넌트를 추가하는것을 허용하지 않음
 
 	//Create Camera
