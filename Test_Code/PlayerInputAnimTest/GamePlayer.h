@@ -2,7 +2,7 @@
 #include "TStd.h"
 #include "GameUnit.h"
 
-class GamePlayer
+class GamePlayer : public GameObject
 {
 };
 

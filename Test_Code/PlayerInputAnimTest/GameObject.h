@@ -11,8 +11,8 @@ public:
 	GameObject();
 	virtual ~GameObject();
 public:
-	void			AddComponent(std::wstring key, std::shared_ptr<GameComponent> component);
-	void			DeleteComponent(std::wstring key);
+	void							AddComponent(std::wstring key, std::shared_ptr<GameComponent> component);
+	void							DeleteComponent(std::wstring key);
 	std::shared_ptr<GameComponent>	GetComponent(std::wstring key);
 public:
 	bool Init() override;
