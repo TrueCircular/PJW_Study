@@ -3,11 +3,13 @@
 #include "TSoundMgr.h"
 #include "GameObject.h"
 
+using std::shared_ptr;
+using std::make_shared;
 class Sample : public TCore
 {
 public:
-	std::shared_ptr<GameObject> _testBackground;
-	std::shared_ptr<ImageComponent> image;
+	shared_ptr<GameObject> _testBackground;
+	shared_ptr<ImageComponent> image;
 public:
 	bool Init()override;
 	bool Frame()override;

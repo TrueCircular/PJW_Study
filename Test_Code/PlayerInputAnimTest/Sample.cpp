@@ -16,12 +16,12 @@ bool Sample::Init()
 	iInfo.shaderFileName = L"../../resource/shader/Plane.hlsl";
 	iInfo.texFileName = L"../../resource/Background/Main.png";
 	//Component Set
-	image = std::make_shared<ImageComponent>();
+	image = make_shared<ImageComponent>();
 	image->Imageload(iInfo);
 	//make and AddComponent
-	_testBackground = std::make_shared<GameObject>();
+	_testBackground = make_shared<GameObject>();
 	_testBackground->AddComponent(L"Image", image);
-	//.AddComponent(L"Image", image); 같은 이름을 가진 컴포넌트를 추가하는것을 허용하지 않음
+	//_testBackground->AddComponent(L"Image", image); 같은 이름을 가진 컴포넌트를 추가하는것을 허용하지 않음
 
 	//Create Camera
 	m_pMainCamera->Create({ 0,0,0 }, { (float)g_dwWindowWidth, (float)g_dwWindowHeight });
