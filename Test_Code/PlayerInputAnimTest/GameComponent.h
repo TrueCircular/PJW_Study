@@ -23,7 +23,7 @@ public:
 class ImageComponent : public GameComponent
 {
 private:
-	std::shared_ptr<TPlaneObj> _image;
+	std::unique_ptr<TPlaneObj> _image;
 public:
 	ImageComponent();
 	~ImageComponent() override {}
@@ -39,9 +39,9 @@ public:
 class SpriteComponent : public GameComponent
 {
 private:
-	std::shared_ptr<TSpriteObj>		_maskSprite;
-	std::shared_ptr<TSpriteTexture> _nomalSprite;
-	std::shared_ptr<TSpriteUV>		_uvSprite;
+	std::unique_ptr<TSpriteObj>		_maskSprite;
+	std::unique_ptr<TSpriteTexture> _nomalSprite;
+	std::unique_ptr<TSpriteUV>		_uvSprite;
 public:
 	SpriteComponent() {}
 	~SpriteComponent() override {}
