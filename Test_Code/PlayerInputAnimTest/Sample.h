@@ -1,6 +1,5 @@
 #pragma once
 #include "TCore.h"
-#include "TSpriteObj.h"
 #include "TSoundMgr.h"
 #include "GameObject.h"
 

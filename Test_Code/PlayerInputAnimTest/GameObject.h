@@ -3,17 +3,14 @@
 #include "TSpriteObj.h"
 #include "GameComponent.h"
 
-using std::map;
-using std::wstring;
-
 class GameObject : public TObject
 {
 protected:
-	map<wstring, std::shared_ptr<GameComponent>> _components;
+	std::map<std::wstring, std::shared_ptr<GameComponent>> _components;
 public:
-	void			AddComponent(wstring key, std::shared_ptr<GameComponent> component);
-	void			DeleteComponent(wstring key);
-	std::shared_ptr<GameComponent>	GetComponent(wstring key);
+	void			AddComponent(std::wstring key, std::shared_ptr<GameComponent> component);
+	void			DeleteComponent(std::wstring key);
+	std::shared_ptr<GameComponent>	GetComponent(std::wstring key);
 public:
 	bool Init() override;
 	bool Frame() override;

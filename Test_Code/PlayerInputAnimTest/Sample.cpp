@@ -9,7 +9,7 @@ using std::shared_ptr;
 
 bool Sample::Init()
 {
-	_testBackground.SetPos({ 100,0,0 });
+	//_testBackground.SetPos({ 150,0,0 });
 
 	S_TOBJECT_DESC iInfo;
 	iInfo.pos = { 0,0,0 };

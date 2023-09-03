@@ -1,5 +1,8 @@
 #include "GameObject.h"
 
+using std::map;
+using std::wstring;
+
 void GameObject::AddComponent(wstring key, std::shared_ptr<GameComponent> component)
 {
 	if (!key.empty())
@@ -81,8 +84,6 @@ bool GameObject::Render()
 
 bool GameObject::Release()
 {
-	//TObject::Release();
-
 	for (auto a : _components)
 	{
 		a.second->Release();

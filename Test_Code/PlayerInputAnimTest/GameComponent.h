@@ -10,9 +10,10 @@ class GameComponent
 protected:
 	std::shared_ptr<GameObject> _owner = nullptr;
 public:
-	void SetOwner(std::shared_ptr<GameObject> owner);
+	GameComponent() {}
+	virtual ~GameComponent() {}
 public:
-	virtual ~GameComponent(){}
+	void SetOwner(std::shared_ptr<GameObject> owner);
 public:
 	virtual bool Init() = 0;
 	virtual bool Frame() = 0;
@@ -26,7 +27,7 @@ private:
 	std::unique_ptr<TPlaneObj> _image;
 public:
 	ImageComponent();
-	~ImageComponent() override {};
+	virtual~ImageComponent(){};
 	void Imageload(S_TOBJECT_DESC desc);
 public:
 	bool Init() override;
