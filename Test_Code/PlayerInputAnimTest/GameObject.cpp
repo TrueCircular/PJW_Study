@@ -15,14 +15,22 @@ void GameObject::AddComponent(wstring key, std::shared_ptr<GameComponent> compon
 		}
 		else
 		{
-			std::shared_ptr<GameObject> temp(this);
-			component->SetOwner(temp);
+			_instance = shared_from_this();
+			component->SetOwner(_instance);
 		}
 	}
 	else
 	{
 		throw std::runtime_error("This Key is Empty");
 	}
+}
+
+GameObject::GameObject()
+{
+}
+
+GameObject::~GameObject()
+{
 }
 
 void GameObject::DeleteComponent(wstring key)

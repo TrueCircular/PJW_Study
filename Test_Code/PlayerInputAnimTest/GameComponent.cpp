@@ -29,7 +29,7 @@ void GameComponent::SetOwner(std::shared_ptr<GameObject> owner)
 
 ImageComponent::ImageComponent()
 {
-    _image = std::make_unique<TPlaneObj>();
+    _image = std::make_shared<TPlaneObj>();
 }
 
 void ImageComponent::Imageload(S_TOBJECT_DESC desc)

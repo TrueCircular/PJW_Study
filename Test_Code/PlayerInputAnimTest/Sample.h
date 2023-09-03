@@ -6,7 +6,8 @@
 class Sample : public TCore
 {
 public:
-	GameObject _testBackground;
+	std::shared_ptr<GameObject> _testBackground;
+	std::shared_ptr<ImageComponent> image;
 public:
 	bool Init()override;
 	bool Frame()override;

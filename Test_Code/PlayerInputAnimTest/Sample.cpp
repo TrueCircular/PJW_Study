@@ -9,38 +9,40 @@ using std::shared_ptr;
 
 bool Sample::Init()
 {
-	//_testBackground.SetPos({ 150,0,0 });
-
+	//imageComponent require
 	S_TOBJECT_DESC iInfo;
 	iInfo.pos = { 0,0,0 };
 	iInfo.scale = { g_fMapHalfSizeX ,g_fMapHalfSizeY ,1.0 };
 	iInfo.shaderFileName = L"../../resource/shader/Plane.hlsl";
 	iInfo.texFileName = L"../../resource/Background/Main.png";
-
-	shared_ptr<ImageComponent> image = std::make_shared<ImageComponent>();
+	//Component Set
+	image = std::make_shared<ImageComponent>();
 	image->Imageload(iInfo);
-	_testBackground.AddComponent(L"Image", image);
-	//.AddComponent(L"Image", image);
+	//make and AddComponent
+	_testBackground = std::make_shared<GameObject>();
+	_testBackground->AddComponent(L"Image", image);
+	//.AddComponent(L"Image", image); 같은 이름을 가진 컴포넌트를 추가하는것을 허용하지 않음
 
+	//Create Camera
 	m_pMainCamera->Create({ 0,0,0 }, { (float)g_dwWindowWidth, (float)g_dwWindowHeight });
 	return true;
 }
 
 bool Sample::Frame()
 {
-	_testBackground.Frame();
+	_testBackground->Frame();
 	return true;
 }
 
 bool Sample::Render()
 {
-	_testBackground.Render();
+	_testBackground->Render();
 	return true;
 }
 
 bool Sample::Release()
 {
-	_testBackground.Release();
+	_testBackground->Release();
 	return true;
 }
 

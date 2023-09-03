@@ -1,12 +1,15 @@
 #pragma once
 #include "TStd.h"
-#include "TSpriteObj.h"
 #include "GameComponent.h"
 
-class GameObject : public TObject
+class GameObject : public TObject, public std::enable_shared_from_this<GameObject>
 {
 protected:
-	std::map<std::wstring, std::shared_ptr<GameComponent>> _components;
+	std::shared_ptr<GameObject>								_instance;
+	std::map<std::wstring, std::shared_ptr<GameComponent>>	_components;
+public:
+	GameObject();
+	virtual ~GameObject();
 public:
 	void			AddComponent(std::wstring key, std::shared_ptr<GameComponent> component);
 	void			DeleteComponent(std::wstring key);

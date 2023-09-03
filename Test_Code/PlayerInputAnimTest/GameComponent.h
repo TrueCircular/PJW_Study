@@ -1,6 +1,5 @@
 #pragma once
 #include "TSpriteObj.h"
-
 #pragma region F_declaration
 class GameObject;
 #pragma endregion
@@ -24,10 +23,11 @@ public:
 class ImageComponent : public GameComponent
 {
 private:
-	std::unique_ptr<TPlaneObj> _image;
+	std::shared_ptr<TPlaneObj> _image;
 public:
 	ImageComponent();
-	virtual~ImageComponent(){};
+	~ImageComponent() override {}
+public:
 	void Imageload(S_TOBJECT_DESC desc);
 public:
 	bool Init() override;
@@ -39,8 +39,12 @@ public:
 class SpriteComponent : public GameComponent
 {
 private:
-	std::unique_ptr<TSpriteTexture> _nomalSprite;
-	std::unique_ptr<TSpriteUV>		_uvSprite;
+	std::shared_ptr<TSpriteObj>		_maskSprite;
+	std::shared_ptr<TSpriteTexture> _nomalSprite;
+	std::shared_ptr<TSpriteUV>		_uvSprite;
+public:
+	SpriteComponent() {}
+	~SpriteComponent() override {}
 public:
 	bool Init() override;
 	bool Frame() override;
