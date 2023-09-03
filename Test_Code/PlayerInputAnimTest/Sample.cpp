@@ -9,14 +9,14 @@ using std::shared_ptr;
 
 bool Sample::Init()
 {
-	//imageComponent require
+	//imageComponent DESC
 	S_TOBJECT_DESC iInfo;
 	iInfo.pos = { 0,0,0 };
 	iInfo.scale = { g_fMapHalfSizeX ,g_fMapHalfSizeY ,1.0 };
 	iInfo.shaderFileName = L"../../resource/shader/Plane.hlsl";
 	iInfo.texFileName = L"../../resource/Background/Main.png";
 	//Component Set
-	image = make_shared<ImageComponent>();
+	shared_ptr<ImageComponent> image = make_shared<ImageComponent>();
 	image->Imageload(iInfo);
 	//make and AddComponent
 	_testBackground = make_shared<GameObject>();

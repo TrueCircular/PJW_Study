@@ -9,7 +9,6 @@ class Sample : public TCore
 {
 public:
 	shared_ptr<GameObject> _testBackground;
-	shared_ptr<ImageComponent> image;
 public:
 	bool Init()override;
 	bool Frame()override;
