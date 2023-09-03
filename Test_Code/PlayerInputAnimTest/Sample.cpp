@@ -20,6 +20,7 @@ bool Sample::Init()
 	shared_ptr<ImageComponent> image = std::make_shared<ImageComponent>();
 	image->Imageload(iInfo);
 	_testBackground.AddComponent(L"Image", image);
+	//.AddComponent(L"Image", image);
 
 	m_pMainCamera->Create({ 0,0,0 }, { (float)g_dwWindowWidth, (float)g_dwWindowHeight });
 	return true;
