@@ -34,17 +34,6 @@ void  TObject::SetMatrix(TMatrix* matWorld, TMatrix* matView, TMatrix* matProj)
     m_pImmediateContext->UpdateSubresource(m_pConstantBuffer, 0, nullptr, &m_cbData, 0, 0);
 
 }
-void TObject::SpriteFlip(bool isFlip)
-{
-    float destX = m_vScale.x/2;
-    float destY = m_vScale.y/2 ;
-
-    if (isFlip)
-    {
-
-    }
-
-}
 bool  TObject::Create(std::wstring texFilename,
                       std::wstring shaderFilename)
 {
@@ -56,12 +45,35 @@ bool  TObject::Create(std::wstring texFilename,
     UpdateMatrix();
     return true;
 }
+bool TObject::Create(S_TOBJECT_DESC desc)
+{
+    CreateConstantBuffer();
+    CreateVertexBuffer();
+    m_pShader = I_Shader.Load(desc.shaderFileName);
+    CreateInputLayout();
+    m_pTex = I_Tex.Load(desc.texFileName);
+
+    SetPos(desc.pos);
+    SetScale(desc.scale);
+    TVector2 temp = { desc.pos.x, desc.pos.y };
+    SetRect(temp, desc.scale.x * 2.0f, desc.scale.y * 2.0f );
+
+    UpdateMatrix();
+    return false;
+}
 void TObject::UpdateMatrix()
 {
     matScale.Scale(m_vScale);
     matRotation.ZRotate(m_vRotation.z);
     matTranslate.Translation(m_vPos);
     m_matWorld = matScale * matRotation * matTranslate;
+}
+void TObject::UpdateRect()
+{
+    m_rtPos.x = m_vPos.x;
+    m_rtPos.y = m_vPos.y;
+
+    m_tRT.Set(m_rtPos, m_vScale.x * 2.0f, m_vScale.y * 2.0f);
 }
 bool  TObject::Init()
 {   

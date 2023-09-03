@@ -13,6 +13,20 @@ TVector3 TInput::GetWorldPos( TVector2 vWindow, TVector3 vCamera)
     vMouse.y = vMouseWorldLT.y - vMouse.y;
     return vMouse;
 }
+TVector2 TInput::GetWorldPosVec2(TVector2 vWindow, TVector3 vCamera)
+{
+    float fHalfWidth = vWindow.x / 2.0f;
+    float fHalfHeight = vWindow.y / 2.0f;
+
+    // client
+    TVector2 vMouse = { (float)m_MousePos.x, (float)m_MousePos.y};
+    // world
+    TVector2 vMouseWorldLT = { vCamera.x - fHalfWidth,
+                               vCamera.y + fHalfHeight };
+    vMouse.x = vMouseWorldLT.x + vMouse.x;
+    vMouse.y = vMouseWorldLT.y - vMouse.y;
+    return vMouse;
+}
 bool  TInput::Frame()
 {       
     ::GetCursorPos(&m_MousePos); // ½ºÅ©¸° ÁÂÇ¥

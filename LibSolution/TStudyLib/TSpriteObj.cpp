@@ -89,10 +89,7 @@ bool TSpriteTexture::Release()
 	return true;
 }
 
-void TSpriteTexture::SpriteFlip(bool isFlip)
-{
-	TObject::SpriteFlip(isFlip);
-}
+
 
 TSpriteTexture::TSpriteTexture()
 {

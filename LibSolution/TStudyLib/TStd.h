@@ -9,6 +9,8 @@
 #include <map> // key+value   bst
 #include <unordered_map> 
 #include <queue>
+#include <array>
+#include <list>
 
 #include <d3d11.h>
 #include <dxgi.h>

@@ -67,5 +67,6 @@ bool  TPlaneObj::CreateVertexBuffer()
 bool TPlaneObj::Frame()
 {
     UpdateMatrix();
+    UpdateRect();
     return true;
 }

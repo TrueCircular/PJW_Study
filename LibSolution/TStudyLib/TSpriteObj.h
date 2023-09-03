@@ -66,7 +66,6 @@ public:
 	bool Frame() override;
 	bool Render() override;
 	bool Release() override;
-	virtual void  SpriteFlip(bool isFlip) override;
 public:
 	TSpriteTexture();
 	virtual ~TSpriteTexture();
