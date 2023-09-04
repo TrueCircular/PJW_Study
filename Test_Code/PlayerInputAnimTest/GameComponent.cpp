@@ -322,6 +322,18 @@ void AnimationControllerComponent::AddAnimation(int start, int end)
 	}
 	case E_SpriteType::SPRITE_TYPE_UVMASK:
 	{
+		if (_uvMaskSprite != nullptr && _SpriteCom->GetLoadState())
+		{
+			UVMaskSpriteVec temp(_uvMaskSprite->m_pUVList);
+			UVMaskSpriteVec temp2;
+
+			for (int i = start; i <= end; i++)
+			{
+				temp2.push_back(temp[i]);
+			}
+
+			_uvMaskAnimation.push_back(temp2);
+		}
 		break;
 	}
 	default:
