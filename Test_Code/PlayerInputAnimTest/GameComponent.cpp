@@ -15,6 +15,8 @@ bool SpriteComponent::Init()
 	_uvSprite = make_shared<TSpriteUV>();
 
 	_sType = E_SpriteType::SPRITE_TYPE_NOMAL;
+	_isRender = true;
+
 	return true;
 }
 
@@ -47,12 +49,21 @@ bool SpriteComponent::LoadSpriteImage(TSpriteInfo desc)
 {
 	switch (_sType)
 	{
-	case SPRITE_TYPE_MASK:
-		break;
 	case SPRITE_TYPE_NOMAL:
+	{
+		_nomalSprite->Load(desc);
 		break;
+	}
 	case SPRITE_TYPE_UV:
+	{
+		_uvSprite->Load(desc);
 		break;
+	}
+	case SPRITE_TYPE_UVMASK:
+	{
+		_uvMaskSprite->Load(desc);
+		break;
+	}
 	case SPRTIE_TYPE_NONE:
 		break;
 	}
@@ -63,12 +74,33 @@ bool SpriteComponent::Frame()
 {
 	switch (_sType)
 	{
-	case SPRITE_TYPE_MASK:
-		break;
 	case SPRITE_TYPE_NOMAL:
+	{
+		if (_owner != nullptr)
+		{
+			_nomalSprite->m_vPos = _owner->m_vPos;
+			_nomalSprite->Frame();
+		}
 		break;
+	}
 	case SPRITE_TYPE_UV:
+	{
+		if (_owner != nullptr)
+		{
+			_uvSprite->m_vPos = _owner->m_vPos;
+			_uvSprite->Frame();
+		}
 		break;
+	}
+	case SPRITE_TYPE_UVMASK:
+	{
+		if (_owner != nullptr)
+		{
+			_uvMaskSprite->m_vPos = _owner->m_vPos;
+			_uvMaskSprite->Frame();
+		}
+		break;
+	}
 	case SPRTIE_TYPE_NONE:
 		break;
 	}
@@ -77,6 +109,33 @@ bool SpriteComponent::Frame()
 
 bool SpriteComponent::Render()
 {
+	if (_isRender)
+	{
+		switch (_sType)
+		{
+		case SPRITE_TYPE_NOMAL:
+		{
+			_nomalSprite->SetMatrix(nullptr, &ICore::g_pMainCamera->m_matView, &ICore::g_pMainCamera->m_matOrthoProjection);
+			_nomalSprite->Render();
+			break;
+		}
+		case SPRITE_TYPE_UV:
+		{
+			_uvSprite->SetMatrix(nullptr, &ICore::g_pMainCamera->m_matView, &ICore::g_pMainCamera->m_matOrthoProjection);
+			_uvSprite->Render();
+			break;
+		}
+		case SPRITE_TYPE_UVMASK:
+		{
+			_uvMaskSprite->SetMatrix(nullptr, &ICore::g_pMainCamera->m_matView, &ICore::g_pMainCamera->m_matOrthoProjection);
+			_uvMaskSprite->Render();
+			break;
+		}
+		case SPRTIE_TYPE_NONE:
+			break;
+		}
+	}
+
 	return true;
 }
 
@@ -100,6 +159,40 @@ void ImageComponent::Imageload(S_TOBJECT_DESC desc)
 	{
 		_image->Set(ICore::g_pDevice, ICore::g_pContext);
 		_image->Create(desc);
+	}
+}
+
+void ImageComponent::HorizontalFlip(bool isFlip)
+{
+	float temp = fabsf( _image->m_vScale.x);
+	if (isFlip)
+	{
+		_image->m_vScale.x = temp * -1.0f;
+		_image->UpdateMatrix();
+		_image->UpdateRect();
+	}
+	else
+	{
+		_image->m_vScale.x = temp;
+		_image->UpdateMatrix();
+		_image->UpdateRect();
+	}
+}
+
+void ImageComponent::VerticalFlip(bool isFlip)
+{
+	float temp = fabsf(_image->m_vScale.y);
+	if (isFlip)
+	{
+		_image->m_vScale.y = temp * -1.0f;
+		_image->UpdateMatrix();
+		_image->UpdateRect();
+	}
+	else
+	{
+		_image->m_vScale.y = temp;
+		_image->UpdateMatrix();
+		_image->UpdateRect();
 	}
 }
 
@@ -130,5 +223,22 @@ bool ImageComponent::Render()
 bool ImageComponent::Release()
 {
 	_image->Release();
+	return true;
+}
+
+bool AnimationControllerComponent::Init()
+{
+	return true;
+}
+bool AnimationControllerComponent::Frame()
+{
+	return true;
+}
+bool AnimationControllerComponent::Render()
+{
+	return true;
+}
+bool AnimationControllerComponent::Release()
+{
 	return true;
 }

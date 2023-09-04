@@ -29,6 +29,8 @@ public:
 	~ImageComponent() override {}
 public:
 	void Imageload(S_TOBJECT_DESC desc);
+	void VerticalFlip(bool isFlip);
+	void HorizontalFlip(bool isFlip);
 public:
 	bool Init() override;
 	bool Frame() override;
@@ -38,9 +40,9 @@ public:
 
 enum E_SpriteType
 {
-	SPRITE_TYPE_MASK,
 	SPRITE_TYPE_NOMAL,
 	SPRITE_TYPE_UV,
+	SPRITE_TYPE_UVMASK,
 	SPRTIE_TYPE_NONE
 };
 class SpriteComponent : public GameComponent
@@ -49,7 +51,9 @@ private:
 	std::shared_ptr<TSpriteTexture> _nomalSprite;
 	std::shared_ptr<TSpriteUV>		_uvSprite;
 	std::shared_ptr<TSpriteObj>		_uvMaskSprite;
+
 	E_SpriteType					_sType;
+	bool							_isRender;
 public:
 	SpriteComponent() {}
 	~SpriteComponent() override {}
@@ -69,6 +73,33 @@ public:
 	bool Release() override;
 };
 
+class AnimationControllerComponent : public GameComponent
+{
+	using NomalSprtieVec = std::vector<const TTexture*>;
+	using NomalAnimVec = std::vector<NomalSprtieVec>;
+
+	using UVSpriteVec = std::vector<TUVRect>;
+	using UVAnimVec = std::vector<UVSpriteVec>;
+protected:
+	std::shared_ptr<TSpriteTexture> _nomalSprite;
+	NomalAnimVec					_nomalAnimation;
+	std::shared_ptr<TSpriteUV>		_uvSprite;
+	UVAnimVec						_uvAnimation;
+
+	E_SpriteType					_sType;
+	bool							_isLoop;
+public:
+	AnimationControllerComponent(){}
+	~AnimationControllerComponent() override {}
+public:
+	
+public:
+	bool Init() override;
+	bool Frame() override;
+	bool Render() override;
+	bool Release() override;
+};
+
 enum E_PlayerAnimationState
 {
 	P_ANIM_IDLE,
@@ -78,8 +109,10 @@ enum E_PlayerAnimationState
 	P_ANIM_RIGHT,
 	P_ANIM_NONE
 };	
-class PlayerAnimControllerComponent : public GameComponent
+class PlayerAnimControllerComponent : public AnimationControllerComponent
 {
+private:
+
 public:
 	PlayerAnimControllerComponent() {}
 	~PlayerAnimControllerComponent() override {}
@@ -98,7 +131,7 @@ enum E_UnitAnimationState
 	U_ANIM_SKILL1,
 	U_ANIM_SKILL2
 };
-class UnitAnimControllerComponent : public GameComponent
+class UnitAnimControllerComponent : public AnimationControllerComponent
 {
 public:
 	UnitAnimControllerComponent() {}

@@ -30,28 +30,42 @@ struct TSpriteInfo
 	{
 		Reset();
 	}
+	TSpriteInfo& operator=(const TSpriteInfo& info)
+	{
+		iNumRow = info.iNumRow;
+		iNumColumn = info.iNumColumn;
+		p = info.p;
+		s = info.s;
+		fAnimTimer = info.fAnimTimer;
+		fElapsedTimer = info.fElapsedTimer;
+		texFile = info.texFile;
+		texAlphaFile = info.texAlphaFile;
+		shaderFile = info.shaderFile;
+		texList = info.texList;
+
+		return *this;
+	}
 };
 class TSpriteObj : public TPlaneObj
 {
 public:
-	std::vector<TUVRect>  m_pUVList;
-	const	TTexture* m_pAlphaTex = nullptr;
-	float	m_fAnimTimer = 1.0f;  // 전체 시간
-	float	m_fOffsetTime = 0.0f;	// 1프레임 교체시간
-	float	m_fElapsedTimer = 0.0f; // 누적시간
-	int		m_iCurrentAnimIndex = 0;
-	int		m_iNumSpriteX = 1;
-	int		m_iNumSpriteY = 1;
-	TSpriteInfo m_InitSpriteInfo;
+	std::vector<TUVRect>	m_pUVList;
+	const	TTexture*		m_pAlphaTex = nullptr;
+	TSpriteInfo				m_InitSpriteInfo;
+
+	float					m_fOffsetTime = 0.0f;	// 1프레임 교체시간
+	float					m_fElapsedTimer = 0.0f; // 누적시간
+	int						m_iCurrentAnimIndex = 0;
 public:
 	virtual bool   Render() override;
 	virtual int    GetMaxSize() { return 1; }
-	virtual bool  Load(
+	virtual bool   Load(
 		ID3D11Device* pDevice, 
 		ID3D11DeviceContext* pImmediateContext,
 		TSpriteInfo) ;
-	virtual bool  LoadTexArray(T_STR_VECTOR& texList) { return true; };
-	virtual void  SetUVFrame(int iNumRow, int iNumColumn) {}
+	virtual bool   Load(TSpriteInfo sDesc);
+	virtual bool   LoadTexArray(T_STR_VECTOR& texList) { return true; };
+	virtual void   SetUVFrame(int iNumRow, int iNumColumn) {}
 
 };
 // 텍스쳐 교체 에니메이션
@@ -74,13 +88,8 @@ public:
 class TSpriteUV : public TSpriteObj
 {
 public:
-	//std::vector<TUVRect>  m_pUVList;
+	std::vector<TUVRect>  m_pUVList;
 	void  SetUVFrame(int iNumRow, int iNumColumn) override;
-	void  SetNumSprite(int x, int y)
-	{
-		m_iNumSpriteX = 1;
-		m_iNumSpriteY = 1;
-	}
 public:
 	virtual int    GetMaxSize() { return m_pUVList.size(); }
 	bool Init() override;
