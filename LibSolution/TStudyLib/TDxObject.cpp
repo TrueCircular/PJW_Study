@@ -103,6 +103,22 @@ bool  TDxObject::CreateInputLayout()
     }
     return true;
 }
+bool TDxObject::DisableBackfaceCulling()
+{
+    D3D11_RASTERIZER_DESC rDesc;
+    ZeroMemory(&rDesc, sizeof(rDesc));
+    rDesc.FillMode = D3D11_FILL_SOLID;
+    rDesc.CullMode = D3D11_CULL_NONE;
+    HRESULT hr = m_pDevice->CreateRasterizerState(&rDesc, &m_rsState);
+
+    if (SUCCEEDED(hr))
+    {
+        m_pImmediateContext->RSSetState(m_rsState);
+        return true;
+    }
+
+    return false;
+}
 bool  TDxObject::Init()
 {
     return true;

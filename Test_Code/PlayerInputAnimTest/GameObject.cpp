@@ -17,6 +17,7 @@ void GameObject::AddComponent(wstring key, std::shared_ptr<GameComponent> compon
 		{
 			_instance = shared_from_this();
 			component->SetOwner(_instance);
+			component->Init();
 		}
 	}
 	else

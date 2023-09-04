@@ -41,7 +41,8 @@ bool  TObject::Create(std::wstring texFilename,
     CreateVertexBuffer();
     m_pShader = I_Shader.Load(shaderFilename);
     CreateInputLayout();
-    m_pTex = I_Tex.Load(texFilename);  
+    m_pTex = I_Tex.Load(texFilename);
+    DisableBackfaceCulling();
     UpdateMatrix();
     return true;
 }
@@ -57,6 +58,7 @@ bool TObject::Create(S_TOBJECT_DESC desc)
     SetScale(desc.scale);
     TVector2 temp = { desc.pos.x, desc.pos.y };
     SetRect(temp, desc.scale.x * 2.0f, desc.scale.y * 2.0f );
+    DisableBackfaceCulling();
 
     UpdateMatrix();
     return false;

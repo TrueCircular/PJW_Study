@@ -9,6 +9,9 @@ using std::shared_ptr;
 
 bool Sample::Init()
 {
+	//Object Init
+	_testBackground = make_shared<GameObject>();
+
 	//imageComponent DESC
 	S_TOBJECT_DESC iInfo;
 	iInfo.pos = { 0,0,0 };
@@ -17,11 +20,10 @@ bool Sample::Init()
 	iInfo.texFileName = L"../../resource/Background/Main.png";
 	//Component Set
 	shared_ptr<ImageComponent> image = make_shared<ImageComponent>();
-	image->Imageload(iInfo);
-	//make and AddComponent
-	_testBackground = make_shared<GameObject>();
 	_testBackground->AddComponent(L"Image", image);
-	_testBackground->Init();
+	image->Imageload(iInfo);
+
+	//make and AddComponent
 	//_testBackground->AddComponent(L"Image", image); 같은 이름을 가진 컴포넌트를 추가하는것을 허용하지 않음
 
 	//Create Camera

@@ -33,7 +33,7 @@ bool Sample::Init()
 	TSpriteInfo info;
 	info.Reset();
 	info.p = { -700.f,360.f,0.f };
-	info.s = { 30.f,30.f,1.0f };
+	info.s = { -30.f,30.f,1.0f };
 	info.iNumRow = 16;
 	info.iNumColumn = 16;
 	info.fAnimTimer = 1.f;
@@ -59,7 +59,6 @@ bool Sample::Init()
 			info.p.y = 360.f;
 		}
 		info.p.x += 50.f;
-		temp->m_isFlip = true;
 		temp->Load(m_pDevice, m_pImmediateContext, info);
 		bird.push_back(temp);
 	}

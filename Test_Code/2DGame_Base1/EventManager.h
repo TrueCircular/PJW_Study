@@ -20,13 +20,15 @@ using Event_Map = std::map<std::wstring, Event>;
 class EventManager
 {
 private:
-	static EventManager _instance;
-private:
 	EventManager(){}
 public:
 	~EventManager(){}
 
-	static EventManager& GetInstance();
+	static EventManager& GetInstance()
+	{
+		static EventManager instance;
+		return instance;
+	}
 
 };
 

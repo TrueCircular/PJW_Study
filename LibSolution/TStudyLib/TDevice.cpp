@@ -63,6 +63,8 @@ bool  TDevice::Init()
     m_ViewPort.TopLeftX = 0;
     m_ViewPort.TopLeftY = 0;
     m_pImmediateContext->RSSetViewports(1, &m_ViewPort);
+
+
     return true;
 }
 bool  TDevice::Frame()
