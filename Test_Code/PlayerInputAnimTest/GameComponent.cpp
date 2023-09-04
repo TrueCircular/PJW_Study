@@ -16,11 +16,12 @@ bool SpriteComponent::Init()
 
 	_sType = E_SpriteType::SPRITE_TYPE_NOMAL;
 	_isRender = true;
+	_isLoad = false;
 
 	return true;
 }
 
-E_SpriteType SpriteComponent::GetSpriteType()
+E_SpriteType SpriteComponent::GetSpriteType() const
 {
 	return _sType;
 }
@@ -28,6 +29,21 @@ E_SpriteType SpriteComponent::GetSpriteType()
 void SpriteComponent::SetSpriteType(E_SpriteType sType)
 {
 	_sType = sType;
+}
+
+bool SpriteComponent::GetLoadState() const
+{
+	return _isLoad;
+}
+
+bool SpriteComponent::GetRenderState() const
+{
+	return _isRender;
+}
+
+void SpriteComponent::SetRender(bool render)
+{
+	_isRender = render;
 }
 
 std::shared_ptr<TSpriteTexture> SpriteComponent::GetNomalSprite()
@@ -52,16 +68,19 @@ bool SpriteComponent::LoadSpriteImage(TSpriteInfo desc)
 	case SPRITE_TYPE_NOMAL:
 	{
 		_nomalSprite->Load(desc);
+		_isLoad = true;
 		break;
 	}
 	case SPRITE_TYPE_UV:
 	{
 		_uvSprite->Load(desc);
+		_isLoad = true;
 		break;
 	}
 	case SPRITE_TYPE_UVMASK:
 	{
 		_uvMaskSprite->Load(desc);
+		_isLoad = true;
 		break;
 	}
 	case SPRTIE_TYPE_NONE:
@@ -228,6 +247,20 @@ bool ImageComponent::Release()
 
 bool AnimationControllerComponent::Init()
 {
+	if (_owner != nullptr)
+	{
+		if (_SpriteCom = std::dynamic_pointer_cast<SpriteComponent>(_owner->GetComponent(L"Sprite")))
+		{
+			_sType = _SpriteCom->GetSpriteType();
+
+			_nomalSprite = _SpriteCom->GetNomalSprite();
+			_uvSprite = _SpriteCom->GetUVSprite();
+			_uvMaskSprite = _SpriteCom->GetUVMaskSprtie();
+
+			_nomalSprite->
+		}
+	}
+
 	return true;
 }
 bool AnimationControllerComponent::Frame()

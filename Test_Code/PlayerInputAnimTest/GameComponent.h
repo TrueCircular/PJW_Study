@@ -54,12 +54,16 @@ private:
 
 	E_SpriteType					_sType;
 	bool							_isRender;
+	bool							_isLoad;
 public:
 	SpriteComponent() {}
 	~SpriteComponent() override {}
 public:
-	E_SpriteType	GetSpriteType();
+	E_SpriteType	GetSpriteType() const;
 	void			SetSpriteType(E_SpriteType sType);
+	bool			GetLoadState() const;
+	bool			GetRenderState() const;
+	void			SetRender(bool render);
 
 	std::shared_ptr<TSpriteTexture> GetNomalSprite();
 	std::shared_ptr<TSpriteUV>		GetUVSprite();
@@ -80,14 +84,23 @@ class AnimationControllerComponent : public GameComponent
 
 	using UVSpriteVec = std::vector<TUVRect>;
 	using UVAnimVec = std::vector<UVSpriteVec>;
-protected:
-	std::shared_ptr<TSpriteTexture> _nomalSprite;
-	NomalAnimVec					_nomalAnimation;
-	std::shared_ptr<TSpriteUV>		_uvSprite;
-	UVAnimVec						_uvAnimation;
 
-	E_SpriteType					_sType;
-	bool							_isLoop;
+	using UVMaskSpriteVec = std::vector<TUVRect>;
+	using UVMaskAnimVec = std::vector<UVMaskSpriteVec>;
+
+protected:
+	std::shared_ptr<SpriteComponent> _SpriteCom;
+
+	std::shared_ptr<TSpriteTexture>	 _nomalSprite;
+	NomalAnimVec					 _nomalAnimation;
+	std::shared_ptr<TSpriteUV>		 _uvSprite;
+	UVAnimVec						 _uvAnimation;
+	std::shared_ptr<TSpriteObj>		 _uvMaskSprite;
+	UVMaskAnimVec					 _uvMaskAnimation;
+
+	E_SpriteType					 _sType;
+	bool							 _isLoop;
+	bool							 _isRender;
 public:
 	AnimationControllerComponent(){}
 	~AnimationControllerComponent() override {}
