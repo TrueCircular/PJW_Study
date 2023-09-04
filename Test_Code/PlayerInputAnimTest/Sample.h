@@ -12,6 +12,9 @@ public:
 	shared_ptr<GameObject> _testObject;
 	shared_ptr<GameObject> _testSpriteObj;
 
+	float _time = 0;
+	
+
 public:
 	bool Init()override;
 	bool Frame()override;

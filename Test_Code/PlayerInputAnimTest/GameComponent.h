@@ -70,6 +70,8 @@ public:
 	std::shared_ptr<TSpriteObj>		GetUVMaskSprtie();
 public:
 	bool LoadSpriteImage(TSpriteInfo desc);
+	void HorizontalFlip(bool isFlip);
+	void VerticalFlip(bool isFlip);
 public:
 	bool Init() override;
 	bool Frame() override;
@@ -100,12 +102,15 @@ protected:
 
 	E_SpriteType					 _sType;
 	bool							 _isLoop;
-	bool							 _isRender;
+	int								 _AnimSize;
 public:
 	AnimationControllerComponent(){}
 	~AnimationControllerComponent() override {}
 public:
-	
+	void AddAnimation(int start, int end);
+	void SetAnimationState(int state);
+	void HorizontalFlip(bool isFlip);
+	void VerticalFlip(bool isFlip);
 public:
 	bool Init() override;
 	bool Frame() override;

@@ -89,6 +89,38 @@ bool SpriteComponent::LoadSpriteImage(TSpriteInfo desc)
 	return true;
 }
 
+void SpriteComponent::VerticalFlip(bool isFlip)
+{
+	if (_owner != nullptr)
+	{
+		float temp = fabsf(_owner->m_vScale.y);
+		if (isFlip)
+		{
+			_owner->m_vScale.y = temp * -1.0f;
+		}
+		else
+		{
+			_owner->m_vScale.y = temp;
+		}
+	}
+}
+
+void SpriteComponent::HorizontalFlip(bool isFlip)
+{
+	if (_owner != nullptr)
+	{
+		float temp = fabsf(_owner->m_vScale.x);
+		if (isFlip)
+		{
+			_owner->m_vScale.x = temp * -1.0f;
+		}
+		else
+		{
+			_owner->m_vScale.x = temp;
+		}
+	}
+}
+
 bool SpriteComponent::Frame()
 {
 	switch (_sType)
@@ -98,6 +130,8 @@ bool SpriteComponent::Frame()
 		if (_owner != nullptr)
 		{
 			_nomalSprite->m_vPos = _owner->m_vPos;
+			_nomalSprite->m_vScale = _owner->m_vScale;
+			_nomalSprite->m_vRotation = _owner->m_vRotation;
 			_nomalSprite->Frame();
 		}
 		break;
@@ -107,6 +141,8 @@ bool SpriteComponent::Frame()
 		if (_owner != nullptr)
 		{
 			_uvSprite->m_vPos = _owner->m_vPos;
+			_uvSprite->m_vScale = _owner->m_vScale;
+			_uvSprite->m_vRotation = _owner->m_vRotation;
 			_uvSprite->Frame();
 		}
 		break;
@@ -116,6 +152,9 @@ bool SpriteComponent::Frame()
 		if (_owner != nullptr)
 		{
 			_uvMaskSprite->m_vPos = _owner->m_vPos;
+			_uvMaskSprite->m_vScale = _owner->m_vScale;
+			_uvMaskSprite->m_vRotation = _owner->m_vRotation;
+
 			_uvMaskSprite->Frame();
 		}
 		break;
@@ -183,35 +222,33 @@ void ImageComponent::Imageload(S_TOBJECT_DESC desc)
 
 void ImageComponent::HorizontalFlip(bool isFlip)
 {
-	float temp = fabsf( _image->m_vScale.x);
-	if (isFlip)
+	if (_owner != nullptr)
 	{
-		_image->m_vScale.x = temp * -1.0f;
-		_image->UpdateMatrix();
-		_image->UpdateRect();
-	}
-	else
-	{
-		_image->m_vScale.x = temp;
-		_image->UpdateMatrix();
-		_image->UpdateRect();
+		float temp = fabsf(_owner->m_vScale.x);
+		if (isFlip)
+		{
+			_owner->m_vScale.x = temp * -1.0f;
+		}
+		else
+		{
+			_owner->m_vScale.x = temp;
+		}
 	}
 }
 
 void ImageComponent::VerticalFlip(bool isFlip)
 {
-	float temp = fabsf(_image->m_vScale.y);
-	if (isFlip)
+	if (_owner != nullptr)
 	{
-		_image->m_vScale.y = temp * -1.0f;
-		_image->UpdateMatrix();
-		_image->UpdateRect();
-	}
-	else
-	{
-		_image->m_vScale.y = temp;
-		_image->UpdateMatrix();
-		_image->UpdateRect();
+		float temp = fabsf(_owner->m_vScale.y);
+		if (isFlip)
+		{
+			_owner->m_vScale.y = temp * -1.0f;
+		}
+		else
+		{
+			_owner->m_vScale.y = temp;
+		}
 	}
 }
 
@@ -227,6 +264,8 @@ bool ImageComponent::Frame()
 	if (_owner != nullptr)
 	{
 		_image->m_vPos = _owner->m_vPos;
+		_image->m_vScale = _owner->m_vScale;
+		_image->m_vRotation = _owner->m_vRotation;
 	}
 	_image->Frame();
 	return true;
@@ -245,6 +284,120 @@ bool ImageComponent::Release()
 	return true;
 }
 
+void AnimationControllerComponent::AddAnimation(int start, int end)
+{
+	switch (_sType)
+	{
+	case E_SpriteType::SPRITE_TYPE_NOMAL:
+	{
+		if (_nomalSprite != nullptr && _SpriteCom->GetLoadState())
+		{
+			NomalSprtieVec temp(_nomalSprite->m_pTexList);
+			NomalSprtieVec temp2;
+
+			for (int i = start; i <= end; i++)
+			{
+				temp2.push_back(temp[i]);
+			}
+
+			_nomalAnimation.push_back(temp2);
+		}
+		break;
+	}
+	case E_SpriteType::SPRITE_TYPE_UV:
+	{
+		if (_uvSprite != nullptr && _SpriteCom->GetLoadState())
+		{
+			UVSpriteVec temp(_uvSprite->m_pUVList);
+			UVSpriteVec temp2;
+
+			for (int i = start; i <= end; i++)
+			{
+				temp2.push_back(temp[i]);
+			}
+
+			_uvAnimation.push_back(temp2);
+		}
+		break;
+	}
+	case E_SpriteType::SPRITE_TYPE_UVMASK:
+	{
+		break;
+	}
+	default:
+		break;
+	}
+}
+
+void AnimationControllerComponent::SetAnimationState(int state)
+{
+	switch (_sType)
+	{
+	case E_SpriteType::SPRITE_TYPE_NOMAL:
+	{
+		if (_nomalAnimation.size() > 0)
+		{
+			if (_nomalSprite != nullptr)
+			{
+				_nomalSprite->m_pTexList = _nomalAnimation[state];
+				_nomalSprite->m_iCurrentAnimIndex = 0;
+			}
+		}
+		break;
+	}
+	case E_SpriteType::SPRITE_TYPE_UV:
+	{
+		if (_uvAnimation.size() > 0)
+		{
+			if (_uvSprite != nullptr)
+			{
+				_uvSprite->m_pUVList = _uvAnimation[state];
+				_uvSprite->m_iCurrentAnimIndex = 0;
+			}
+		}
+		break;
+	}
+	case E_SpriteType::SPRITE_TYPE_UVMASK:
+	{
+		break;
+	}
+	default:
+		break;
+	}
+}
+
+void AnimationControllerComponent::HorizontalFlip(bool isFlip)
+{
+	if (_owner != nullptr)
+	{
+		float temp = fabsf(_owner->m_vScale.x);
+		if (isFlip)
+		{
+			_owner->m_vScale.x = temp * -1.0f;
+		}
+		else
+		{
+			_owner->m_vScale.x = temp;
+		}
+	}
+}
+
+void AnimationControllerComponent::VerticalFlip(bool isFlip)
+{
+	if (_owner != nullptr)
+	{
+		float temp = fabsf(_owner->m_vScale.y);
+		if (isFlip)
+		{
+			_owner->m_vScale.y = temp * -1.0f;
+		}
+		else
+		{
+			_owner->m_vScale.y = temp;
+		}
+	}
+}
+
 bool AnimationControllerComponent::Init()
 {
 	if (_owner != nullptr)
@@ -256,8 +409,6 @@ bool AnimationControllerComponent::Init()
 			_nomalSprite = _SpriteCom->GetNomalSprite();
 			_uvSprite = _SpriteCom->GetUVSprite();
 			_uvMaskSprite = _SpriteCom->GetUVMaskSprtie();
-
-			_nomalSprite->
 		}
 	}
 

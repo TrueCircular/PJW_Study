@@ -64,7 +64,9 @@ bool TSpriteTexture::Init()
 bool TSpriteTexture::Frame()
 {
 	TPlaneObj::Frame();
+
 	m_fElapsedTimer += g_fSecondPerFrame;
+
 	if (m_pTexList[m_iCurrentAnimIndex] != nullptr)
 	{
 		if (m_fElapsedTimer >= m_fOffsetTime)
