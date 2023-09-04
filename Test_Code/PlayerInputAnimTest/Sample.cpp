@@ -17,6 +17,7 @@ bool Sample::Init()
 	_testBackground->SetScale({ g_fMapHalfSizeX ,g_fMapHalfSizeY ,1.0 });
 	_testObject->SetScale({ 32.f ,32.f ,1.f });
 	_testSpriteObj->SetScale({ 100.f,100.f,1.f });
+	_testSpriteObj->SetPos({ 100, 0, 0 });
 
 	//imageComponent DESC
 	S_TOBJECT_DESC iInfo;
@@ -65,7 +66,7 @@ bool Sample::Init()
 
 
 
-	_testSpriteObj->m_vPos.x += 100;
+
 
 	//Create Camera
 	m_pMainCamera->Create({ 0,0,0 }, { (float)g_dwWindowWidth, (float)g_dwWindowHeight });
@@ -74,7 +75,6 @@ bool Sample::Init()
 
 bool Sample::Frame()
 {
-
 	_testBackground->Frame();
 	_testObject->Frame();
 	_testSpriteObj->Frame();
