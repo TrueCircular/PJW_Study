@@ -371,6 +371,14 @@ void AnimationControllerComponent::SetAnimationState(int state)
 	}
 	case E_SpriteType::SPRITE_TYPE_UVMASK:
 	{
+		if (_uvMaskAnimation.size() > 0)
+		{
+			if (_uvMaskSprite != nullptr)
+			{
+				_uvMaskSprite->m_pUVList = _uvMaskAnimation[state];
+				_uvMaskSprite->m_iCurrentAnimIndex = 0;
+			}
+		}
 		break;
 	}
 	default:
