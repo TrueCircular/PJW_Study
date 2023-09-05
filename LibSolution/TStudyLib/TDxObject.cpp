@@ -119,6 +119,33 @@ bool TDxObject::DisableBackfaceCulling()
 
     return false;
 }
+bool TDxObject::SetSamplerState()
+{
+    if(m_SamplerState !=nullptr) m_SamplerState->Release();
+
+    D3D11_SAMPLER_DESC samDesc;
+    ZeroMemory(&samDesc, sizeof(samDesc));
+    samDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+
+    samDesc.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
+    samDesc.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
+    samDesc.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
+
+    //samDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+    //samDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+    //samDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+    samDesc.MaxAnisotropy = 16;
+
+    HRESULT hr = m_pDevice->CreateSamplerState(&samDesc, &m_SamplerState);
+
+    if (SUCCEEDED(hr))
+    {
+        m_pImmediateContext->PSSetSamplers(0, 1, &m_SamplerState);
+        return true;
+    }
+
+    return false;
+}
 bool  TDxObject::Init()
 {
     return true;
@@ -146,6 +173,8 @@ bool  TDxObject::PreRender()
     m_pImmediateContext->IASetVertexBuffers(0, 1, &m_pVertexBuffer, &stride, &offset);
     m_pImmediateContext->IASetPrimitiveTopology(
         D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+
     return true;
 }
 bool  TDxObject::Render()
@@ -156,7 +185,9 @@ bool  TDxObject::Render()
 }
 bool  TDxObject::PostRender()
 {
+    SetSamplerState();
     m_pImmediateContext->Draw(m_VertexList.size(), 0);
+    //m_pImmediateContext->DrawIndexed(m_VertexList.size(), 0, 0);
     return true;
 }
 bool  TDxObject::Release()

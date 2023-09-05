@@ -123,10 +123,10 @@ public:
 enum E_PlayerAnimationState
 {
 	P_ANIM_IDLE,
-	P_ANIM_FORWARD,
-	P_ANIM_BACK,
-	P_ANIM_LEFT,
-	P_ANIM_RIGHT,
+	P_ANIM_MOVE_FORWARD,
+	P_ANIM_MOVE_BACK,
+	P_ANIM_MOVE_LEFT,
+	P_ANIM_MOVE_RIGHT,
 	P_ANIM_NONE
 };	
 class PlayerAnimControllerComponent : public AnimationControllerComponent
@@ -146,7 +146,7 @@ public:
 enum E_UnitAnimationState
 {
 	U_ANIM_IDLE,
-	U_ANIM_DEATH,
+	U_ANIM_MOVE,
 	U_ANIM_ATTACK,
 	U_ANIM_SKILL1,
 	U_ANIM_SKILL2

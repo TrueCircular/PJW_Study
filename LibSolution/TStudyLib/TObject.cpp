@@ -43,6 +43,8 @@ bool  TObject::Create(std::wstring texFilename,
     CreateInputLayout();
     m_pTex = I_Tex.Load(texFilename);
     DisableBackfaceCulling();
+    //SetSamplerState();
+
     UpdateMatrix();
     return true;
 }
@@ -59,6 +61,7 @@ bool TObject::Create(S_TOBJECT_DESC desc)
     TVector2 temp = { desc.pos.x, desc.pos.y };
     SetRect(temp, desc.scale.x * 2.0f, desc.scale.y * 2.0f );
     DisableBackfaceCulling();
+    //SetSamplerState();
 
     UpdateMatrix();
     return false;

@@ -19,16 +19,16 @@ bool Sample::Init()
 
 	_testObject->SetScale({ 32.f ,32.f ,1.f });
 
-	_testSpriteObj->SetScale({ 100.f,100.f,1.f });
+	_testSpriteObj->SetScale({ 50.f,50.f,1.f });
 	_testSpriteObj->SetPos({ 100, 0, 0 });
 
-	_testNomalSpriteObj->SetScale({ 100.f, 100.f, 1.f });
+	_testNomalSpriteObj->SetScale({ 50.f, 50.f, 1.f });
 	_testNomalSpriteObj->SetPos({ -100.f, 0.f, 0.f });
 
 	//imageComponent DESC
 	S_TOBJECT_DESC iInfo;
 	iInfo.shaderFileName = L"../../resource/shader/Plane.hlsl";
-	iInfo.texFileName = L"../../resource/Background/Main.png";
+	iInfo.texFileName = L"../../resource/Map/WorldMap.png";
 	//Component Set
 	shared_ptr<ImageComponent> image = make_shared<ImageComponent>();
 	_testBackground->AddComponent(L"Image", image);
@@ -108,6 +108,8 @@ bool Sample::Frame()
 	_testSpriteObj->Frame();
 	_testNomalSpriteObj->Frame();
 
+	//m_pMainCamera->m_vCameraPos = _testNomalSpriteObj->m_vPos;
+	m_pMainCamera->m_vCameraPos.x -= 100 * g_fSecondPerFrame;
 	_time += g_fSecondPerFrame;
 	if (_time > 1.0f && _time < 1.1f)
 	{
@@ -142,6 +144,8 @@ bool Sample::Release()
 	_testBackground->Release();
 	_testObject->Release();
 	_testSpriteObj->Release();
+	_testNomalSpriteObj->Release();
+
 	return true;
 }
 
