@@ -53,8 +53,8 @@ bool Sample::Init()
 
 	shared_ptr<SpriteComponent> sprite = make_shared<SpriteComponent>();
 	_testSpriteObj->AddComponent(L"Sprite", sprite);
-	sprite->SetSpriteType(E_SpriteType::SPRITE_TYPE_UV);
-	sprite->LoadSpriteImage(sInfo);
+	//sprite->SetSpriteType(E_SpriteType::SPRITE_TYPE_UV);
+	sprite->LoadSpriteImage(E_SpriteType::SPRITE_TYPE_UV, sInfo);
 	sprite->HorizontalFlip(false);
 
 	shared_ptr<AnimationControllerComponent> aCon = make_shared<AnimationControllerComponent>();
@@ -63,11 +63,7 @@ bool Sample::Init()
 	aCon->AddAnimation(0, 8);
 	aCon->AddAnimation(10, 18);
 	aCon->SetAnimationState(0);
-
-
-
-
-
+	
 	//Create Camera
 	m_pMainCamera->Create({ 0,0,0 }, { (float)g_dwWindowWidth, (float)g_dwWindowHeight });
 	return true;

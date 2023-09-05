@@ -89,6 +89,39 @@ bool SpriteComponent::LoadSpriteImage(TSpriteInfo desc)
 	return true;
 }
 
+bool SpriteComponent::LoadSpriteImage(E_SpriteType sType, TSpriteInfo desc)
+{
+	if((int)sType < (int)SPRTIE_TYPE_NONE)
+	_sType = sType;
+
+	switch (_sType)
+	{
+	case SPRITE_TYPE_NOMAL:
+	{
+		_nomalSprite->Load(desc);
+		_isLoad = true;
+		break;
+	}
+	case SPRITE_TYPE_UV:
+	{
+		_sType = sType;
+		_uvSprite->Load(desc);
+		_isLoad = true;
+		break;
+	}
+	case SPRITE_TYPE_UVMASK:
+	{
+		_sType = sType;
+		_uvMaskSprite->Load(desc);
+		_isLoad = true;
+		break;
+	}
+	case SPRTIE_TYPE_NONE:
+		break;
+	}
+	return true;
+}
+
 void SpriteComponent::VerticalFlip(bool isFlip)
 {
 	if (_owner != nullptr)

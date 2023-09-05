@@ -70,6 +70,8 @@ public:
 	std::shared_ptr<TSpriteObj>		GetUVMaskSprtie();
 public:
 	bool LoadSpriteImage(TSpriteInfo desc);
+	bool LoadSpriteImage(E_SpriteType sType, TSpriteInfo desc);
+
 	void HorizontalFlip(bool isFlip);
 	void VerticalFlip(bool isFlip);
 public:
