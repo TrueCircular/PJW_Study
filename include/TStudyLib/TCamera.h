@@ -6,8 +6,12 @@ public:
     TMatrix                 m_matView;
     TMatrix                 m_matOrthoProjection;
     TVector3                m_vCameraPos;
+    TVector3                m_vCameraMovePos;
     DWORD                   m_dwWindowWidth;
     DWORD                   m_dwWindowHeight;
+    
+    float m_zoomX = 0;
+    float m_zoomY = 0;
 public:
     bool  Init();
     bool  Frame();

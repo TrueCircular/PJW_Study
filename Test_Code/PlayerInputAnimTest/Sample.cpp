@@ -85,7 +85,6 @@ bool Sample::Init()
 	nomalSp.fAnimTimer = 1.0f;
 	nomalSp.texList = spritevec;
 	nomalSp.shaderFile = L"../../resource/shader/Plane.hlsl";
-	nomalSp.texFile = L"../../resource/Sprite/Characters/Knight/cut/tile000.png";
 
 	shared_ptr<SpriteComponent> sprite2 = make_shared<SpriteComponent>();
 	_testNomalSpriteObj->AddComponent(L"Sprite", sprite2);
@@ -108,8 +107,7 @@ bool Sample::Frame()
 	_testSpriteObj->Frame();
 	_testNomalSpriteObj->Frame();
 
-	//m_pMainCamera->m_vCameraPos = _testNomalSpriteObj->m_vPos;
-	m_pMainCamera->m_vCameraPos.x -= 100 * g_fSecondPerFrame;
+
 	_time += g_fSecondPerFrame;
 	if (_time > 1.0f && _time < 1.1f)
 	{

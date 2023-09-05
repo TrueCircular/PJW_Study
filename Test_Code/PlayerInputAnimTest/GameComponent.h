@@ -162,3 +162,12 @@ public:
 	bool Render() override;
 	bool Release() override;
 };
+
+class PlayerInputComponent : public GameComponent
+{
+public:
+	bool Init() override;
+	bool Frame() override;
+	bool Render() override;
+	bool Release() override;
+};
