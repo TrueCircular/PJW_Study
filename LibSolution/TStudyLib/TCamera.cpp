@@ -96,11 +96,7 @@ bool  TCamera::Frame()
 
 	m_matOrthoProjection._11 = 1.0f / ProjecPair.first;
 	m_matOrthoProjection._22 = 1.0f / ProjecPair.second;
-	// ¿ùµåÁÂÇ¥ ¹üÀ§(-10 ~ +10)  camera (0,0)
-	// -10 ~ +10 camera (-5,0)°¡ ¿øÁ¡ÀÌ µÈ´Ù.
-	// ºä ÁÂÇ¥ -> -5 ~ 15
-	// Åõ¿µÁÂÇ¥ -> 9 ~ 10 ~ 11
-	// Åõ¿µÁÂÇ¥ -> -1 ~ 0 ~ +1
+
 	return true;
 }
 bool  TCamera::Init()
