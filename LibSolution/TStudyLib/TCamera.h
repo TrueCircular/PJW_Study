@@ -12,6 +12,7 @@ public:
     
     float m_zoomX = 0;
     float m_zoomY = 0;
+    float m_cameraMoveSpeed = 300.f;
 public:
     bool  Init();
     bool  Frame();
@@ -19,5 +20,6 @@ public:
     bool  Release();
 public:
     bool  Create(TVector3 vPos, TVector2 size);
+    void  ZoomInOut();
 };
 

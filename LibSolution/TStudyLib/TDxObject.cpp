@@ -125,7 +125,9 @@ bool TDxObject::SetSamplerState()
 
     D3D11_SAMPLER_DESC samDesc;
     ZeroMemory(&samDesc, sizeof(samDesc));
-    samDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+
+    samDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
+    samDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
 
     samDesc.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
     samDesc.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;

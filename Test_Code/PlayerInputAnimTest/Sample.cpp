@@ -108,6 +108,8 @@ bool Sample::Frame()
 	_testNomalSpriteObj->Frame();
 
 
+
+
 	_time += g_fSecondPerFrame;
 	if (_time > 1.0f && _time < 1.1f)
 	{
