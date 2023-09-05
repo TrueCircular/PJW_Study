@@ -13,16 +13,20 @@ bool Sample::Init()
 	_testBackground = make_shared<GameObject>();
 	_testObject = make_shared<GameObject>();
 	_testSpriteObj = make_shared<GameObject>();
+	_testNomalSpriteObj = make_shared<GameObject>();
 
 	_testBackground->SetScale({ g_fMapHalfSizeX ,g_fMapHalfSizeY ,1.0 });
+
 	_testObject->SetScale({ 32.f ,32.f ,1.f });
+
 	_testSpriteObj->SetScale({ 100.f,100.f,1.f });
 	_testSpriteObj->SetPos({ 100, 0, 0 });
 
+	_testNomalSpriteObj->SetScale({ 100.f, 100.f, 1.f });
+	_testNomalSpriteObj->SetPos({ -100.f, 0.f, 0.f });
+
 	//imageComponent DESC
 	S_TOBJECT_DESC iInfo;
-	iInfo.pos = { 0,0,0 };
-	//iInfo.scale = { g_fMapHalfSizeX ,g_fMapHalfSizeY ,1.0 };
 	iInfo.shaderFileName = L"../../resource/shader/Plane.hlsl";
 	iInfo.texFileName = L"../../resource/Background/Main.png";
 	//Component Set
@@ -32,8 +36,6 @@ bool Sample::Init()
 	image->Imageload(iInfo);
 
 	S_TOBJECT_DESC iInfo2;
-	iInfo2.pos = { 0,0,0 };
-	//iInfo2.scale = { 32 ,32 ,1.0 };
 	iInfo2.shaderFileName = L"../../resource/shader/Plane.hlsl";
 	iInfo2.texFileName = L"../../resource/Sprite/Pet/bird/idle_01.png";
 
@@ -46,16 +48,13 @@ bool Sample::Init()
 	ZeroMemory(&sInfo, sizeof(sInfo));
 	sInfo.iNumColumn = 5;
 	sInfo.iNumRow = 7;
-	//sInfo.s = { 100,100,1 };
 	sInfo.fAnimTimer = 2.0f;
 	sInfo.texFile = L"../../resource/Sprite/Characters/archer/1archer_blue.png";
 	sInfo.shaderFile = L"../../resource/shader/Plane.hlsl";
 
 	shared_ptr<SpriteComponent> sprite = make_shared<SpriteComponent>();
 	_testSpriteObj->AddComponent(L"Sprite", sprite);
-	//sprite->SetSpriteType(E_SpriteType::SPRITE_TYPE_UV);
 	sprite->LoadSpriteImage(E_SpriteType::SPRITE_TYPE_UV, sInfo);
-	sprite->HorizontalFlip(false);
 
 	shared_ptr<AnimationControllerComponent> aCon = make_shared<AnimationControllerComponent>();
 	_testSpriteObj->AddComponent(L"AnimController", aCon);
@@ -63,7 +62,40 @@ bool Sample::Init()
 	aCon->AddAnimation(0, 8);
 	aCon->AddAnimation(10, 18);
 	aCon->SetAnimationState(0);
-	
+
+	T_STR_VECTOR spritevec;
+	spritevec.push_back(L"../../resource/Sprite/Characters/Knight/cut/tile000.png");
+	spritevec.push_back(L"../../resource/Sprite/Characters/Knight/cut/tile001.png");
+	spritevec.push_back(L"../../resource/Sprite/Characters/Knight/cut/tile002.png");
+	spritevec.push_back(L"../../resource/Sprite/Characters/Knight/cut/tile003.png");
+	spritevec.push_back(L"../../resource/Sprite/Characters/Knight/cut/tile004.png");
+	spritevec.push_back(L"../../resource/Sprite/Characters/Knight/cut/tile005.png");
+	spritevec.push_back(L"../../resource/Sprite/Characters/Knight/cut/tile006.png");
+	spritevec.push_back(L"../../resource/Sprite/Characters/Knight/cut/tile007.png");
+	spritevec.push_back(L"../../resource/Sprite/Characters/Knight/cut/tile008.png");
+	spritevec.push_back(L"../../resource/Sprite/Characters/Knight/cut/tile009.png");
+	spritevec.push_back(L"../../resource/Sprite/Characters/Knight/cut/tile010.png");
+	spritevec.push_back(L"../../resource/Sprite/Characters/Knight/cut/tile011.png");
+	spritevec.push_back(L"../../resource/Sprite/Characters/Knight/cut/tile012.png");
+	spritevec.push_back(L"../../resource/Sprite/Characters/Knight/cut/tile013.png");
+	spritevec.push_back(L"../../resource/Sprite/Characters/Knight/cut/tile014.png");
+
+	TSpriteInfo nomalSp;
+	nomalSp.Reset();
+	nomalSp.fAnimTimer = 2.0f;
+	nomalSp.texList = spritevec;
+	nomalSp.shaderFile = L"../../resource/shader/Plane.hlsl";
+	nomalSp.texFile = L"../../resource/Sprite/Characters/Knight/cut/tile000.png";
+
+	shared_ptr<SpriteComponent> sprite2 = make_shared<SpriteComponent>();
+	_testNomalSpriteObj->AddComponent(L"Sprite", sprite2);
+	sprite2->LoadSpriteImage(E_SpriteType::SPRITE_TYPE_NOMAL, nomalSp);
+
+	shared_ptr<AnimationControllerComponent> aCon2 = make_shared<AnimationControllerComponent>();
+	_testNomalSpriteObj->AddComponent(L"AnimController", aCon2);
+	aCon2->AddAnimation(0, 0);
+	aCon2->AddAnimation(0, 14);
+	aCon2->SetAnimationState(1);
 	//Create Camera
 	m_pMainCamera->Create({ 0,0,0 }, { (float)g_dwWindowWidth, (float)g_dwWindowHeight });
 	return true;
@@ -74,6 +106,7 @@ bool Sample::Frame()
 	_testBackground->Frame();
 	_testObject->Frame();
 	_testSpriteObj->Frame();
+	_testNomalSpriteObj->Frame();
 
 	_time += g_fSecondPerFrame;
 	if (_time > 1.0f && _time < 1.1f)
@@ -100,6 +133,7 @@ bool Sample::Render()
 	_testBackground->Render();
 	_testObject->Render();
 	_testSpriteObj->Render();
+	_testNomalSpriteObj->Render();
 	return true;
 }
 
@@ -107,6 +141,7 @@ bool Sample::Release()
 {
 	_testBackground->Release();
 	_testObject->Release();
+	_testSpriteObj->Release();
 	return true;
 }
 
