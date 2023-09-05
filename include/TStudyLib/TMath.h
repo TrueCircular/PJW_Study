@@ -101,12 +101,14 @@ public:
     TVector3 operator * (float fValue);
     TVector3 operator / (float fValue);
     TVector3& operator /= (float fValue);
+    TVector3& operator += (TVector3 const& p);
     TVector3 operator * (TMatrix const& m);
     float Angle(TVector3& v);
 public:
     float Length();
     void Normalize();
     TVector3 NormalVector();   
+    void Zero();
 public:
     static float GetDistance(TVector3& p);
 public:

@@ -13,28 +13,72 @@ bool  TCamera::Create(TVector3 vPos, TVector2 size)
 
 	return true;
 }
-void TCamera::ZoomInOut()
+std::pair<float, float> TCamera::ZoomInOut(float halfWidth, float halfHeight)
 {
-	if (I_Input.GetInstance().m_dwKeyState[VK_NUMPAD7] >= KEY_PUSH)
+	std::pair<float, float> temp;
+	temp.first = halfWidth;
+	temp.second = halfHeight;
+
+	switch (m_zoomState)
 	{
-		if (m_zoomX <= ((float)m_dwWindowWidth * 0.5f) - 120.f && m_zoomY <= ((float)m_dwWindowHeight * 0.5f) - 120.f)
-		{
-			m_zoomX += m_cameraMoveSpeed * g_fSecondPerFrame;
-			m_zoomY += m_cameraMoveSpeed * g_fSecondPerFrame;
-		}
+	case CAMERA_ZOOM_ONCE:
+	{
+		m_vCameraPos.x = 0;
+		m_vCameraPos.y = 0;
+		m_vCameraPos.z = 0;
+
+		return  temp;
 	}
-	if (I_Input.GetInstance().m_dwKeyState[VK_NUMPAD9] >= KEY_PUSH)
+	case CAMERA_ZOOM_TWICE:
 	{
-		if (m_zoomX > -((float)m_dwWindowWidth / 2) && m_zoomY > -((float)m_dwWindowHeight / 2))
+		if (m_vCameraPos.x > g_fMapHalfSizeX - (halfWidth * 0.5f))
 		{
-			m_zoomX -= m_cameraMoveSpeed * g_fSecondPerFrame;
-			m_zoomY -= m_cameraMoveSpeed * g_fSecondPerFrame;
+			m_vCameraPos.x = g_fMapHalfSizeX - (halfWidth * 0.5f);
 		}
-		else
+		if (m_vCameraPos.x < -(g_fMapHalfSizeX)+(halfWidth * 0.5f))
 		{
-			m_zoomX = 0;
-			m_zoomY = 0;
+			m_vCameraPos.x = -(g_fMapHalfSizeX)+(halfWidth * 0.5f);
 		}
+		if (m_vCameraPos.y > g_fMapHalfSizeY - (halfHeight * 0.5f))
+		{
+			m_vCameraPos.y = g_fMapHalfSizeY - (halfHeight * 0.5f);
+		}
+		if (m_vCameraPos.y < -g_fMapHalfSizeY + (halfHeight * 0.5f))
+		{
+			m_vCameraPos.y = -g_fMapHalfSizeY + (halfHeight * 0.5f);
+		}
+
+		temp.first = halfWidth * 0.5f;
+		temp.second = halfHeight * 0.5f;
+
+		return  temp;
+	}
+	case CAMERA_ZOOM_TRIPLE:
+	{
+		if (m_vCameraPos.x > g_fMapHalfSizeX - (halfWidth * 0.33375f))
+		{
+			m_vCameraPos.x = g_fMapHalfSizeX - (halfWidth * 0.33375f);
+		}
+		if (m_vCameraPos.x < -(g_fMapHalfSizeX)+(halfWidth * 0.33375f))
+		{
+			m_vCameraPos.x = -(g_fMapHalfSizeX)+(halfWidth * 0.33375f);
+		}
+		if (m_vCameraPos.y > g_fMapHalfSizeY - (halfHeight * 0.33375f))
+		{
+			m_vCameraPos.y = g_fMapHalfSizeY - (halfHeight * 0.33375f);
+		}
+		if (m_vCameraPos.y < -(g_fMapHalfSizeY)+(halfHeight * 0.33375f))
+		{
+			m_vCameraPos.y = -(g_fMapHalfSizeY)+(halfHeight * 0.33375f);
+		}
+
+		temp.first = halfWidth * 0.33375f;
+		temp.second = halfHeight * 0.33375f;
+
+		return  temp;
+	}
+	default:
+		return  temp;
 	}
 }
 bool  TCamera::Frame()
@@ -42,31 +86,16 @@ bool  TCamera::Frame()
 	float fHalfWidth = m_dwWindowWidth / 2.0f;
 	float fHalfHeight = m_dwWindowHeight / 2.0f;
 
-	if (m_vCameraPos.x < -(g_fMapHalfSizeX)+fHalfWidth)
-	{
-		m_vCameraPos.x = -(g_fMapHalfSizeX)+fHalfWidth;
-	}
-	if (m_vCameraPos.y < -(g_fMapHalfSizeY)+fHalfHeight)
-	{
-		m_vCameraPos.y = -(g_fMapHalfSizeY)+fHalfHeight;
-	}
-	if (m_vCameraPos.x > (g_fMapHalfSizeX) -fHalfWidth)
-	{
-		m_vCameraPos.x = (g_fMapHalfSizeX)-fHalfWidth;
-	}
-	if (m_vCameraPos.y > (g_fMapHalfSizeY)-fHalfHeight)
-	{
-		m_vCameraPos.y = (g_fMapHalfSizeY)-fHalfHeight;
-	}
+	std::pair<float, float> ProjecPair = ZoomInOut(fHalfWidth, fHalfHeight);
 
-	m_matView._41 = -m_vCameraPos.x + m_vCameraMovePos.x;
-	m_matView._42 = -m_vCameraPos.y + m_vCameraMovePos.y;
-	m_matView._43 = -m_vCameraPos.z + m_vCameraMovePos.z;
+	m_rt.Set(m_vCameraPos, 1250, 550);
 
-	ZoomInOut();
+	m_matView._41 = -m_vCameraPos.x;
+	m_matView._42 = -m_vCameraPos.y;
+	m_matView._43 = -m_vCameraPos.z;
 
-	m_matOrthoProjection._11 = 1.0f / (((float)m_dwWindowWidth / 2) - m_zoomX);
-	m_matOrthoProjection._22 = 1.0f / (((float)m_dwWindowHeight / 2) - m_zoomY);
+	m_matOrthoProjection._11 = 1.0f / ProjecPair.first;
+	m_matOrthoProjection._22 = 1.0f / ProjecPair.second;
 	// ¿ùµåÁÂÇ¥ ¹üÀ§(-10 ~ +10)  camera (0,0)
 	// -10 ~ +10 camera (-5,0)°¡ ¿øÁ¡ÀÌ µÈ´Ù.
 	// ºä ÁÂÇ¥ -> -5 ~ 15

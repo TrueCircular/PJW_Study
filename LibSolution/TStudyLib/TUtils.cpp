@@ -102,6 +102,14 @@ void TRect::Set(TVector2 p, float fw, float fh)
     s = { fw, fh };
     Set(fw, fh);
 }
+void TRect::Set(TVector3 p, float fw, float fh)
+{
+    m_Center.x = p.x;
+    m_Center.y = p.y;
+    v = { p.x - fw / 2.0f, p.y + fh / 2.0f };
+    s = { fw, fh };
+    Set(fw, fh);
+}
 void TRect::Set(float fx, float fy, float fw, float fh)
 {
     m_Center.x = fx;

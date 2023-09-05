@@ -103,6 +103,13 @@ TVector3& TVector3::operator /= (float fValue)
     z = z / fValue;
     return *this;
 }
+TVector3& TVector3::operator+=(TVector3 const& p)
+{
+    x += p.x;
+    y += p.y;
+    z += p.z;
+    return *this;
+}
 float TVector3::Length()
 {
     float fDistance = sqrt(x * x + y * y + z * z);
@@ -148,6 +155,12 @@ TVector3 TVector3::NormalVector()
 {
     float fInvertLength = 1.0f / Length();    
     return (*this) * fInvertLength;
+}
+void TVector3::Zero()
+{
+    x = 0.f;
+    y = 0.f;
+    z = 0.f;
 }
 float TVector3::Angle(TVector3& v)
 {
