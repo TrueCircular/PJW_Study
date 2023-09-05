@@ -23,7 +23,7 @@ public:
 
     float m_zoomX = 0;
     float m_zoomY = 0;
-    float m_cameraMoveSpeed = 300.f;
+    float m_cameraMoveSpeed = 400.f;
 public:
     bool  Init();
     bool  Frame();
