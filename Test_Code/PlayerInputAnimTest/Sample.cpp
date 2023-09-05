@@ -82,7 +82,7 @@ bool Sample::Init()
 
 	TSpriteInfo nomalSp;
 	nomalSp.Reset();
-	nomalSp.fAnimTimer = 2.0f;
+	nomalSp.fAnimTimer = 1.0f;
 	nomalSp.texList = spritevec;
 	nomalSp.shaderFile = L"../../resource/shader/Plane.hlsl";
 	nomalSp.texFile = L"../../resource/Sprite/Characters/Knight/cut/tile000.png";
