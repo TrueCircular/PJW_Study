@@ -45,6 +45,6 @@ struct PS_IN
 };
 float4 PS(PS_IN vIn) : SV_Target
 {
-    //return float4(0,0,0,1);
-    return g_txDiffuse1.Sample(sample0, vIn.t,0);
+    return float4(0,0,0,1);
+    //return g_txDiffuse1.Sample(sample0, vIn.t,0);
 }

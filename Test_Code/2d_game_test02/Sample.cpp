@@ -22,8 +22,8 @@ bool Sample::Init()
 	_testSpriteObj->SetScale({ 50.f,50.f,1.f });
 	_testSpriteObj->SetPos({ 100, 0, 0 });
 
-	_testNomalSpriteObj->SetScale({ 50.f, 50.f, 1.f });
-	_testNomalSpriteObj->SetPos({ -100.f, 0.f, 0.f });
+	_testNomalSpriteObj->SetScale({ 32, 18.f, 1.f });
+	_testNomalSpriteObj->SetPos({ -768.f, 432.f, 0.f });
 
 	//imageComponent DESC
 	S_TOBJECT_DESC iInfo;
