@@ -85,12 +85,14 @@ bool  TDevice::Init()
     m_ViewPort.TopLeftY = 0;
     m_pImmediateContext->RSSetViewports(1, &m_ViewPort);
 
+    m_rsFillMode = D3D11_FILL_MODE::D3D11_FILL_SOLID;
+    DisableBackfaceCulling(m_rsFillMode);
+
 
     return true;
 }
 bool  TDevice::Frame()
 {
-    DisableBackfaceCulling(m_rsFillMode);
 
     return true;
 }
@@ -102,6 +104,8 @@ bool  TDevice::PreRender()
 }
 bool  TDevice::PostRender()
 {
+    DisableBackfaceCulling(m_rsFillMode);
+
     HRESULT hr = m_pSwapChain->Present(0, 0);
     if (FAILED(hr))
     {

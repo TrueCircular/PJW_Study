@@ -34,8 +34,10 @@ VS_OUT VS(VS_IN vIn)
     vOut.t = vIn.t;
     return vOut;
 }
+
 Texture2D g_txDiffuse1 : register(t0);
 SamplerState sample0 : register(s0);
+
 struct PS_IN
 {
     float4 p : SV_POSITION;
@@ -43,17 +45,6 @@ struct PS_IN
 };
 float4 PS(PS_IN vIn) : SV_Target
 {
-   // float4 texColor = g_txDiffuse1.Sample(sample0, vIn.t);
-
-   // // Define the wireframe's thickness.
-   // float thickness = 0.01;
-
-   // // Check if we are in the border of the texture using UV coordinates.
-   // if (vIn.t.x < thickness || vIn.t.x > 1 - thickness ||
-   //     vIn.t.y < thickness || vIn.t.y > 1 - thickness)
-   //     return float4(0, 0, 0, 1); // Return black for wireframe.
-
-   //return texColor; // Otherwise return the texture color.
-
-   return g_txDiffuse1.Sample(sample0, vIn.t);
+    //return float4(0,0,0,1);
+    return g_txDiffuse1.Sample(sample0, vIn.t,0);
 }
