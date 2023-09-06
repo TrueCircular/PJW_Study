@@ -117,6 +117,11 @@ bool  TShader::LoadPixelShader(ID3D11Device* pDevice, std::wstring filename)
     return true;
 }
 
+bool TShader::LoadGeometryShader(ID3D11Device* pDevice, std::wstring filename)
+{
+    return false;
+}
+
 void  TShaderMgr::Set(ID3D11Device* pDevice, ID3D11DeviceContext* pImmediateContext)
 {
     m_pDevice = pDevice;

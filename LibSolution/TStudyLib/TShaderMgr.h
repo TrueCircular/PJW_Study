@@ -33,6 +33,8 @@ public:
 	}
 	bool  LoadVertexShader(ID3D11Device* pDevice, std::wstring filename);
 	bool  LoadPixelShader(ID3D11Device* pDevice, std::wstring filename);
+	bool  LoadGeometryShader(ID3D11Device* pDevice, std::wstring filename);
+
 	bool  Load(ID3D11Device* pDevice,std::wstring filename);
 	bool  Release();
 };

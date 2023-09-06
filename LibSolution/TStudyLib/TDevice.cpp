@@ -1,10 +1,30 @@
 #include "TDevice.h"
+
+bool TDevice::DisableBackfaceCulling(D3D11_FILL_MODE _fillMode)
+{
+    if (m_rsState != nullptr) m_rsState->Release();
+
+    D3D11_RASTERIZER_DESC rDesc;
+    ZeroMemory(&rDesc, sizeof(rDesc));
+    rDesc.FillMode = _fillMode;
+    rDesc.CullMode = D3D11_CULL_MODE::D3D11_CULL_NONE;
+    HRESULT hr = m_pDevice->CreateRasterizerState(&rDesc, &m_rsState);
+
+    if (SUCCEEDED(hr))
+    {
+        m_pImmediateContext->RSSetState(m_rsState);
+        return true;
+    }
+
+    return false;
+}
+
 bool  TDevice::Init()
 {
     DXGI_SWAP_CHAIN_DESC SwapChainDesc;
     ZeroMemory(&SwapChainDesc, sizeof(DXGI_SWAP_CHAIN_DESC));
-    SwapChainDesc.BufferDesc.Width = 800;
-    SwapChainDesc.BufferDesc.Height = 600;
+    SwapChainDesc.BufferDesc.Width = g_dwWindowWidth;
+    SwapChainDesc.BufferDesc.Height = g_dwWindowHeight;
     SwapChainDesc.BufferDesc.RefreshRate.Numerator = 60;
     SwapChainDesc.BufferDesc.RefreshRate.Denominator = 1;
     SwapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
@@ -13,6 +33,7 @@ bool  TDevice::Init()
     SwapChainDesc.BufferCount = 1;
     SwapChainDesc.OutputWindow = m_hWnd;
     SwapChainDesc.Windowed = true;
+    SwapChainDesc.Flags = DXGI_SWAP_CHAIN_FLAG::DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
 
     D3D_DRIVER_TYPE DriverType = D3D_DRIVER_TYPE_HARDWARE;
     UINT Flags = D3D11_CREATE_DEVICE_BGRA_SUPPORT;
@@ -56,8 +77,8 @@ bool  TDevice::Init()
     pBackBuffer->Release();
 
 
-    m_ViewPort.Width = 800;
-    m_ViewPort.Height = 600;
+    m_ViewPort.Width = SwapChainDesc.BufferDesc.Width;
+    m_ViewPort.Height = SwapChainDesc.BufferDesc.Height;
     m_ViewPort.MinDepth = 0.0f;
     m_ViewPort.MaxDepth = 1.0f;
     m_ViewPort.TopLeftX = 0;
@@ -69,6 +90,8 @@ bool  TDevice::Init()
 }
 bool  TDevice::Frame()
 {
+    DisableBackfaceCulling(m_rsFillMode);
+
     return true;
 }
 bool  TDevice::PreRender()

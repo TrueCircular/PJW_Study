@@ -33,6 +33,7 @@
     <ClInclude Include="TPlaneObj.h" />
     <ClInclude Include="TPlayer.h" />
     <ClInclude Include="TShaderMgr.h" />
+    <ClInclude Include="TShape.h" />
     <ClInclude Include="TSoundMgr.h" />
     <ClInclude Include="TSpriteObj.h" />
     <ClInclude Include="TStd.h" />
@@ -58,6 +59,7 @@
     <ClCompile Include="TPlaneObj.cpp" />
     <ClCompile Include="TPlayer.cpp" />
     <ClCompile Include="TShaderMgr.cpp" />
+    <ClCompile Include="TShape.cpp" />
     <ClCompile Include="TSoundMgr.cpp" />
     <ClCompile Include="TSpriteObj.cpp" />
     <ClCompile Include="TTextureMgr.cpp" />

@@ -61,7 +61,6 @@ extern DWORD g_dwWindowHeight;
 
 
 
-
 static std::wstring mtw(std::string str)
 {
 	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> conv;

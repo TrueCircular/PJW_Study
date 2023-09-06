@@ -26,14 +26,13 @@ public:
     const TTexture*         m_pTex = nullptr;
     CB_Data                 m_cbData;
     std::vector< PT_Vertex> m_VertexList;
-    ID3D11RasterizerState*  m_rsState;
-    ID3D11SamplerState* m_SamplerState = nullptr;
+    ID3D11SamplerState*     m_SamplerState = nullptr;
+
 public:
     void Set(ID3D11Device* pDevice, ID3D11DeviceContext* pImmediateContext);
     virtual bool  CreateVertexBuffer();
     virtual bool  CreateConstantBuffer();
     virtual bool  CreateInputLayout();
-    virtual bool  DisableBackfaceCulling();
     virtual bool  SetSamplerState();
 public:
     virtual bool    Init();

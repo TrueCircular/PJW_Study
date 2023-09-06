@@ -2,7 +2,7 @@
 #include "TStd.h"
 #include "GameComponent.h"
 
-class GameObject : public TObject, public std::enable_shared_from_this<GameObject>
+class GameObject : public TPlaneObj, public std::enable_shared_from_this<GameObject>
 {
 protected:
 	std::shared_ptr<GameObject>								_instance;

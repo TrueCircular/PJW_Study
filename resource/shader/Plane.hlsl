@@ -43,6 +43,17 @@ struct PS_IN
 };
 float4 PS(PS_IN vIn) : SV_Target
 {
-    //            r,g,b,a(1)=불투명, a(0)=완전투명, a(0.0< 1.0f)= 반투명
-    return g_txDiffuse1.Sample(sample0, vIn.t);
+   // float4 texColor = g_txDiffuse1.Sample(sample0, vIn.t);
+
+   // // Define the wireframe's thickness.
+   // float thickness = 0.01;
+
+   // // Check if we are in the border of the texture using UV coordinates.
+   // if (vIn.t.x < thickness || vIn.t.x > 1 - thickness ||
+   //     vIn.t.y < thickness || vIn.t.y > 1 - thickness)
+   //     return float4(0, 0, 0, 1); // Return black for wireframe.
+
+   //return texColor; // Otherwise return the texture color.
+
+   return g_txDiffuse1.Sample(sample0, vIn.t);
 }

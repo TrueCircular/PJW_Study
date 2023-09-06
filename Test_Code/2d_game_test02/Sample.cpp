@@ -42,7 +42,6 @@ bool Sample::Init()
 	shared_ptr<ImageComponent> image2 = make_shared<ImageComponent>();
 	_testObject->AddComponent(L"Image", image2);
 	image2->Imageload(iInfo2);
-	image2->VerticalFlip(true);
 
 	TSpriteInfo sInfo;
 	ZeroMemory(&sInfo, sizeof(sInfo));
@@ -62,6 +61,7 @@ bool Sample::Init()
 	aCon->AddAnimation(0, 8);
 	aCon->AddAnimation(10, 18);
 	aCon->SetAnimationState(0);
+	aCon->HorizontalFlip(true);
 
 	T_STR_VECTOR spritevec;
 	spritevec.push_back(L"../../resource/Sprite/Characters/Knight/cut/tile000.png");
@@ -102,26 +102,26 @@ bool Sample::Init()
 
 bool Sample::Frame()
 {
-	//if (I_Input.GetInstance().m_dwKeyState['A'] >= KEY_PUSH &&
-	//	I_Input.GetInstance().m_dwKeyState['D'] < KEY_PUSH)
-	//{
-	//	_testSpriteObj->m_vPos.x -= 100 * g_fSecondPerFrame;
-	//}
-	//if (I_Input.GetInstance().m_dwKeyState['D'] >= KEY_PUSH &&
-	//	I_Input.GetInstance().m_dwKeyState['A'] < KEY_PUSH)
-	//{
-	//	_testSpriteObj->m_vPos.x += 100 * g_fSecondPerFrame;
-	//}
-	//if (I_Input.GetInstance().m_dwKeyState['W'] >= KEY_PUSH &&
-	//	I_Input.GetInstance().m_dwKeyState['S'] < KEY_PUSH)
-	//{
-	//	_testSpriteObj->m_vPos.y += 100 * g_fSecondPerFrame;
-	//}
-	//if (I_Input.GetInstance().m_dwKeyState['S'] >= KEY_PUSH &&
-	//	I_Input.GetInstance().m_dwKeyState['W'] < KEY_PUSH)
-	//{
-	//	_testSpriteObj->m_vPos.y -= 100 * g_fSecondPerFrame;
-	//}
+	if (I_Input.GetInstance().m_dwKeyState['A'] >= KEY_PUSH &&
+		I_Input.GetInstance().m_dwKeyState['D'] < KEY_PUSH)
+	{
+		_testSpriteObj->m_vPos.x -= 100 * g_fSecondPerFrame;
+	}
+	if (I_Input.GetInstance().m_dwKeyState['D'] >= KEY_PUSH &&
+		I_Input.GetInstance().m_dwKeyState['A'] < KEY_PUSH)
+	{
+		_testSpriteObj->m_vPos.x += 100 * g_fSecondPerFrame;
+	}
+	if (I_Input.GetInstance().m_dwKeyState['W'] >= KEY_PUSH &&
+		I_Input.GetInstance().m_dwKeyState['S'] < KEY_PUSH)
+	{
+		_testSpriteObj->m_vPos.y += 100 * g_fSecondPerFrame;
+	}
+	if (I_Input.GetInstance().m_dwKeyState['S'] >= KEY_PUSH &&
+		I_Input.GetInstance().m_dwKeyState['W'] < KEY_PUSH)
+	{
+		_testSpriteObj->m_vPos.y -= 100 * g_fSecondPerFrame;
+	}
 
 	TVector3 mouse = I_Input.GetWorldPos({ (float)g_dwWindowWidth, (float)g_dwWindowHeight }, m_pMainCamera->m_vCameraPos);
 	TVector2 mouse2 = I_Input.GetWorldPosVec2({ (float)g_dwWindowWidth, (float)g_dwWindowHeight }, m_pMainCamera->m_vCameraPos);
@@ -160,6 +160,14 @@ bool Sample::Frame()
 	if (I_Input.GetInstance().m_dwKeyState[VK_NUMPAD3] == KEY_PUSH)
 	{
 		m_pMainCamera->m_zoomState = E_CameraZoomState::CAMERA_ZOOM_TRIPLE;
+	}
+	if (I_Input.GetInstance().m_dwKeyState[VK_NUMPAD4] == KEY_PUSH)
+	{
+		m_rsFillMode = D3D11_FILL_MODE::D3D11_FILL_SOLID;
+	}
+	if (I_Input.GetInstance().m_dwKeyState[VK_NUMPAD5] == KEY_PUSH)
+	{
+		m_rsFillMode = D3D11_FILL_MODE::D3D11_FILL_WIREFRAME;
 	}
 
 
