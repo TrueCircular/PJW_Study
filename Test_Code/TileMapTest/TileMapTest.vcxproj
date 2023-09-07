@@ -158,7 +158,6 @@
   <ItemGroup>
     <ClInclude Include="GameComponent.h" />
     <ClInclude Include="GameObject.h" />
-    <ClInclude Include="resource.h" />
     <ClInclude Include="Sample.h" />
     <ClInclude Include="TileManager.h" />
   </ItemGroup>
