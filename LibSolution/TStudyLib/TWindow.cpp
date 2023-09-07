@@ -42,11 +42,15 @@ bool TWindow::SetWindow(const WCHAR* szTitle,//std::wstring szTitle,
 #else
     m_dwExStyle = WS_EX_APPWINDOW;
 #endif
+
+    RECT rc = { 0,0, dwWindowWidth, dwWindowHeight };
+    AdjustWindowRectEx(&rc, m_dwStyle, NULL, m_dwExStyle);
+
     m_hWnd = CreateWindowEx(m_dwExStyle, L"KGCAÀ©µµ¿ì", szTitle,
         //szTitle.c_str(), 
         m_dwStyle,
         m_dwWindowPosX, m_dwWindowPosY, 
-        m_dwWindowWidth, m_dwWindowHeight,
+        rc.right-rc.left, rc.bottom-rc.top,
         nullptr, nullptr, m_hInstance, nullptr);
     if (!m_hWnd)
     {

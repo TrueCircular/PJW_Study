@@ -29,6 +29,8 @@ public:
 public:
 	void          SetPos(TVector3 p);
 	void          SetScale(TVector3 s);
+	void          SetRotation(TVector3 s);
+	void		  ZRotation(float rad);
 	virtual void  SetRect(TVector2& c, float w, float h);
 public:
 	virtual bool  Create(std::wstring shaderFilename,

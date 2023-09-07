@@ -24,6 +24,7 @@ public:
     float m_zoomX = 0;
     float m_zoomY = 0;
     float m_cameraMoveSpeed = 400.f;
+    bool  _isCamMove = false;
 public:
     bool  Init();
     bool  Frame();

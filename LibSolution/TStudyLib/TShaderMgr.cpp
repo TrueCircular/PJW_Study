@@ -3,14 +3,22 @@ bool  TShader::Release()
 {
     if(m_VertexShaderCode) m_VertexShaderCode->Release();
     if (m_pVS) m_pVS->Release();
-    if (m_pPS) m_pPS->Release();
+    //if (m_pPS) m_pPS->Release();
+    for (int i = 0; i < m_pPS.size(); i++)
+    {
+        if (m_pPS[i]) m_pPS[i]->Release();
+    }
     if (m_pDS) m_pDS->Release();
     if (m_pHS) m_pHS->Release();
     if (m_pGS) m_pGS->Release();
     if (m_pCS) m_pCS->Release();
     m_VertexShaderCode = nullptr;
     m_pVS = nullptr;
-    m_pPS = nullptr;
+    //m_pPS = nullptr;
+    for (int i = 0; i < m_pPS.size(); i++)
+    {
+        m_pPS[i] = nullptr;
+    }
     m_pDS = nullptr;
     m_pHS = nullptr;
     m_pGS = nullptr;
@@ -107,7 +115,34 @@ bool  TShader::LoadPixelShader(ID3D11Device* pDevice, std::wstring filename)
         ShaderCode->GetBufferPointer(),
         ShaderCode->GetBufferSize(),
         nullptr,
-        &m_pPS);
+        &m_pPS[0]);
+
+    hr = D3DCompileFromFile(
+        filename.c_str(),
+        nullptr,
+        nullptr,
+        "PS_RECT",
+        "ps_5_0",
+        flags,
+        0,
+        &ShaderCode,
+        &ErrorCode);
+    if (FAILED(hr))
+    {
+        //ErrorCode
+        TCHAR pMessage[500];
+        mbstowcs(pMessage, (CHAR*)ErrorCode->GetBufferPointer(), 500);
+        MessageBox(NULL, pMessage, L"ERROR", MB_OK);
+        if (ErrorCode) ErrorCode->Release();
+        return false;
+    }
+    if (ErrorCode) ErrorCode->Release();
+
+    hr = pDevice->CreatePixelShader(
+        ShaderCode->GetBufferPointer(),
+        ShaderCode->GetBufferSize(),
+        nullptr,
+        &m_pPS[1]);
 
     if (ShaderCode) ShaderCode->Release();
     if (FAILED(hr))
@@ -177,7 +212,7 @@ bool TShaderMgr::Release()
 }
 TShaderMgr::TShaderMgr()
 {
-
+    
 }
 TShaderMgr::~TShaderMgr()
 {

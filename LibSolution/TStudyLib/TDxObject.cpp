@@ -31,7 +31,9 @@ bool  TDxObject::CreateInputLayout()
 	const D3D11_INPUT_ELEMENT_DESC layout[] =
 	{
 		{ "POS",  0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0,  D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "COLOR",  0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT,D3D11_INPUT_PER_VERTEX_DATA  , 0 },
 		{ "TEXTURE",  0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT,  D3D11_INPUT_PER_VERTEX_DATA, 0 },
+
 	};
 	UINT iNumCount = sizeof(layout) / sizeof(layout[0]);
 
@@ -59,7 +61,7 @@ bool TDxObject::SetSamplerState()
 	ZeroMemory(&samDesc, sizeof(samDesc));
 
 	samDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
-	samDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
+	//samDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
 
 	samDesc.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
 	samDesc.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
@@ -108,7 +110,8 @@ bool  TDxObject::PreRender()
 	m_pImmediateContext->IASetVertexBuffers(0, 1, &m_pVertexBuffer, &stride, &offset);
 	m_pImmediateContext->IASetPrimitiveTopology(
 		D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
+	//m_pImmediateContext->IASetPrimitiveTopology(
+	//	D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
 
 	return true;
 }
@@ -120,9 +123,9 @@ bool  TDxObject::Render()
 }
 bool  TDxObject::PostRender()
 {
+
 	SetSamplerState();
 	m_pImmediateContext->Draw(m_VertexList.size(), 0);
-	//m_pImmediateContext->DrawIndexed(6, 0, 0);
 
 	return true;
 }

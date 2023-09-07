@@ -1,12 +1,14 @@
 struct VS_IN
 {
     float3 p : POS;
+    float4 c : COLOR0;
     float2 t : TEXTURE;
 };
 
 struct VS_OUT
 {
     float4 p : SV_POSITION;
+    float4 c : COLOR0;
     float2 t : TEXTURE;
 };
 
@@ -32,6 +34,8 @@ VS_OUT VS(VS_IN vIn)
     //vOut.p = float4(vIn.p.x, vIn.p.y, vIn.p.z, 1);
     vOut.p = vProj;
     vOut.t = vIn.t;
+    vOut.c = vIn.c;
+
     return vOut;
 }
 
@@ -41,10 +45,15 @@ SamplerState sample0 : register(s0);
 struct PS_IN
 {
     float4 p : SV_POSITION;
+    float4 c : COLOR0;
     float2 t : TEXTURE;
 };
 float4 PS(PS_IN vIn) : SV_Target
 {
-    return float4(0,0,0,1);
-    //return g_txDiffuse1.Sample(sample0, vIn.t,0);
+    // 사각형 내부에 있는 경우 텍스쳐 샘플링을 통해 텍스쳐 픽셀을 반환합니다.
+    return g_txDiffuse1.Sample(sample0, vIn.t);
+}
+float4 PS_RECT(VS_OUT vIn) : SV_Target
+{
+    return float4(1,0,0,0.1f);
 }

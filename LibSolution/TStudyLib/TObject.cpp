@@ -14,6 +14,14 @@ void  TObject::SetScale(TVector3 s)
 {
     m_vScale = s;
 }
+void TObject::SetRotation(TVector3 r)
+{
+    m_vRotation = r;
+}
+void TObject::ZRotation(float rad)
+{
+    m_vRotation.z = rad;
+}
 void  TObject::SetMatrix(TMatrix* matWorld, TMatrix* matView, TMatrix* matProj)
 {
     if (matWorld != nullptr)

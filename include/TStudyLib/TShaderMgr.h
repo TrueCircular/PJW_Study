@@ -3,14 +3,16 @@
 
 class TShader
 {
-	ID3D11VertexShader*		m_pVS = nullptr;
-	ID3D11PixelShader*		m_pPS = nullptr;
+	ID3D11VertexShader*					m_pVS = nullptr;
+	std::vector<ID3D11PixelShader*>		m_pPS;
 
 	ID3D11HullShader*		m_pHS = nullptr;
 	ID3D11DomainShader*		m_pDS = nullptr;
 	ID3D11ComputeShader*	m_pCS = nullptr;
 	ID3D11GeometryShader*	m_pGS = nullptr;
 	ID3DBlob* m_VertexShaderCode = nullptr;
+public:
+	TShader() { m_pPS.resize(10); }
 
 public:	
 	std::wstring   m_csName;
@@ -24,12 +26,12 @@ public:
 	void Apply(ID3D11DeviceContext* pContext, int iSlot) const
 	{
 		pContext->VSSetShader(m_pVS, NULL, 0);
-		pContext->PSSetShader(m_pPS, NULL, 0);
+		pContext->PSSetShader(m_pPS[iSlot], NULL, 0);
 
 		pContext->HSSetShader(m_pHS, NULL, 0);
 		pContext->DSSetShader(m_pDS, NULL, 0);
 		pContext->CSSetShader(m_pCS, NULL, 0);
-		pContext->GSSetShader(m_pGS, NULL, 0);		
+		pContext->GSSetShader(m_pGS, NULL, 0);
 	}
 	bool  LoadVertexShader(ID3D11Device* pDevice, std::wstring filename);
 	bool  LoadPixelShader(ID3D11Device* pDevice, std::wstring filename);

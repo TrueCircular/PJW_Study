@@ -19,6 +19,39 @@ std::pair<float, float> TCamera::ZoomInOut(float halfWidth, float halfHeight)
 	temp.first = halfWidth;
 	temp.second = halfHeight;
 
+	TVector3 mouse = I_Input.GetWorldPos({ (float)g_dwWindowWidth, (float)g_dwWindowHeight }, m_vCameraPos);
+	TVector2 mouse2 = I_Input.GetWorldPosVec2({ (float)g_dwWindowWidth, (float)g_dwWindowHeight }, m_vCameraPos);
+
+	if (m_rt.ToPoint(mouse2))
+	{
+		_isCamMove = false;
+	}
+	else
+	{
+		_isCamMove = true;
+	}
+
+	if (_isCamMove)
+	{
+		TVector3 mDir = mouse - m_vCameraPos;
+		mDir.Normalize();
+		TVector3 velo = mDir * 400.f * g_fSecondPerFrame;
+		m_vCameraPos += velo;
+	}
+
+	if (I_Input.GetInstance().m_dwKeyState[VK_NUMPAD1] == KEY_PUSH)
+	{
+		m_zoomState = E_CameraZoomState::CAMERA_ZOOM_ONCE;
+	}
+	if (I_Input.GetInstance().m_dwKeyState[VK_NUMPAD2] == KEY_PUSH)
+	{
+		m_zoomState = E_CameraZoomState::CAMERA_ZOOM_TWICE;
+	}
+	if (I_Input.GetInstance().m_dwKeyState[VK_NUMPAD3] == KEY_PUSH)
+	{
+		m_zoomState = E_CameraZoomState::CAMERA_ZOOM_TRIPLE;
+	}
+
 	switch (m_zoomState)
 	{
 	case CAMERA_ZOOM_ONCE:

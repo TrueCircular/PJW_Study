@@ -8,13 +8,9 @@ using std::make_shared;
 class Sample : public TCore
 {
 public:
-	shared_ptr<GameObject> _testBackground;
-	shared_ptr<GameObject> _testObject;
-	shared_ptr<GameObject> _testSpriteObj;
-	shared_ptr<GameObject> _testNomalSpriteObj;
-	float _time = 0;
-	bool _isCamMove = false;
-
+	
+public:
+	void DebugMode();
 public:
 	bool Init()override;
 	bool Frame()override;

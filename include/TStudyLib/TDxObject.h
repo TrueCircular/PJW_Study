@@ -11,6 +11,7 @@ struct CB_Data
 struct PT_Vertex
 {
     TVector3 p;
+    TVector4 c;
     TVector2 t;
 };
 
