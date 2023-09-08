@@ -2,15 +2,17 @@
 #include "TCore.h"
 #include "TSoundMgr.h"
 #include "GameObject.h"
+#include "TileManager.h"
 
 using std::shared_ptr;
 using std::make_shared;
 class Sample : public TCore
 {
 public:
-	shared_ptr<GameObject> _backGround;
-	shared_ptr<GameObject> _bird;
-	shared_ptr<ImageComponent> _image;
+	shared_ptr<GameObject>		_backGround;
+	shared_ptr<GameObject>		_bird;
+	shared_ptr<ImageComponent>	_image;
+	Debug_Tile* _tile;
 public:
 	void DebugMode();
 public:

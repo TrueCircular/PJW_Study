@@ -53,7 +53,7 @@ float4 PS(PS_IN vIn) : SV_Target
     // 사각형 내부에 있는 경우 텍스쳐 샘플링을 통해 텍스쳐 픽셀을 반환합니다.
     return g_txDiffuse1.Sample(sample0, vIn.t);
 }
-float4 PS_RECT(VS_OUT vIn) : SV_Target
+float4 PS_RECT(PS_IN vIn) : SV_Target
 {
-    return float4(1,0,0,0.1f);
+    return  vIn.c;
 }

@@ -121,7 +121,7 @@ bool  TCamera::Frame()
 
 	std::pair<float, float> ProjecPair = ZoomInOut(fHalfWidth, fHalfHeight);
 
-	m_rt.Set(m_vCameraPos, 1250, 550);
+	m_rt.Set(m_vCameraPos, 1250.f, 550.f);
 
 	m_matView._41 = -m_vCameraPos.x;
 	m_matView._42 = -m_vCameraPos.y;

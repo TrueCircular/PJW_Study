@@ -97,5 +97,6 @@ bool GameObject::Release()
 	{
 		a.second->Release();
 	}
+	_instance.reset();
 	return true;
 }

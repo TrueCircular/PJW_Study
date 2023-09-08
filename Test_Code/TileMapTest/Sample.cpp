@@ -23,9 +23,13 @@ bool Sample::Init()
 	_bird = make_shared<GameObject>();
 	_image = make_shared<ImageComponent>();
 
-	_backGround->SetScale({ (float)g_dwWindowWidth/2, (float)g_dwWindowHeight/2, 1 });
+
+
+	_backGround->SetScale({ (float)g_dwWindowWidth / 2, (float)g_dwWindowHeight / 2, 1 });
+	TileManager::GetInstance().CreateDebugTileMap(_backGround->m_vScale, 25, 25);
 	_backGround->AddComponent(L"Image", _image);
-	
+
+	_bird->SetPos({ -750.f,400.f,0.f });
 	_bird->SetScale({ 50,50,1 });
 
 	S_TOBJECT_DESC map;
@@ -47,14 +51,19 @@ bool Sample::Frame()
 {
 	_backGround->Frame();
 	_bird->Frame();
+	TileManager::GetInstance().DebugTileFrame();
+
 	DebugMode();
 	return true;
 }
 
 bool Sample::Render()
 {
+	TileManager::GetInstance().DebugTileRender();
 	_backGround->Render();
 	_bird->Render();
+
+
 	return true;
 }
 
