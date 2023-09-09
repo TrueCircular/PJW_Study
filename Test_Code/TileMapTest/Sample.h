@@ -12,7 +12,7 @@ public:
 	shared_ptr<GameObject>		_backGround;
 	shared_ptr<GameObject>		_bird;
 	shared_ptr<ImageComponent>	_image;
-	Debug_Tile* _tile;
+
 public:
 	void DebugMode();
 public:

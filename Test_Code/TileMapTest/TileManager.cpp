@@ -6,17 +6,17 @@ bool Debug_Tile::CreateVertexBuffer()
 	m_VertexList.resize(6);
 
 	m_VertexList[0].c.x = 1.f; m_VertexList[0].c.y = 0.f; m_VertexList[0].c.z = 0.f;
-	m_VertexList[0].c.w = 1.f;
+	m_VertexList[0].c.w = 0.1f;
 	m_VertexList[1].c.x = 1.f; m_VertexList[1].c.y = 0.f; m_VertexList[1].c.z = 0.f;
-	m_VertexList[1].c.w = 1.f;
+	m_VertexList[1].c.w = 0.1f;
 	m_VertexList[2].c.x = 1.f; m_VertexList[2].c.y = 0.f; m_VertexList[2].c.z = 0.f;
-	m_VertexList[2].c.w = 1.f;
+	m_VertexList[2].c.w = 0.1f;
 	m_VertexList[3].c.x = 1.f; m_VertexList[3].c.y = 0.f; m_VertexList[3].c.z = 0.f;
-	m_VertexList[3].c.w = 1.f;
+	m_VertexList[3].c.w = 0.1f;
 	m_VertexList[4].c.x = 1.f; m_VertexList[4].c.y = 0.f; m_VertexList[4].c.z = 0.f;
-	m_VertexList[4].c.w = 1.f;
+	m_VertexList[4].c.w = 0.1f;
 	m_VertexList[5].c.x = 1.f; m_VertexList[5].c.y = 0.f; m_VertexList[5].c.z = 0.f;
-	m_VertexList[5].c.w = 1.f;
+	m_VertexList[5].c.w = 0.1f;
 
 	m_VertexList[0].t.x = 0.0f; m_VertexList[0].t.y = 0.0f;
 	m_VertexList[1].t.x = 1.0f; m_VertexList[1].t.y = 0.0f;
@@ -54,73 +54,86 @@ bool Debug_Tile::CreateVertexBuffer()
 	}
 
 
-    return true;
+	return true;
 }
 
 bool Debug_Tile::Create(S_TOBJECT_DESC oDesc)
 {
 	Set(ICore::g_pDevice, ICore::g_pContext);
-    CreateConstantBuffer();
-    CreateVertexBuffer();
-    m_pShader = I_Shader.Load(oDesc.shaderFileName);
-    CreateInputLayout();
-    SetPos(oDesc.pos);
-    SetScale(oDesc.scale);
-    TVector2 temp = { oDesc.pos.x, oDesc.pos.y };
-    SetRect(temp, oDesc.scale.x * 2.0f, oDesc.scale.y * 2.0f);
+	CreateConstantBuffer();
+	CreateVertexBuffer();
+	m_pShader = I_Shader.Load(oDesc.shaderFileName);
+	CreateInputLayout();
+	SetPos(oDesc.pos);
+	SetScale(oDesc.scale);
+	TVector2 temp = { oDesc.pos.x, oDesc.pos.y };
+	SetRect(temp, oDesc.scale.x * 2.0f, oDesc.scale.y * 2.0f);
 
-    UpdateMatrix();
-    return true;
+	UpdateMatrix();
+	return true;
 }
 
 void Debug_Tile::UpdateTile()
 {
-    SetMatrix(nullptr, &ICore::g_pMainCamera->m_matView, &ICore::g_pMainCamera->m_matOrthoProjection);
 
-    m_pImmediateContext->VSSetConstantBuffers(0, 1, &m_pConstantBuffer);
 
-    m_pImmediateContext->IASetInputLayout(m_pVertexLayout);
-    if (m_pShader != nullptr)
-    {
-        m_pShader->Apply(m_pImmediateContext, 1);
-    }
 
-    UINT stride = sizeof(PT_Vertex);
-    UINT offset = 0;
-
-    m_pImmediateContext->IASetVertexBuffers(0, 1, &m_pVertexBuffer, &stride, &offset);
-    m_pImmediateContext->IASetPrimitiveTopology(
-        D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-	SetSamplerState();
-	m_pImmediateContext->Draw(m_VertexList.size(), 0);
 }
 
 bool Debug_Tile::Init()
 {
-    return true;
+	return true;
 }
 
 bool Debug_Tile::Frame()
 {
-    UpdateMatrix();
-    UpdateRect();
-    
-    return true;
+	UpdateMatrix();
+	UpdateRect();
+
+	return true;
+}
+
+bool Debug_Tile::PreRender()
+{
+	SetMatrix(nullptr, &ICore::g_pMainCamera->m_matView, &ICore::g_pMainCamera->m_matOrthoProjection);
+
+	m_pImmediateContext->VSSetConstantBuffers(0, 1, &m_pConstantBuffer);
+
+	m_pImmediateContext->IASetInputLayout(m_pVertexLayout);
+
+	if (m_pShader != nullptr)
+	{
+		m_pShader->Apply(m_pImmediateContext, 1);
+	}
+
+	UINT stride = sizeof(PT_Vertex);
+	UINT offset = 0;
+
+	m_pImmediateContext->IASetVertexBuffers(0, 1, &m_pVertexBuffer, &stride, &offset);
+	m_pImmediateContext->IASetPrimitiveTopology(
+		D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	return true;
 }
 
 bool Debug_Tile::Render()
 {
-	UpdateTile();
+	PreRender();
+	PostRender();
+	return true;
+}
 
-    return true;
+bool Debug_Tile::PostRender()
+{
+	SetSamplerState();
+	m_pImmediateContext->Draw(m_VertexList.size(), 0);
+	return true;
 }
 
 bool Debug_Tile::Release()
 {
-    TObject::Release();
+	TObject::Release();
 
-    return true;
+	return true;
 }
 
 TileManager::~TileManager()
@@ -141,36 +154,37 @@ void TileManager::CreateDebugTileMap(TVector3 mapScale, int widthCount, int heig
 
 	float mapStartX = -mapScale.x;
 	float mapStartY = mapScale.y;
-	
-	float coordinatesX = mapScale.x * 2 / widthCount;
-	float coordinatesY = mapScale.y * 2 / heightCount;
 
-	int horizontal = 1;
-	int vertical = 1;
+	float coordinatesX = mapScale.x / widthCount;
+	float coordinatesY = mapScale.y / heightCount;
+
+	int horizontal = 0;
+	int vertical = 0;
 
 	for (int i = 0; i < totalCount; i++)
 	{
 		_debugTileList[i] = new Debug_Tile;
 
 		S_TOBJECT_DESC temp;
-		temp.pos.x = mapStartX + (coordinatesX * horizontal);
-		temp.pos.y = mapStartY - (coordinatesY * vertical);
-		temp.pos.z = 1.f;
+		temp.pos.x = mapStartX + coordinatesX + ((coordinatesX * 2) * horizontal);
+		temp.pos.y = mapStartY - (coordinatesY + (coordinatesY * 2) * vertical);
+		temp.pos.z = 0.f;
 		temp.scale.x = coordinatesX;
 		temp.scale.y = coordinatesY;
+		temp.scale.z = 1.f;
 		temp.shaderFileName = L"../../resource/shader/Plane.hlsl";
 		_debugTileList[i]->Create(temp);
 		_tileIndexCount++;
 		_debugTileList[i]->_tileIndex = _tileIndexCount;
 
 		horizontal++;
+
 		if (horizontal >= widthCount)
 		{
-			horizontal = 1;
+			horizontal = 0;
 			vertical++;
-		}
+		};
 	}
-
 }
 
 void TileManager::CreateTileMap(TVector3 mapScale, int widthCount, int heightCount)
@@ -179,12 +193,12 @@ void TileManager::CreateTileMap(TVector3 mapScale, int widthCount, int heightCou
 
 bool TileManager::SaveTileData()
 {
-    return false;
+	return false;
 }
 
 bool TileManager::LoadTileData(std::wstring lPath)
 {
-    return false;
+	return false;
 }
 
 void TileManager::DebugTileFrame()
@@ -199,7 +213,7 @@ void TileManager::DebugTileRelease()
 {
 	for (int i = 0; i < _debugTileList.size(); i++)
 	{
-		if(_debugTileList[i]) _debugTileList[i]->Release();
+		if (_debugTileList[i]) _debugTileList[i]->Release();
 
 		_debugTileList[i] = nullptr;
 	}
@@ -207,8 +221,8 @@ void TileManager::DebugTileRelease()
 
 void TileManager::DebugTileRender()
 {
-	for (int i = 0; i < _debugTileList.size(); i++)
+	for (auto a : _debugTileList)
 	{
-		_debugTileList[i]->Render();
+		a->Render();
 	}
 }

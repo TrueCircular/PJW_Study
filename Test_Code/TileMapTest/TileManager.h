@@ -27,7 +27,9 @@ public:
 public:
 	bool    Init() override;
 	bool    Frame()override;
+	bool    PreRender() override;
 	bool    Render()override;
+	bool    PostRender() override;
 	bool    Release()override;
 };
 
@@ -35,15 +37,15 @@ struct Tile
 {
 	using TileType = GameTile::TileType;
 
-	int		 _tilePosX;
-	int		 _tilePosY;
-	int		 _tileIndex;
-	TileType _tileType;
+	float		 _tilePosX;
+	float		 _tilePosY;
+	int			 _tileIndex;
+	TileType	 _tileType;
 
 	Tile()
 	{
-		_tilePosX = 0;
-		_tilePosY = 0;
+		_tilePosX = 0.f;
+		_tilePosY = 0.f;
 		_tileIndex = -1;
 		_tileType = TileType::TILE_NONE;
 	}

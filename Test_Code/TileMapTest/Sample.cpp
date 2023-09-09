@@ -23,11 +23,9 @@ bool Sample::Init()
 	_bird = make_shared<GameObject>();
 	_image = make_shared<ImageComponent>();
 
-
-
 	_backGround->SetScale({ (float)g_dwWindowWidth / 2, (float)g_dwWindowHeight / 2, 1 });
-	TileManager::GetInstance().CreateDebugTileMap(_backGround->m_vScale, 25, 25);
 	_backGround->AddComponent(L"Image", _image);
+	TileManager::GetInstance().CreateDebugTileMap(_backGround->m_vScale, 100, 50);
 
 	_bird->SetPos({ -750.f,400.f,0.f });
 	_bird->SetScale({ 50,50,1 });
@@ -42,6 +40,7 @@ bool Sample::Init()
 	map.texFileName = L"../../resource/Sprite/Pet/bird/idle_01.png";
 	image2->Imageload(map);
 
+
 	//Create Camera
 	m_pMainCamera->Create({ 0,0,0 }, { (float)g_dwWindowWidth, (float)g_dwWindowHeight });
 	return true;
@@ -49,9 +48,9 @@ bool Sample::Init()
 
 bool Sample::Frame()
 {
+	TileManager::GetInstance().DebugTileFrame();
 	_backGround->Frame();
 	_bird->Frame();
-	TileManager::GetInstance().DebugTileFrame();
 
 	DebugMode();
 	return true;
@@ -59,9 +58,9 @@ bool Sample::Frame()
 
 bool Sample::Render()
 {
-	TileManager::GetInstance().DebugTileRender();
 	_backGround->Render();
 	_bird->Render();
+	TileManager::GetInstance().DebugTileRender();
 
 
 	return true;
