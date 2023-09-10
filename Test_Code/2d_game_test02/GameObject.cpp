@@ -28,6 +28,7 @@ void GameObject::AddComponent(wstring key, std::shared_ptr<GameComponent> compon
 
 GameObject::GameObject()
 {
+
 }
 
 GameObject::~GameObject()
@@ -97,5 +98,6 @@ bool GameObject::Release()
 	{
 		a.second->Release();
 	}
+	_instance.reset();
 	return true;
 }

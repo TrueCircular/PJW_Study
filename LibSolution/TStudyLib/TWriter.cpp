@@ -123,6 +123,12 @@ bool TWriter::Release()
 	if (m_pRT)m_pRT->Release();
 	if (m_pDWriteFactory)m_pDWriteFactory->Release();
 	if (m_pD2DFactory)m_pD2DFactory->Release();
+
+	m_pDefaultBrush = nullptr;
+	m_pDefaultTextFormat = nullptr;
+	m_pRT = nullptr;
+	m_pDWriteFactory = nullptr;
+	m_pD2DFactory = nullptr;
 	return true;
 }
 

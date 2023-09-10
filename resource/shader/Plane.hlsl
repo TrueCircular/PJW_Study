@@ -55,5 +55,9 @@ float4 PS(PS_IN vIn) : SV_Target
 }
 float4 PS_RECT(PS_IN vIn) : SV_Target
 {
-    return  float4(1.0f, 0.0f, 0.0f, 0.1f);
+    return  float4(0.0f, 0.0f, 0.0f, 0.1f);
+}
+float4 PS_RECT2(PS_IN vIn) : SV_Target
+{
+    return  float4(0.0f, 0.0f, 1.0f, 0.5f);
 }

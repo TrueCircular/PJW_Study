@@ -55,7 +55,7 @@ bool  TDxObject::CreateInputLayout()
 
 bool TDxObject::SetSamplerState()
 {
-	//if (m_SamplerState != nullptr) m_SamplerState->Release();
+	if (m_SamplerState != nullptr) m_SamplerState->Release();
 
 	D3D11_SAMPLER_DESC samDesc;
 	ZeroMemory(&samDesc, sizeof(samDesc));
@@ -134,5 +134,11 @@ bool  TDxObject::Release()
 	if (m_pVertexBuffer) m_pVertexBuffer->Release();
 	if (m_pVertexLayout) m_pVertexLayout->Release();
 	if (m_pConstantBuffer)m_pConstantBuffer->Release();
+	if (m_SamplerState) m_SamplerState->Release();
+
+	m_pVertexBuffer = nullptr;
+	m_pVertexLayout = nullptr;
+	m_pConstantBuffer = nullptr;
+	m_SamplerState = nullptr;
 	return true;
 }

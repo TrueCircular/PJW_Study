@@ -1,4 +1,7 @@
 #include "TInput.h"
+#include "ICoreStd.h"
+#include <DirectXMath.h>
+
 TVector3 TInput::GetWorldPos( TVector2 vWindow, TVector3 vCamera)
 {
     float fHalfWidth = vWindow.x / 2.0f;
@@ -23,10 +26,11 @@ TVector2 TInput::GetWorldPosVec2(TVector2 vWindow, TVector3 vCamera)
     // world
     TVector2 vMouseWorldLT = { vCamera.x - fHalfWidth,
                                vCamera.y + fHalfHeight };
-    vMouse.x = vMouseWorldLT.x + vMouse.x;
-    vMouse.y = vMouseWorldLT.y - vMouse.y;
+    vMouse.x = vMouseWorldLT.x + (vMouse.x);
+    vMouse.y = vMouseWorldLT.y - (vMouse.y);
     return vMouse;
 }
+
 bool  TInput::Frame()
 {       
     ::GetCursorPos(&m_MousePos); // ½ºÅ©¸° ÁÂÇ¥
@@ -61,11 +65,11 @@ bool  TInput::Init()
 bool  TInput::Render()
 {
 #ifdef _DEBUG
-    std::wstring mousePos = std::to_wstring(m_MousePos.x);
-    mousePos += L",";
-    mousePos += std::to_wstring(m_MousePos.y);
-    mousePos += L"\n";
-    T_Debug(mousePos.c_str());
+    //std::wstring mousepos = std::to_wstring(m_MousePos.x);
+    //mousepos += L",";
+    //mousepos += std::to_wstring(m_MousePos.y);
+    //mousepos += L"\n";
+    //T_Debug(mousepos.c_str());
 #endif
     return true;
 }

@@ -116,10 +116,10 @@ std::pair<float, float> TCamera::ZoomInOut(float halfWidth, float halfHeight)
 }
 bool  TCamera::Frame()
 {
-	float fHalfWidth = m_dwWindowWidth / 2.0f;
-	float fHalfHeight = m_dwWindowHeight / 2.0f;
+	float fHalfWidth = m_dwWindowWidth/2;
+	float fHalfHeight = m_dwWindowHeight/2;
 
-	std::pair<float, float> ProjecPair = ZoomInOut(fHalfWidth, fHalfHeight);
+	ProjecPair = ZoomInOut(fHalfWidth, fHalfHeight);
 
 	m_rt.Set(m_vCameraPos, 1250.f, 550.f);
 
@@ -127,8 +127,21 @@ bool  TCamera::Frame()
 	m_matView._42 = -m_vCameraPos.y;
 	m_matView._43 = -m_vCameraPos.z;
 
+	m_matViewinverse._41 = -m_matView._41;
+	m_matViewinverse._42 = -m_matView._42;
+	m_matViewinverse._43 = -m_matView._43;
+
+
+	m_povNear = 1.0f;
+	m_povFar = 1000.0f;
+
 	m_matOrthoProjection._11 = 1.0f / ProjecPair.first;
 	m_matOrthoProjection._22 = 1.0f / ProjecPair.second;
+	m_matOrthoProjection._33 = 1.0f / (m_povFar - m_povNear);
+	m_matOrthoProjection._43 = - m_povNear / (m_povFar - m_povNear);
+
+	m_matOrthoProjectionInverse._11 = ProjecPair.first;
+	m_matOrthoProjectionInverse._22 = ProjecPair.second;
 
 	return true;
 }
@@ -138,6 +151,14 @@ bool  TCamera::Init()
 }
 bool  TCamera::Render()
 {
+#ifdef _DEBUG
+	//std::wstring mousePos = std::to_wstring(m_vCameraPos.x);
+	//mousePos += L",";
+	//mousePos += std::to_wstring(m_vCameraPos.y);
+	//mousePos += L"\n";
+	//T_Debug(mousePos.c_str());
+#endif
+
 	return true;
 }
 bool  TCamera::Release()

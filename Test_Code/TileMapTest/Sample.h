@@ -10,7 +10,6 @@ class Sample : public TCore
 {
 public:
 	shared_ptr<GameObject>		_backGround;
-	shared_ptr<GameObject>		_bird;
 	shared_ptr<ImageComponent>	_image;
 
 public:

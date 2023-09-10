@@ -144,11 +144,44 @@ bool  TShader::LoadPixelShader(ID3D11Device* pDevice, std::wstring filename)
         nullptr,
         &m_pPS[1]);
 
+    hr = D3DCompileFromFile(
+        filename.c_str(),
+        nullptr,
+        nullptr,
+        "PS_RECT2",
+        "ps_5_0",
+        flags,
+        0,
+        &ShaderCode,
+        &ErrorCode);
+    if (FAILED(hr))
+    {
+        //ErrorCode
+        TCHAR pMessage[500];
+        mbstowcs(pMessage, (CHAR*)ErrorCode->GetBufferPointer(), 500);
+        MessageBox(NULL, pMessage, L"ERROR", MB_OK);
+        if (ErrorCode) ErrorCode->Release();
+        return false;
+    }
+    if (ErrorCode) ErrorCode->Release();
+
+    hr = pDevice->CreatePixelShader(
+        ShaderCode->GetBufferPointer(),
+        ShaderCode->GetBufferSize(),
+        nullptr,
+        &m_pPS[2]);
+
     if (ShaderCode) ShaderCode->Release();
     if (FAILED(hr))
-    {        
+    {
         return false;
-    }    
+    }
+
+
+
+
+
+
     return true;
 }
 

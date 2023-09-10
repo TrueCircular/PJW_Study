@@ -9,11 +9,11 @@ using std::shared_ptr;
 
 void Sample::DebugMode()
 {
-	if (I_Input.GetInstance().m_dwKeyState[VK_NUMPAD4] == KEY_PUSH)
+	if (I_Input.m_dwKeyState[VK_NUMPAD4] == KEY_PUSH)
 	{
 		m_rsFillMode = D3D11_FILL_MODE::D3D11_FILL_SOLID;
 	}
-	if (I_Input.GetInstance().m_dwKeyState[VK_NUMPAD5] == KEY_PUSH)
+	if (I_Input.m_dwKeyState[VK_NUMPAD5] == KEY_PUSH)
 	{
 		m_rsFillMode = D3D11_FILL_MODE::D3D11_FILL_WIREFRAME;
 	}

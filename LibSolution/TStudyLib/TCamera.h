@@ -13,16 +13,18 @@ class TCamera
 {
 public:
     TMatrix                 m_matView;
+    TMatrix                 m_matViewinverse;
     TMatrix                 m_matOrthoProjection;
+    TMatrix                 m_matOrthoProjectionInverse;
     TVector3                m_vCameraPos;
-    TVector3                m_vCameraMovePos;
     DWORD                   m_dwWindowWidth;
     DWORD                   m_dwWindowHeight;
     E_CameraZoomState       m_zoomState = E_CameraZoomState::CAMERA_ZOOM_ONCE;
     TRect                   m_rt;
+    std::pair<float, float> ProjecPair;
 
-    float m_zoomX = 0;
-    float m_zoomY = 0;
+    float m_povNear;
+    float m_povFar;
     float m_cameraMoveSpeed = 400.f;
     bool  _isCamMove = false;
 public:

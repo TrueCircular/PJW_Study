@@ -15,7 +15,6 @@ void GameObject::AddComponent(wstring key, std::shared_ptr<GameComponent> compon
 		}
 		else
 		{
-			_instance = shared_from_this();
 			component->SetOwner(_instance);
 			component->Init();
 		}
@@ -66,6 +65,8 @@ std::shared_ptr<GameComponent> GameObject::GetComponent(wstring key)
 
 bool GameObject::Init()
 {
+	_instance = shared_from_this();
+
 	for (auto a : _components)
 	{
 		a.second->Init();
@@ -97,6 +98,8 @@ bool GameObject::Release()
 	{
 		a.second->Release();
 	}
+
+	_components.clear();
 	_instance.reset();
 	return true;
 }

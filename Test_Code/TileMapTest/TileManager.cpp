@@ -1,7 +1,8 @@
 #include "TileManager.h"
 #include "ICoreStd.h"
+#include "TInput.h"
 
-bool Debug_Tile::CreateVertexBuffer()
+bool RectTile::CreateVertexBuffer()
 {
 	m_VertexList.resize(6);
 
@@ -57,7 +58,7 @@ bool Debug_Tile::CreateVertexBuffer()
 	return true;
 }
 
-bool Debug_Tile::Create(S_TOBJECT_DESC oDesc)
+bool RectTile::Create(S_TOBJECT_DESC oDesc)
 {
 	Set(ICore::g_pDevice, ICore::g_pContext);
 	CreateConstantBuffer();
@@ -73,27 +74,42 @@ bool Debug_Tile::Create(S_TOBJECT_DESC oDesc)
 	return true;
 }
 
-void Debug_Tile::UpdateTile()
+void RectTile::RectInCheck()
 {
+	TVector2 mouse = I_Input.GetWorldPosVec2({ (float)g_dwWindowWidth, (float)g_dwWindowHeight }, ICore::g_pMainCamera->m_vCameraPos);
 
-
-
+ 	if (m_tRT.ToPoint(mouse))
+	{
+		if (I_Input.m_dwKeyState[VK_LBUTTON] >= KEY_PUSH)
+		{
+			_tileType = TileType::TILE_WALL;
+		}
+		if (I_Input.m_dwKeyState[VK_RBUTTON] >= KEY_PUSH)
+		{
+			_tileType = TileType::TILE_FLOOR;
+		}
+	}
+	if (I_Input.m_dwKeyState[VK_NUMPAD6] == KEY_PUSH)
+	{
+		_tileType = TileType::TILE_FLOOR;
+	}
 }
 
-bool Debug_Tile::Init()
+bool RectTile::Init()
 {
 	return true;
 }
 
-bool Debug_Tile::Frame()
+bool RectTile::Frame()
 {
 	UpdateMatrix();
 	UpdateRect();
+	RectInCheck();
 
 	return true;
 }
 
-bool Debug_Tile::PreRender()
+bool RectTile::PreRender()
 {
 	SetMatrix(nullptr, &ICore::g_pMainCamera->m_matView, &ICore::g_pMainCamera->m_matOrthoProjection);
 
@@ -101,10 +117,36 @@ bool Debug_Tile::PreRender()
 
 	m_pImmediateContext->IASetInputLayout(m_pVertexLayout);
 
-	if (m_pShader != nullptr)
+	switch (_tileType)
 	{
-		m_pShader->Apply(m_pImmediateContext, 1);
+	case TileType::TILE_FLOOR:
+	{
+		if (m_pShader != nullptr)
+		{
+			m_pShader->Apply(m_pImmediateContext, 1);
+		}
+		break;
 	}
+	case TileType::TILE_WALL:
+	{
+		if (m_pShader != nullptr)
+		{
+			m_pShader->Apply(m_pImmediateContext, 2);
+		}
+		break;
+	}
+	case TileType::TILE_POTAL:
+	{
+		if (m_pShader != nullptr)
+		{
+			m_pShader->Apply(m_pImmediateContext, 3);
+		}
+		break;
+	}
+	default:
+		break;
+	}
+
 
 	UINT stride = sizeof(PT_Vertex);
 	UINT offset = 0;
@@ -115,80 +157,124 @@ bool Debug_Tile::PreRender()
 	return true;
 }
 
-bool Debug_Tile::Render()
+bool RectTile::Render()
 {
 	PreRender();
 	PostRender();
 	return true;
 }
 
-bool Debug_Tile::PostRender()
+bool RectTile::PostRender()
 {
 	SetSamplerState();
 	m_pImmediateContext->Draw(m_VertexList.size(), 0);
 	return true;
 }
 
-bool Debug_Tile::Release()
+bool RectTile::Release()
 {
 	TObject::Release();
-
 	return true;
 }
 
 TileManager::~TileManager()
 {
-	DebugTileRelease();
+	Release();
 }
 
-void TileManager::CreateDebugTileMap(TVector3 mapScale, int widthCount, int heightCount)
+void TileManager::CreateRectTileMap(TVector3 mapScale, int widthCount, int heightCount)
 {
-	if (_debugTileList.size() > 0)
+	if (_rectTileList.size() > 0)
 	{
-		DebugTileRelease();
-		_debugTileList.clear();
+		Release();
 	}
 
 	int totalCount = widthCount * heightCount;
-	_debugTileList.resize(totalCount);
+
+	_rectTileList.resize(totalCount);
 
 	float mapStartX = -mapScale.x;
 	float mapStartY = mapScale.y;
 
-	float coordinatesX = mapScale.x / widthCount;
-	float coordinatesY = mapScale.y / heightCount;
+	float coordinatesX = mapScale.x *2/ widthCount;
+	float coordinatesY = mapScale.y *2/ heightCount;
 
 	int horizontal = 0;
 	int vertical = 0;
 
+	float startX = mapStartX + coordinatesX;
+	float startY = mapStartY - coordinatesY;
+
 	for (int i = 0; i < totalCount; i++)
 	{
-		_debugTileList[i] = new Debug_Tile;
+		_rectTileList[i] = new RectTile;
 
 		S_TOBJECT_DESC temp;
-		temp.pos.x = mapStartX + coordinatesX + ((coordinatesX * 2) * horizontal);
-		temp.pos.y = mapStartY - (coordinatesY + (coordinatesY * 2) * vertical);
+		temp.pos.x = startX + ((coordinatesX * 2) * horizontal);
+		temp.pos.y = startY - ((coordinatesY * 2) * vertical);
 		temp.pos.z = 0.f;
 		temp.scale.x = coordinatesX;
 		temp.scale.y = coordinatesY;
 		temp.scale.z = 1.f;
 		temp.shaderFileName = L"../../resource/shader/Plane.hlsl";
-		_debugTileList[i]->Create(temp);
+
+		_rectTileList[i]->Create(temp);
 		_tileIndexCount++;
-		_debugTileList[i]->_tileIndex = _tileIndexCount;
+		_rectTileList[i]->_tileIndex = _tileIndexCount;
+
 
 		horizontal++;
 
-		if (horizontal >= widthCount)
+		if (horizontal == widthCount / 2)
 		{
 			horizontal = 0;
 			vertical++;
 		};
 	}
+
 }
 
-void TileManager::CreateTileMap(TVector3 mapScale, int widthCount, int heightCount)
+void TileManager::CreatePointTileMap(TVector3 mapScale, int widthCount, int heightCount)
 {
+	if (_pointTileList.size() > 0)
+	{
+		PointTileRelease();
+	}
+
+	int totalCount = widthCount * heightCount;
+
+	_pointTileList.resize(totalCount);
+
+	int mapStartX = -mapScale.x;
+	int mapStartY = mapScale.y;
+
+	_coordinateOffset.x = mapScale.x * 2 / widthCount;
+	_coordinateOffset.y = mapScale.y * 2 / heightCount;
+
+	int horizontal = 0;
+	int vertical = 0;
+
+	int startX = mapStartX + _coordinateOffset.x;
+	int startY = mapStartY - _coordinateOffset.y;
+
+	for (int i = 0; i < totalCount; i++)
+	{
+		PointTile tile;
+
+		tile._tileCoordinates.x = startX + ((_coordinateOffset.x * 2) * horizontal);
+		tile._tileCoordinates.y = startY - ((_coordinateOffset.y * 2) * vertical);
+		_tileIndexCount++;
+		tile._tileIndex = _tileIndexCount;
+		_pointTileList[i] = tile;
+
+		horizontal++;
+
+		if (horizontal == widthCount / 2)
+		{
+			horizontal = 0;
+			vertical++;
+		};
+	}
 }
 
 bool TileManager::SaveTileData()
@@ -201,27 +287,41 @@ bool TileManager::LoadTileData(std::wstring lPath)
 	return false;
 }
 
-void TileManager::DebugTileFrame()
+void TileManager::Frame()
 {
-	for (int i = 0; i < _debugTileList.size(); i++)
+	for (int i = 0; i < _rectTileList.size(); i++)
 	{
-		_debugTileList[i]->Frame();
+		_rectTileList[i]->Frame();
 	}
 }
 
-void TileManager::DebugTileRelease()
+void TileManager::RectTileRelease()
 {
-	for (int i = 0; i < _debugTileList.size(); i++)
+	for (int i = 0; i < _rectTileList.size(); i++)
 	{
-		if (_debugTileList[i]) _debugTileList[i]->Release();
+		if (_rectTileList[i]) _rectTileList[i]->Release();
 
-		_debugTileList[i] = nullptr;
+		delete _rectTileList[i];
+		_rectTileList[i] = nullptr;
 	}
+	_rectTileList.clear();
+	_tileIndexCount = -1;
+}
+void TileManager::PointTileRelease()
+{
+	_pointTileList.clear();
+	_tileIndexCount = -1;
+	_coordinateOffset.x = 0;
+	_coordinateOffset.y = 0;
 }
 
-void TileManager::DebugTileRender()
+void TileManager::Release()
 {
-	for (auto a : _debugTileList)
+}
+
+void TileManager::Render()
+{
+	for (auto a : _rectTileList)
 	{
 		a->Render();
 	}

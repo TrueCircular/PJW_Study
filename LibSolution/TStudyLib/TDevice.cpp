@@ -124,5 +124,7 @@ bool  TDevice::Release()
     if (m_pSwapChain)m_pSwapChain->Release();
     if (m_pDevice)m_pDevice->Release();
     if (m_pImmediateContext)m_pImmediateContext->Release();
+    if (m_pRenderTargetView) m_pRenderTargetView->Release();
+    if (m_rsState) m_rsState->Release();
     return true;
 }

@@ -97,9 +97,13 @@ bool  TCore::EngineRelease()
 	Release();
 
     if (m_AlphaBlend)m_AlphaBlend->Release();
+    m_AlphaBlend = nullptr;
+
     m_GameTimer.Release();
     TInput::GetInstance().Release();
     m_pMainCamera->Release();
+    //I_Shader.Release();
+    //I_Tex.Release();
     I_Writer.Release();
     TDevice::Release();
 	return true;

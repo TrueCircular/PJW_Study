@@ -236,6 +236,11 @@ bool SpriteComponent::Release()
 	if (_nomalSprite) _nomalSprite->Release();
 	if (_uvSprite) _uvSprite->Release();
 
+	_uvMaskSprite.reset();
+	_nomalSprite.reset();
+	_uvSprite.reset();
+	_owner.reset();
+
 	return true;
 }
 
@@ -314,6 +319,10 @@ bool ImageComponent::Render()
 bool ImageComponent::Release()
 {
 	_image->Release();
+	_image.reset();
+
+	_owner.reset();
+
 	return true;
 }
 
@@ -477,5 +486,15 @@ bool AnimationControllerComponent::Render()
 }
 bool AnimationControllerComponent::Release()
 {
+	_nomalSprite.reset();
+	_nomalAnimation.clear();
+
+	_uvSprite.reset();
+	_uvAnimation.clear();
+
+	_uvMaskSprite.reset();
+	_uvMaskAnimation.clear();
+
+	_owner.reset();
 	return true;
 }
