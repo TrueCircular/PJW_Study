@@ -10,7 +10,8 @@ bool  TCamera::Create(TVector3 vPos, TVector2 size)
 	m_matView._43 = -m_vCameraPos.z;
 	m_matOrthoProjection._11 = 2.0f / ((float)m_dwWindowWidth);
 	m_matOrthoProjection._22 = 2.0f / ((float)m_dwWindowHeight);
-
+	m_povNear = 1.0f;
+	m_povFar = 1000.0f;
 	return true;
 }
 std::pair<float, float> TCamera::ZoomInOut(float halfWidth, float halfHeight)
@@ -56,9 +57,9 @@ std::pair<float, float> TCamera::ZoomInOut(float halfWidth, float halfHeight)
 	{
 	case CAMERA_ZOOM_ONCE:
 	{
-		m_vCameraPos.x = 0;
-		m_vCameraPos.y = 0;
-		m_vCameraPos.z = 0;
+		m_vCameraPos.x = 0.f;
+		m_vCameraPos.y = 0.f;
+		m_vCameraPos.z = 0.f;
 
 		return  temp;
 	}
@@ -116,10 +117,10 @@ std::pair<float, float> TCamera::ZoomInOut(float halfWidth, float halfHeight)
 }
 bool  TCamera::Frame()
 {
-	float fHalfWidth = m_dwWindowWidth/2;
-	float fHalfHeight = m_dwWindowHeight/2;
+	float fHalfWidth = m_dwWindowWidth;
+	float fHalfHeight = m_dwWindowHeight;
 
-	ProjecPair = ZoomInOut(fHalfWidth, fHalfHeight);
+	ProjecPair = ZoomInOut(g_dwWindowWidth/2, g_dwWindowHeight/2);
 
 	m_rt.Set(m_vCameraPos, 1250.f, 550.f);
 
@@ -131,13 +132,9 @@ bool  TCamera::Frame()
 	m_matViewinverse._42 = -m_matView._42;
 	m_matViewinverse._43 = -m_matView._43;
 
-
-	m_povNear = 1.0f;
-	m_povFar = 1000.0f;
-
-	m_matOrthoProjection._11 = 1.0f / ProjecPair.first;
-	m_matOrthoProjection._22 = 1.0f / ProjecPair.second;
-	m_matOrthoProjection._33 = 1.0f / (m_povFar - m_povNear);
+	m_matOrthoProjection._11 = 2.0f / ProjecPair.first;
+	m_matOrthoProjection._22 = 2.0f / ProjecPair.second;
+	m_matOrthoProjection._33 = 2.0f / (m_povFar - m_povNear);
 	m_matOrthoProjection._43 = - m_povNear / (m_povFar - m_povNear);
 
 	m_matOrthoProjectionInverse._11 = ProjecPair.first;

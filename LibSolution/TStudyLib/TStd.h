@@ -5,6 +5,10 @@
 #include <vector>
 #include <memory>
 #include <codecvt>
+#include <iostream>
+#include <sstream>
+#include <fstream>
+#include <cmath>
 
 #include <map> // key+value   bst
 #include <unordered_map> 

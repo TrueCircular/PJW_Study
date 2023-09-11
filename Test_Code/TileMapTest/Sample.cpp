@@ -41,8 +41,8 @@ bool Sample::Init()
 bool Sample::Frame()
 {
 	_backGround->Frame();
-	TileManager::GetInstance().Frame();
 
+	TileManager::GetInstance().Frame();
 	DebugMode();
 	return true;
 }

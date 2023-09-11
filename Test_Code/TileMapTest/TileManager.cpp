@@ -102,16 +102,16 @@ bool RectTile::Init()
 
 bool RectTile::Frame()
 {
-	UpdateMatrix();
-	UpdateRect();
-	RectInCheck();
+	//UpdateMatrix();
+	SetMatrix(nullptr, &ICore::g_pMainCamera->m_matView, &ICore::g_pMainCamera->m_matOrthoProjection);
 
 	return true;
 }
 
 bool RectTile::PreRender()
 {
-	SetMatrix(nullptr, &ICore::g_pMainCamera->m_matView, &ICore::g_pMainCamera->m_matOrthoProjection);
+	UpdateRect();
+	RectInCheck();
 
 	m_pImmediateContext->VSSetConstantBuffers(0, 1, &m_pConstantBuffer);
 

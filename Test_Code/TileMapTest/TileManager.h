@@ -2,6 +2,8 @@
 #include "TStd.h"
 #include "GameObject.h"
 
+#define MYLOCALPTH_SAVE (const char*) "data/SaveData/"
+
 namespace GameTile
 {
 	enum TileType
@@ -92,11 +94,17 @@ struct PointTile
 
 class TileManager
 {
+	using wifstream = std::wifstream;
+	using wofstream = std::wofstream;
+	using wstring = std::wstring;
 private:
 	int								_tileIndexCount = -1;
 	TIndex							_coordinateOffset;
 	std::vector<RectTile*>			_rectTileList;
 	std::vector<PointTile>			_pointTileList;
+
+	wifstream*						_inFile;
+	wofstream*						_outFile;
 private:
 	TileManager() {}
 public:
@@ -106,12 +114,15 @@ public:
 public:
 	void CreateRectTileMap(TVector3 mapScale, int widthCount, int heightCount);
 	void CreatePointTileMap(TVector3 mapScale, int widthCount, int heightCount);
-public:
-	bool SaveTileData();
-	bool LoadTileData(std::wstring lPath);
 private:
 	void RectTileRelease();
 	void PointTileRelease();
+private:
+	bool LoadData(const wstring& path);
+	bool SaveData(const wstring& path);
+public:
+	bool SaveTileData();
+	bool LoadTileData(std::wstring lPath);
 public:
 	void Frame();
 	void Render();
