@@ -1,18 +1,26 @@
 #include "TCamera.h"
 #include "TInput.h"
-bool  TCamera::Create(TVector3 vPos, TVector2 size)
+
+TMatrix TCamera::CreateLookAt(TVector3 pos, TVector3 target, TVector3 up)
 {
-	m_vCameraPos = vPos;
-	m_dwWindowWidth = size.x;
-	m_dwWindowHeight = size.y;
-	m_matView._41 = -m_vCameraPos.x;
-	m_matView._42 = -m_vCameraPos.y;
-	m_matView._43 = -m_vCameraPos.z;
-	m_matOrthoProjection._11 = 2.0f / ((float)m_dwWindowWidth);
-	m_matOrthoProjection._22 = 2.0f / ((float)m_dwWindowHeight);
-	m_povNear = 1.0f;
-	m_povFar = 1000.0f;
-	return true;
+	TVector3 dir = target - pos;
+	dir = dir.NormalVector();
+	float dot = up | dir;
+
+	TVector3 vP = dir * dot;
+	TVector3 vUp = up - vP;
+	vUp = vUp.NormalVector();
+	TVector3 vRight = vUp ^ dir;
+
+	TMatrix tMt;
+	tMt._11 = vRight.x; tMt._12 = vUp.x; tMt._13 = dir.x;
+	tMt._21 = vRight.x; tMt._22 = vUp.y; tMt._23 = dir.y;
+	tMt._31 = vRight.x; tMt._32 = vUp.z; tMt._33 = dir.z;
+	tMt._41 = -(pos.x * tMt._11 + pos.y * tMt._21 + pos.z * tMt._31);
+	tMt._42 = -(pos.x * tMt._11 + pos.y * tMt._21 + pos.z * tMt._31);
+	tMt._43 = -(pos.x * tMt._11 + pos.y * tMt._21 + pos.z * tMt._31);
+
+	return tMt;
 }
 std::pair<float, float> TCamera::ZoomInOut(float halfWidth, float halfHeight)
 {
@@ -117,33 +125,11 @@ std::pair<float, float> TCamera::ZoomInOut(float halfWidth, float halfHeight)
 }
 bool  TCamera::Frame()
 {
-	float fHalfWidth = m_dwWindowWidth;
-	float fHalfHeight = m_dwWindowHeight;
-
-	ProjecPair = ZoomInOut(g_dwWindowWidth/2, g_dwWindowHeight/2);
-
-	m_rt.Set(m_vCameraPos, 1250.f, 550.f);
-
-	m_matView._41 = -m_vCameraPos.x;
-	m_matView._42 = -m_vCameraPos.y;
-	m_matView._43 = -m_vCameraPos.z;
-
-	m_matViewinverse._41 = -m_matView._41;
-	m_matViewinverse._42 = -m_matView._42;
-	m_matViewinverse._43 = -m_matView._43;
-
-	m_matOrthoProjection._11 = 2.0f / ProjecPair.first;
-	m_matOrthoProjection._22 = 2.0f / ProjecPair.second;
-	m_matOrthoProjection._33 = 2.0f / (m_povFar - m_povNear);
-	m_matOrthoProjection._43 = - m_povNear / (m_povFar - m_povNear);
-
-	m_matOrthoProjectionInverse._11 = ProjecPair.first;
-	m_matOrthoProjectionInverse._22 = ProjecPair.second;
-
 	return true;
 }
 bool  TCamera::Init()
 {
+	m_vTargetPos = { 0,0,0 };
 	return true;
 }
 bool  TCamera::Render()
