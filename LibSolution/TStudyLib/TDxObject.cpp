@@ -6,6 +6,24 @@ void  TDxObject::Set(ID3D11Device* pDevice, ID3D11DeviceContext* pImmediateConte
 }
 bool  TDxObject::CreateVertexBuffer()
 {
+	D3D11_BUFFER_DESC Desc;
+	ZeroMemory(&Desc, sizeof(Desc));
+	Desc.ByteWidth = sizeof(PT_Vertex) * m_VertexList.size();
+	Desc.Usage = D3D11_USAGE_DEFAULT;
+	Desc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+
+	D3D11_SUBRESOURCE_DATA InitialData;
+	ZeroMemory(&InitialData, sizeof(InitialData));
+	InitialData.pSysMem = &m_VertexList.at(0);
+
+	HRESULT hr = m_pDevice->CreateBuffer(
+		&Desc,
+		&InitialData,
+		&m_pVertexBuffer);
+	if (FAILED(hr))
+	{
+		return false;
+	}
 	return true;
 }
 bool  TDxObject::CreateConstantBuffer()
@@ -26,13 +44,36 @@ bool  TDxObject::CreateConstantBuffer()
 	}
 	return true;
 }
+bool TDxObject::CreateIndexBuffer()
+{
+	D3D11_BUFFER_DESC Desc;
+	ZeroMemory(&Desc, sizeof(Desc));
+	Desc.ByteWidth = sizeof(DWORD) * m_IndexList.size();
+	Desc.Usage = D3D11_USAGE_DEFAULT;
+	Desc.BindFlags = D3D11_BIND_INDEX_BUFFER;
+
+	D3D11_SUBRESOURCE_DATA InitialData;
+	ZeroMemory(&InitialData, sizeof(InitialData));
+	InitialData.pSysMem = &m_IndexList.at(0);
+
+	HRESULT hr = m_pDevice->CreateBuffer(
+		&Desc,
+		&InitialData,
+		&m_pIndexBuffer);
+	if (FAILED(hr))
+	{
+		return false;
+	}
+	return true;
+}
 bool  TDxObject::CreateInputLayout()
 {
 	const D3D11_INPUT_ELEMENT_DESC layout[] =
 	{
-		{ "POS",  0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0,  D3D11_INPUT_PER_VERTEX_DATA, 0 },
-		{ "COLOR",  0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT,D3D11_INPUT_PER_VERTEX_DATA  , 0 },
-		{ "TEXTURE",  0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT,  D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "POSITION",  0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0,  D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "NORMAL",   0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "COLOR",  0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 24,D3D11_INPUT_PER_VERTEX_DATA  , 0 },
+		{ "TEXCOORD",  0, DXGI_FORMAT_R32G32_FLOAT, 0, 40,  D3D11_INPUT_PER_VERTEX_DATA, 0 },
 
 	};
 	UINT iNumCount = sizeof(layout) / sizeof(layout[0]);
@@ -53,35 +94,6 @@ bool  TDxObject::CreateInputLayout()
 	return true;
 }
 
-bool TDxObject::SetSamplerState()
-{
-	if (m_SamplerState != nullptr) m_SamplerState->Release();
-
-	D3D11_SAMPLER_DESC samDesc;
-	ZeroMemory(&samDesc, sizeof(samDesc));
-
-	samDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
-	//samDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
-
-	samDesc.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
-	samDesc.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
-	samDesc.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
-
-	//samDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
-	//samDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
-	//samDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
-	samDesc.MaxAnisotropy = 16;
-
-	HRESULT hr = m_pDevice->CreateSamplerState(&samDesc, &m_SamplerState);
-
-	if (SUCCEEDED(hr))
-	{
-		m_pImmediateContext->PSSetSamplers(0, 1, &m_SamplerState);
-		return true;
-	}
-
-	return false;
-}
 bool  TDxObject::Init()
 {
 	return true;
@@ -123,10 +135,13 @@ bool  TDxObject::Render()
 }
 bool  TDxObject::PostRender()
 {
-
-	SetSamplerState();
-	m_pImmediateContext->Draw(m_VertexList.size(), 0);
-
+	if (m_pIndexBuffer == nullptr)
+		m_pImmediateContext->Draw(m_VertexList.size(), 0);
+	else
+	{
+		m_pImmediateContext->IASetIndexBuffer(m_pIndexBuffer, DXGI_FORMAT_R32_UINT, 0);
+		m_pImmediateContext->DrawIndexed(m_IndexList.size(), 0, 0);
+	}
 	return true;
 }
 bool  TDxObject::Release()
@@ -134,11 +149,9 @@ bool  TDxObject::Release()
 	if (m_pVertexBuffer) m_pVertexBuffer->Release();
 	if (m_pVertexLayout) m_pVertexLayout->Release();
 	if (m_pConstantBuffer)m_pConstantBuffer->Release();
-	if (m_SamplerState) m_SamplerState->Release();
 
 	m_pVertexBuffer = nullptr;
 	m_pVertexLayout = nullptr;
 	m_pConstantBuffer = nullptr;
-	m_SamplerState = nullptr;
 	return true;
 }

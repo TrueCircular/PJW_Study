@@ -28,6 +28,32 @@ void  TCore::CreateBlendState()
     bsd.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
     m_pDevice->CreateBlendState(&bsd, &m_AlphaBlend);
 }
+void TCore::CreateSamplerState()
+{
+    //if (m_SamplerState != nullptr) m_SamplerState->Release();
+
+    D3D11_SAMPLER_DESC samDesc;
+    ZeroMemory(&samDesc, sizeof(samDesc));
+
+    samDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+    samDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+    samDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+    samDesc.MipLODBias = 0;
+    samDesc.MaxAnisotropy = 16;
+
+    samDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+    samDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
+
+    samDesc.BorderColor[0] = 1.0f;
+    samDesc.BorderColor[1] = 0.0f;
+    samDesc.BorderColor[2] = 0.0f;
+    samDesc.BorderColor[3] = 1.0f;
+    samDesc.MinLOD = 0;
+    samDesc.MaxLOD = D3D11_FLOAT32_MAX;
+
+    HRESULT hr = m_pDevice->CreateSamplerState(&samDesc, &m_SamplerState);
+
+}
 bool  TCore::Init() { return true; }
 bool  TCore::Frame() { return true; }
 bool  TCore::Render() { return true; }
@@ -40,6 +66,7 @@ bool  TCore::EngineInit()
     ICore::g_pContext = m_pImmediateContext;
 
     CreateBlendState();
+    CreateSamplerState();
 
     I_Tex.Set(m_pDevice, m_pImmediateContext);
     I_Shader.Set(m_pDevice, m_pImmediateContext);
@@ -81,6 +108,7 @@ bool  TCore::EngineRender()
 {
     TDevice::PreRender();
     m_pImmediateContext->OMSetBlendState(m_AlphaBlend, 0, -1);
+    m_pImmediateContext->PSSetSamplers(0, 1, &m_SamplerState);
 
 	Render();
 
@@ -98,6 +126,9 @@ bool  TCore::EngineRelease()
 
     if (m_AlphaBlend)m_AlphaBlend->Release();
     m_AlphaBlend = nullptr;
+
+    if (m_SamplerState) m_SamplerState->Release();
+    m_SamplerState = nullptr;
 
     m_GameTimer.Release();
     TInput::GetInstance().Release();

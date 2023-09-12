@@ -13,14 +13,32 @@ TMatrix TCamera::CreateLookAt(TVector3 pos, TVector3 target, TVector3 up)
 	TVector3 vRight = vUp ^ dir;
 
 	TMatrix tMt;
-	tMt._11 = vRight.x; tMt._12 = vUp.x; tMt._13 = dir.x;
-	tMt._21 = vRight.x; tMt._22 = vUp.y; tMt._23 = dir.y;
-	tMt._31 = vRight.x; tMt._32 = vUp.z; tMt._33 = dir.z;
-	tMt._41 = -(pos.x * tMt._11 + pos.y * tMt._21 + pos.z * tMt._31);
-	tMt._42 = -(pos.x * tMt._11 + pos.y * tMt._21 + pos.z * tMt._31);
-	tMt._43 = -(pos.x * tMt._11 + pos.y * tMt._21 + pos.z * tMt._31);
+	m_matView._11 = vRight.x; m_matView._12 = vUp.x; m_matView._13 = dir.x;
+	m_matView._21 = vRight.y; m_matView._22 = vUp.y; m_matView._23 = dir.y;
+	m_matView._31 = vRight.z; m_matView._32 = vUp.z; m_matView._33 = dir.z;
 
-	return tMt;
+	m_matView._41 = -(pos.x * m_matView._11 + pos.y * m_matView._21 + pos.z * m_matView._31);
+	m_matView._42 = -(pos.x * m_matView._12 + pos.y * m_matView._22 + pos.z * m_matView._32);
+	m_matView._43 = -(pos.x * m_matView._13 + pos.y * m_matView._23 + pos.z * m_matView._33);
+
+
+
+	return m_matView;
+}
+TMatrix   TCamera::CreatePerspectiveFov(float fovy, float Aspect, float fNearPlane, float fFarPlane)
+{
+	float    h, w, Q;
+	h = 1 / tan(fovy * 0.5f);
+	w = h / Aspect;
+	Q = fFarPlane / (fFarPlane - fNearPlane);
+	m_matPerspectiveProj._44 = 0.0f;
+	m_matPerspectiveProj._11 = w;
+	m_matPerspectiveProj._22 = h;
+	m_matPerspectiveProj._33 = Q;
+	m_matPerspectiveProj._43 = -Q * fNearPlane;
+	m_matPerspectiveProj._34 = 1;
+
+	return m_matPerspectiveProj;
 }
 std::pair<float, float> TCamera::ZoomInOut(float halfWidth, float halfHeight)
 {
@@ -129,7 +147,6 @@ bool  TCamera::Frame()
 }
 bool  TCamera::Init()
 {
-	m_vTargetPos = { 0,0,0 };
 	return true;
 }
 bool  TCamera::Render()

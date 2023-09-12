@@ -39,7 +39,7 @@ public:
     bool  Release();
 public:
     TMatrix CreateLookAt(TVector3 pos, TVector3 target, TVector3 up = { 0,1,0 });
-    //void 
+    TMatrix   CreatePerspectiveFov(float fFov, float fAspect, float fNear, float fFar);
 public:
     std::pair<float, float> ZoomInOut(float halfWidth, float halfHeight);
 };

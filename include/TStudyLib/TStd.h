@@ -21,11 +21,13 @@
 #include <d3dcompiler.h>			//D3DComplileFromFile
 #include "DirectXTex.h" // 기타
 #include "TUtils.h" // 기타
+#include <wrl.h>
 #pragma comment (lib, "dxgi.lib") // d3d11.dll
 #pragma comment (lib, "d3d11.lib") // d3d11.dll
 #pragma comment (lib, "d3dcompiler.lib") // d3d11.dll
 #pragma comment (lib, "DirectXTex.lib")
 #pragma comment (lib, "TStudyLib.lib")
+using namespace Microsoft::WRL;
 
 #define T_PI (3.141592f)
 #define T_EPSILON ( 0.0001f)

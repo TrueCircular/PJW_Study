@@ -11,6 +11,7 @@ struct CB_Data
 struct PT_Vertex
 {
     TVector3 p;
+    TVector3 n;
     TVector4 c;
     TVector2 t;
 };
@@ -22,19 +23,28 @@ public:
     ID3D11DeviceContext*    m_pImmediateContext = nullptr;
     ID3D11Buffer*           m_pVertexBuffer = nullptr;
     ID3D11Buffer*           m_pConstantBuffer = nullptr;
+    ID3D11Buffer*           m_pIndexBuffer = nullptr;
     ID3D11InputLayout*      m_pVertexLayout = nullptr;
     const TShader*          m_pShader = nullptr;
     const TTexture*         m_pTex = nullptr;
     CB_Data                 m_cbData;
     std::vector< PT_Vertex> m_VertexList;
-    ID3D11SamplerState*     m_SamplerState = nullptr;
+    std::vector< DWORD>     m_IndexList;
 
 public:
     void Set(ID3D11Device* pDevice, ID3D11DeviceContext* pImmediateContext);
+    virtual bool  CreateVertexData()
+    {
+        return true;
+    }
+    virtual bool  CreateIndexData()
+    {
+        return true;
+    }
     virtual bool  CreateVertexBuffer();
     virtual bool  CreateConstantBuffer();
+    virtual bool  CreateIndexBuffer();
     virtual bool  CreateInputLayout();
-    virtual bool  SetSamplerState();
 public:
     virtual bool    Init();
     virtual bool    Frame();

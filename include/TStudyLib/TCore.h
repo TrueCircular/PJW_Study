@@ -13,12 +13,16 @@ public:
     TTimer                      m_GameTimer;   
     std::shared_ptr<TCamera>    m_pMainCamera=nullptr;
     ID3D11BlendState*           m_AlphaBlend = nullptr;
+    ID3D11SamplerState* m_SamplerState = nullptr;
+
 public:
     virtual bool  Init();
     virtual bool  Frame();
     virtual bool  Render();
     virtual bool  Release();
     void  CreateBlendState();
+    void  CreateSamplerState();
+
 private:
     virtual bool  EngineInit();
     virtual bool  EngineFrame();
