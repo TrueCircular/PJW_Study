@@ -54,8 +54,8 @@ bool TMap::CreateHeightVertexData()
 		for (int iCol = 0; iCol < m_iNumCols; iCol++)
 		{
 			int  iVertexIndex = iRow * m_iNumCols + iCol;
-			m_VertexList[iVertexIndex].p.x = (iCol - fHalfCols) * 10.0f;
-			m_VertexList[iVertexIndex].p.z = -((iRow - fHalfRows) * 10.0f);
+			m_VertexList[iVertexIndex].p.x = (iCol - fHalfCols) * 1.0f;
+			m_VertexList[iVertexIndex].p.z = -((iRow - fHalfRows) * 1.0f);
 			m_VertexList[iVertexIndex].p.y = GetHeightOfVertex(iVertexIndex);
 			m_VertexList[iVertexIndex].n = GetNormalOfVertex(iVertexIndex);
 			m_VertexList[iVertexIndex].c = GetColorOfVertex(iVertexIndex);
@@ -121,7 +121,7 @@ bool TMap::LoadHightMap(std::wstring shaderFilename, std::wstring texFilename)
 
 float		TMap::GetHeightOfVertex(UINT iVertexIndex)
 {
-	return m_heightList[iVertexIndex] * 1.0f;
+	return m_heightList[iVertexIndex] * 0.15f;
 }
 TVector3	TMap::GetNormalOfVertex(UINT iVertexIndex)
 {
