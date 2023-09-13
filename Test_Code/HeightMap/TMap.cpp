@@ -175,7 +175,6 @@ bool TMap::CreateHeightMap(std::wstring hPath)
 		if (SUCCEEDED(m_pImmediateContext->Map((ID3D11Resource*)tex2D, D3D11CalcSubresource(0, 0, 1), D3D11_MAP_READ, 0, &MappedFaceDest)))
 		{
 			UCHAR* pTexels = (UCHAR*)MappedFaceDest.pData;
-			PT_Vertex	v;
 			for (UINT row = 0; row < desc.Height; row++)
 			{
 				UINT rowStart = row * MappedFaceDest.RowPitch;
