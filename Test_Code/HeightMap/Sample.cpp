@@ -16,7 +16,7 @@ bool Sample::Init()
 	_map->CreateHeightMap(L"../../resource/topdownmap.jpg");
 	_map->LoadHightMap(L"../../resource/shader/Plane.hlsl", L"../../resource/topdownmap.jpg");
 
-	m_pMainCamera->CreateLookAt({ 0,512,-512.f }, { 0,0,1 });
+	m_pMainCamera->CreateLookAt({ 0,408.f,-469.5f }, { 0,0,1 });
 	m_pMainCamera->CreatePerspectiveFov(T_PI * 0.25, (float)g_dwWindowWidth / (float)g_dwWindowHeight,
 		1.0f, 10000.0f);
 	return true;

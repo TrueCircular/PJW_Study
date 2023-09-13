@@ -121,7 +121,7 @@ bool TMap::LoadHightMap(std::wstring shaderFilename, std::wstring texFilename)
 
 float		TMap::GetHeightOfVertex(UINT iVertexIndex)
 {
-	return m_heightList[iVertexIndex] * 0.15f;
+	return m_heightList[iVertexIndex] * 0.25f;
 }
 TVector3	TMap::GetNormalOfVertex(UINT iVertexIndex)
 {
