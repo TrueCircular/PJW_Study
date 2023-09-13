@@ -17,6 +17,8 @@ bool Sample::Init()
 	_map->LoadHightMap(L"../../resource/shader/Plane.hlsl", L"../../resource/topdownmap.jpg");
 
 	m_pMainCamera->CreateLookAt({ 0,408.f,-469.5f }, { 0,0,1 });
+	//m_pMainCamera->CreateLookAt({ 0,100.f,-150.f }, { 0,0,0 });
+
 	m_pMainCamera->CreatePerspectiveFov(T_PI * 0.25, (float)g_dwWindowWidth / (float)g_dwWindowHeight,
 		1.0f, 10000.0f);
 	return true;
@@ -24,6 +26,7 @@ bool Sample::Init()
 
 bool Sample::Frame()
 {
+	DebugMode();
 	return true;
 }
 
@@ -41,5 +44,15 @@ bool Sample::Release()
 	return true;
 }
 
-
+void Sample::DebugMode()
+{
+	if (I_Input.GetInstance().m_dwKeyState[VK_NUMPAD4] == KEY_PUSH)
+	{
+		m_rsFillMode = D3D11_FILL_MODE::D3D11_FILL_SOLID;
+	}
+	if (I_Input.GetInstance().m_dwKeyState[VK_NUMPAD5] == KEY_PUSH)
+	{
+		m_rsFillMode = D3D11_FILL_MODE::D3D11_FILL_WIREFRAME;
+	}
+}
 TGAME("ssda", 1600, 900)
