@@ -5,9 +5,9 @@ void TQuadTree::BuildNode(TNode* node)
 {
 	if (SubDivide(node))
 	{
-		for (int i = 0; i < node->_childList.size(); i++)
+		for (int i = 0; i <4; i++)
 		{
-
+			BuildNode(node->_childList[i]);
 		}
 	}
 }
