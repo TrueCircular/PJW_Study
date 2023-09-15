@@ -98,7 +98,7 @@ bool  TCore::EngineFrame()
 {
     m_GameTimer.Frame();
     TInput::GetInstance().Frame();
-    //m_pMainCamera->Frame();
+    ICore::g_pMainCamera->Frame();
     TDevice::Frame();
     I_Writer.Frame();
 	Frame();
@@ -112,7 +112,7 @@ bool  TCore::EngineRender()
 
 	Render();
 
-    m_pMainCamera->Render();
+    ICore::g_pMainCamera->Frame();
     m_GameTimer.Render();
     TInput::GetInstance().Render();
 

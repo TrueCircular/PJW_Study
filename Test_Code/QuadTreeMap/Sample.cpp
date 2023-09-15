@@ -1,5 +1,4 @@
 #include "Sample.h"
-#include "TWriter.h"
 #include "ICoreStd.h"
 
 float g_fMapHalfSizeX = 400;
@@ -17,7 +16,6 @@ bool Sample::Init()
 	_map->LoadHightMap(L"../../resource/shader/Plane.hlsl", L"../../resource/Map512Color.png");
 
 	m_pMainCamera->CreateLookAt({ 0,640.f,-1.0f }, { 0,0,0 });
-	//m_pMainCamera->CreateLookAt({ 0,100.f,-100.f }, { 0,0,0 });
 
 	m_pMainCamera->CreatePerspectiveFov(T_PI * 0.25, (float)g_dwWindowWidth / (float)g_dwWindowHeight,
 		1.0f, 10000.0f);

@@ -28,10 +28,8 @@
     <ClInclude Include="TDxObject.h" />
     <ClInclude Include="TInput.h" />
     <ClInclude Include="TMath.h" />
-    <ClInclude Include="TNpcObj.h" />
     <ClInclude Include="TObject.h" />
     <ClInclude Include="TPlaneObj.h" />
-    <ClInclude Include="TPlayer.h" />
     <ClInclude Include="TShaderMgr.h" />
     <ClInclude Include="TShape.h" />
     <ClInclude Include="TSoundMgr.h" />
@@ -54,10 +52,8 @@
     <ClCompile Include="TDxObject.cpp" />
     <ClCompile Include="TInput.cpp" />
     <ClCompile Include="TMath.cpp" />
-    <ClCompile Include="TNpcObj.cpp" />
     <ClCompile Include="TObject.cpp" />
     <ClCompile Include="TPlaneObj.cpp" />
-    <ClCompile Include="TPlayer.cpp" />
     <ClCompile Include="TShaderMgr.cpp" />
     <ClCompile Include="TShape.cpp" />
     <ClCompile Include="TSoundMgr.cpp" />

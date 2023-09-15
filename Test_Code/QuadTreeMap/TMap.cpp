@@ -46,9 +46,6 @@ bool TMap::CreateHeightVertexData()
 
 	m_iNumFace = m_iNumCellRows * m_iNumCellCols * 2;
 
-	float tx0ffsetU = 1.0f / m_iNumCellCols;
-	float txOffsetV = 1.0f / m_iNumCellRows;
-
 	for (int iRow = 0; iRow < m_iNumRows; iRow++)
 	{
 		for (int iCol = 0; iCol < m_iNumCols; iCol++)
@@ -68,7 +65,7 @@ bool TMap::CreateHeightVertexData()
 bool TMap::CreateIndexData()
 {
 	UINT iSize = m_iNumFace * 3;
-	m_IndexList.resize(m_iNumFace * 3);
+	m_IndexList.resize(iSize);
 
 	int iCurIndex = 0;
 	for (int iRow = 0; iRow < m_iNumCellRows; iRow++)

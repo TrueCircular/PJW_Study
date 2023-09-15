@@ -12,11 +12,16 @@ enum E_CameraZoomState
 class TCamera
 {
 public:
-    TMatrix                 m_matView;
-    TMatrix                 m_matViewinverse;
+    TVector3   m_vLook;
+    TVector3   m_vUp;
+    TVector3   m_vSide;
+    float      m_fSpeed = 10.0f;
+    float      m_near = 0.1f;
+    float      m_far = 1000.f;
 public:
-    TMatrix                 m_matOrthoProjection;
-    TMatrix                 m_matOrthoProjectionInverse; 
+    TMatrix                 m_matView;
+public:
+    TMatrix                 m_matOrthoProj;
     TMatrix                 m_matPerspectiveProj;
 public:
     TVector3                m_vCameraPos;
@@ -25,22 +30,15 @@ public:
     DWORD                   m_dwWindowWidth;
     DWORD                   m_dwWindowHeight;
     E_CameraZoomState       m_zoomState = E_CameraZoomState::CAMERA_ZOOM_ONCE;
-    TRect                   m_rt;
-    std::pair<float, float> ProjecPair;
-
-    float m_Near;
-    float m_Far;
-    float m_cameraMoveSpeed = 400.f;
-    bool  _isCamMove = false;
+private:
+    void      UpdateVector();
 public:
     bool  Init();
     bool  Frame();
     bool  Render();
     bool  Release();
 public:
-    TMatrix CreateLookAt(TVector3 pos, TVector3 target, TVector3 up = { 0,1,0 });
-    TMatrix   CreatePerspectiveFov(float fFov, float fAspect, float fNear, float fFar);
-public:
-    std::pair<float, float> ZoomInOut(float halfWidth, float halfHeight);
+    TMatrix  CreateLookAt(TVector3 pos, TVector3 target, TVector3 up = { 0,1,0 });
+    TMatrix  CreatePerspectiveFov(float fFov, float fAspect, float fNear, float fFar);
 };
 

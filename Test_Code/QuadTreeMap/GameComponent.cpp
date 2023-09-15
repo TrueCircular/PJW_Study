@@ -206,19 +206,19 @@ bool SpriteComponent::Render()
 		{
 		case SPRITE_TYPE_NOMAL:
 		{
-			_nomalSprite->SetMatrix(nullptr, &ICore::g_pMainCamera->m_matView, &ICore::g_pMainCamera->m_matOrthoProjection);
+			_nomalSprite->SetMatrix(nullptr, &ICore::g_pMainCamera->m_matView, &ICore::g_pMainCamera->m_matOrthoProj);
 			_nomalSprite->Render();
 			break;
 		}
 		case SPRITE_TYPE_UV:
 		{
-			_uvSprite->SetMatrix(nullptr, &ICore::g_pMainCamera->m_matView, &ICore::g_pMainCamera->m_matOrthoProjection);
+			_uvSprite->SetMatrix(nullptr, &ICore::g_pMainCamera->m_matView, &ICore::g_pMainCamera->m_matOrthoProj);
 			_uvSprite->Render();
 			break;
 		}
 		case SPRITE_TYPE_UVMASK:
 		{
-			_uvMaskSprite->SetMatrix(nullptr, &ICore::g_pMainCamera->m_matView, &ICore::g_pMainCamera->m_matOrthoProjection);
+			_uvMaskSprite->SetMatrix(nullptr, &ICore::g_pMainCamera->m_matView, &ICore::g_pMainCamera->m_matOrthoProj);
 			_uvMaskSprite->Render();
 			break;
 		}
@@ -306,7 +306,7 @@ bool ImageComponent::Frame()
 
 bool ImageComponent::Render()
 {
-	_image->SetMatrix(nullptr, &ICore::g_pMainCamera->m_matView, &ICore::g_pMainCamera->m_matOrthoProjection);
+	_image->SetMatrix(nullptr, &ICore::g_pMainCamera->m_matView, &ICore::g_pMainCamera->m_matOrthoProj);
 	_image->Render();
 	return true;
 }
