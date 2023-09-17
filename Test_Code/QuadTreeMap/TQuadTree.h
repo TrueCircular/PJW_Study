@@ -1,5 +1,4 @@
 #pragma once
-#include "TStd.h"
 #include "TDxObject.h"
 
 struct T_BOX
@@ -19,12 +18,11 @@ public:
 	DWORD				  _depth;
 	bool				  _isLeaf;
 	T_BOX				  _box;
-	TNode*				  _parent;
 	std::vector<TVector3> _cornerList;
 	std::vector<TNode*>	  _childList;
 public:
-	TNode();
-	~TNode();
+	TNode(){}
+	~TNode(){}
 };
 
 class TQuadTree
@@ -33,8 +31,11 @@ private:
 	std::vector<PT_Vertex> _vertexList;
 	std::vector<DWORD>     _indexList;
 	TNode*				   _root;
-	DWORD				   _mapWidth;
-	DWORD			       _mapHeight;
+	std::vector<TVector3>  _nodelist;
+
+	float				   _mapWidth;
+	float			       _mapHeight;
+	DWORD				   _nodeCount = -1;
 
 	DWORD				   _maxLevel;
 	float				   _minDivideSize;
@@ -44,7 +45,7 @@ private:
 	TNode*	CreateNode(TNode* parent, float topLeft, float topRight, float bottomLeft, float bottomRight);
 	bool	SubDivide(TNode* node);
 public:
-	void	BuildTree(std::vector<PT_Vertex> vList, DWORD width, DWORD height);
+	void	BuildTree(DWORD maxLevel, float width, float height);
 public:
 	void	Frame();
 	void	Render();

@@ -1,5 +1,6 @@
 #pragma once
 #include "TObject.h"
+
 struct TMapInfo
 {
 	UINT  row;

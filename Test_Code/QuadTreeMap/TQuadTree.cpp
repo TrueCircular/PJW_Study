@@ -5,7 +5,7 @@ void TQuadTree::BuildNode(TNode* node)
 {
 	if (SubDivide(node))
 	{
-		for (int i = 0; i <4; i++)
+		for (int i = 0; i < node->_childList.size(); i++)
 		{
 			BuildNode(node->_childList[i]);
 		}
@@ -76,10 +76,15 @@ bool TQuadTree::SubDivide(TNode* node)
 	return true;
 }
 
-void TQuadTree::BuildTree(std::vector<PT_Vertex> vList, DWORD width, DWORD height)
+void TQuadTree::BuildTree(DWORD maxLevel, float width, float height)
 {
 	_mapWidth = width;
 	_mapHeight = height;
+	_maxLevel = maxLevel;
+
+	_root = CreateNode(nullptr, -_mapWidth / 2, _mapWidth / 2, -_mapHeight / 2, _mapHeight / 2);
+
+	BuildNode(_root);
 }
 void TQuadTree::Frame()
 {

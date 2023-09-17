@@ -15,6 +15,8 @@ bool Sample::Init()
 	_map->CreateHeightMap(L"../../resource/heightMap513.bmp");
 	_map->LoadHightMap(L"../../resource/shader/Plane.hlsl", L"../../resource/Map512Color.png");
 
+	_qTree.BuildTree(_map->m_VertexList, 0, 513.f, 513.f);
+
 	m_pMainCamera->CreateLookAt({ 0,640.f,-1.0f }, { 0,0,0 });
 
 	m_pMainCamera->CreatePerspectiveFov(T_PI * 0.25, (float)g_dwWindowWidth / (float)g_dwWindowHeight,
@@ -30,15 +32,15 @@ bool Sample::Frame()
 
 bool Sample::Render()
 {
-	_map->SetMatrix(nullptr, &m_pMainCamera->m_matView, &m_pMainCamera->m_matPerspectiveProj);
-	_map->Render();
+	//_map->SetMatrix(nullptr, &m_pMainCamera->m_matView, &m_pMainCamera->m_matPerspectiveProj);
+	//_map->Render();
 	return true;
 }
 
 bool Sample::Release()
 {
-	_map->Release();
-	delete _map;
+	//_map->Release();
+	//delete _map;
 	return true;
 }
 
