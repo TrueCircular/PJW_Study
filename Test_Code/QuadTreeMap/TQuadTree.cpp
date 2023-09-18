@@ -76,8 +76,9 @@ bool TQuadTree::SubDivide(TNode* node)
 	return true;
 }
 
-void TQuadTree::BuildTree(DWORD maxLevel, float width, float height)
+void TQuadTree::BuildTree(TMap& map, DWORD maxLevel, float width, float height)
 {
+	
 	_mapWidth = width;
 	_mapHeight = height;
 	_maxLevel = maxLevel;

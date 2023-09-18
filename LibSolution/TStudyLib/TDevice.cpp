@@ -72,10 +72,37 @@ bool  TDevice::Init()
             pBackBuffer->Release();
             return false;
         }
-        m_pImmediateContext->OMSetRenderTargets(1, &m_pRenderTargetView, NULL);
     }
     pBackBuffer->Release();
 
+    // 3) 깊이 버퍼 생성
+// -깊이 버퍼용 텍스터 생성
+// -생성된 깊이 텍스쳐를 깊이버퍼로 활용
+    ComPtr<ID3D11Texture2D> depthTexture;
+    DXGI_SWAP_CHAIN_DESC scDesc;
+    m_pSwapChain->GetDesc(&scDesc);
+
+    D3D11_TEXTURE2D_DESC texDesc =
+    {
+        scDesc.BufferDesc.Width,
+        scDesc.BufferDesc.Height,
+        1,1,
+        DXGI_FORMAT_R24G8_TYPELESS,//DXGI_FORMAT_D24_UNORM_S8_UINT
+        1, 0,
+        D3D11_USAGE_DEFAULT,
+        D3D11_BIND_DEPTH_STENCIL,
+        0, 0
+    };
+    hr = m_pDevice->CreateTexture2D(&texDesc, NULL, depthTexture.GetAddressOf());
+
+
+    D3D11_DEPTH_STENCIL_VIEW_DESC dspDesc;
+    ZeroMemory(&dspDesc, sizeof(D3D11_DEPTH_STENCIL_VIEW_DESC));
+    dspDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+    dspDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+
+    hr = m_pDevice->CreateDepthStencilView(depthTexture.Get(),
+        &dspDesc, m_pDepthStencilView.GetAddressOf());
 
     m_ViewPort.Width = SwapChainDesc.BufferDesc.Width;
     m_ViewPort.Height = SwapChainDesc.BufferDesc.Height;
@@ -83,11 +110,9 @@ bool  TDevice::Init()
     m_ViewPort.MaxDepth = 1.0f;
     m_ViewPort.TopLeftX = 0;
     m_ViewPort.TopLeftY = 0;
-    m_pImmediateContext->RSSetViewports(1, &m_ViewPort);
 
     m_rsFillMode = D3D11_FILL_MODE::D3D11_FILL_SOLID;
     DisableBackfaceCulling(m_rsFillMode);
-
 
     return true;
 }
@@ -100,6 +125,13 @@ bool  TDevice::PreRender()
 {   
     float color[4] = { 0.343f,0.34522f,0.64333f,1 };
     m_pImmediateContext->ClearRenderTargetView(m_pRenderTargetView, color);   
+    m_pImmediateContext->OMSetRenderTargets(1, &m_pRenderTargetView, NULL);
+    m_pImmediateContext->ClearDepthStencilView(m_pDepthStencilView.Get(),
+        D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+    m_pImmediateContext->OMSetRenderTargets(1, &m_pRenderTargetView,
+        m_pDepthStencilView.Get());
+    m_pImmediateContext->RSSetViewports(1, &m_ViewPort);
+
     return true;
 }
 bool  TDevice::PostRender()

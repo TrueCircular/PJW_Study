@@ -15,7 +15,7 @@ bool Sample::Init()
 	_map->CreateHeightMap(L"../../resource/heightMap513.bmp");
 	_map->LoadHightMap(L"../../resource/shader/Plane.hlsl", L"../../resource/Map512Color.png");
 
-	_qTree.BuildTree(_map->m_VertexList, 0, 513.f, 513.f);
+	_qTree.BuildTree(0, 513.f, 513.f);
 
 	m_pMainCamera->CreateLookAt({ 0,640.f,-1.0f }, { 0,0,0 });
 

@@ -1,5 +1,6 @@
 #pragma once
 #include "TDxObject.h"
+#include "TMap.h"
 
 struct T_BOX
 {
@@ -45,7 +46,7 @@ private:
 	TNode*	CreateNode(TNode* parent, float topLeft, float topRight, float bottomLeft, float bottomRight);
 	bool	SubDivide(TNode* node);
 public:
-	void	BuildTree(DWORD maxLevel, float width, float height);
+	void	BuildTree(TMap& map, DWORD maxLevel, float width, float height);
 public:
 	void	Frame();
 	void	Render();

@@ -14,6 +14,8 @@ public:
     std::shared_ptr<TCamera>    m_pMainCamera=nullptr;
     ID3D11BlendState*           m_AlphaBlend = nullptr;
     ID3D11SamplerState*         m_SamplerState = nullptr;
+    ComPtr<ID3D11DepthStencilState> m_pDepthStencilState;
+    ComPtr<ID3D11DepthStencilState> m_pDepthStencilStateDisable;
 
 public:
     virtual bool  Init();
@@ -22,6 +24,7 @@ public:
     virtual bool  Release();
     void  CreateBlendState();
     void  CreateSamplerState();
+    void  CreateDepthStencilState();
 
 private:
     virtual bool  EngineInit();
