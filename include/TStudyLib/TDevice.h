@@ -3,18 +3,18 @@
 class TDevice : public TWindow
 {
 public:
-    IDXGISwapChain* m_pSwapChain = nullptr;
-    ID3D11Device* m_pDevice = nullptr;
-    ID3D11DeviceContext* m_pImmediateContext = nullptr;
-    ID3D11RenderTargetView* m_pRenderTargetView = nullptr;
-    ID3D11RasterizerState*  m_rsState = nullptr;
-    ComPtr<ID3D11DepthStencilView> m_pDepthStencilView = nullptr;
-
-    D3D11_VIEWPORT			m_ViewPort;			// ºäÆ÷Æ®
-    D3D11_FILL_MODE         m_rsFillMode = D3D11_FILL_MODE::D3D11_FILL_SOLID;
-
+    DXGI_SWAP_CHAIN_DESC           m_SwapChainDesc;
+    D3D11_VIEWPORT			       m_ViewPort;			// ºäÆ÷Æ®
 public:
-    bool  DisableBackfaceCulling(D3D11_FILL_MODE _fillMode);
+    ID3D11Device*                  m_pDevice = nullptr;
+    ID3D11DeviceContext*           m_pImmediateContext = nullptr;
+    ComPtr<IDXGISwapChain>         m_pSwapChain = nullptr;
+    ComPtr<ID3D11RenderTargetView> m_pRenderTargetView = nullptr;
+    ComPtr<ID3D11DepthStencilView> m_pDepthStencilView = nullptr;
+public:
+    bool SetRenderTargetView();
+    bool SetDepthStencilView();
+    bool SetViewPort();
 public:
     bool  Init();
     bool  Frame();

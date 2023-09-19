@@ -30,13 +30,13 @@ public:
     DWORD                   m_dwWindowWidth;
     DWORD                   m_dwWindowHeight;
     E_CameraZoomState       m_zoomState = E_CameraZoomState::CAMERA_ZOOM_ONCE;
-private:
+protected:
     void      UpdateVector();
 public:
-    bool  Init();
-    bool  Frame();
-    bool  Render();
-    bool  Release();
+    virtual bool  Init();
+    virtual bool  Frame();
+    virtual bool  Render();
+    virtual bool  Release();
 public:
     TMatrix  CreateLookAt(TVector3 pos, TVector3 target, TVector3 up = { 0,1,0 });
     TMatrix  CreatePerspectiveFov(float fFov, float fAspect, float fNear, float fFar);

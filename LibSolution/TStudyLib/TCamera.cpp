@@ -3,6 +3,9 @@
 
 TMatrix TCamera::CreateLookAt(TVector3 pos, TVector3 target, TVector3 up)
 {
+	m_vCameraPos = pos;
+	m_vTargetPos = target;
+
 	TVector3 dir = target - pos;
 	D3DXVec3Normalize(&dir, &dir);
 	float dot = D3DXVec3Dot(&up, &dir);
@@ -20,6 +23,7 @@ TMatrix TCamera::CreateLookAt(TVector3 pos, TVector3 target, TVector3 up)
 	m_matView._42 = -(pos.x * m_matView._12 + pos.y * m_matView._22 + pos.z * m_matView._32);
 	m_matView._43 = -(pos.x * m_matView._13 + pos.y * m_matView._23 + pos.z * m_matView._33);
 
+	UpdateVector();
 	return m_matView;
 }
 TMatrix   TCamera::CreatePerspectiveFov(float fovy, float Aspect, float fNearPlane, float fFarPlane)

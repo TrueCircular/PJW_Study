@@ -36,6 +36,9 @@ bool  TInput::Frame()
     ::GetCursorPos(&m_MousePos); // ½ºÅ©¸° ÁÂÇ¥
     ::ScreenToClient(g_hWnd, &m_MousePos);
 
+    m_vOffset.x = m_MousePos.x - m_BeforeMousePos.x;
+    m_vOffset.y = m_MousePos.y - m_BeforeMousePos.y;
+
     for (int ikey = 0; ikey < 256; ikey++)
     {
         SHORT s = GetAsyncKeyState(ikey);
@@ -54,7 +57,10 @@ bool  TInput::Frame()
             else
                 m_dwKeyState[ikey] = KEY_FREE;
         }
-    }    
+    }
+
+    m_BeforeMousePos = m_MousePos;
+
     return true;
 }
 bool  TInput::Init()

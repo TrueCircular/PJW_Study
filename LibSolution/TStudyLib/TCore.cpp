@@ -30,8 +30,6 @@ void  TCore::CreateBlendState()
 }
 void TCore::CreateSamplerState()
 {
-    //if (m_SamplerState != nullptr) m_SamplerState->Release();
-
     D3D11_SAMPLER_DESC samDesc;
     ZeroMemory(&samDesc, sizeof(samDesc));
 
@@ -52,7 +50,6 @@ void TCore::CreateSamplerState()
     samDesc.MaxLOD = D3D11_FLOAT32_MAX;
 
     HRESULT hr = m_pDevice->CreateSamplerState(&samDesc, &m_SamplerState);
-
 }
 void TCore::CreateDepthStencilState()
 {
@@ -65,7 +62,6 @@ void TCore::CreateDepthStencilState()
     // 해당 픽셀의 깊이 연산을 하여 출력여부를 판단한다.
     // 지형의 깊이 값 >=  깊이버퍼의 픽셀값(1.0f) 
     dsDescDepth.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
-
     //Stencil
     dsDescDepth.StencilEnable = FALSE;
     dsDescDepth.StencilReadMask = 1;
@@ -92,6 +88,67 @@ void TCore::CreateDepthStencilState()
         return;
     }
 }
+void TCore::CreateRasterizerState()
+{
+    HRESULT hr;
+    D3D11_RASTERIZER_DESC rd;
+    ZeroMemory(&rd, sizeof(rd));
+    rd.FillMode = D3D11_FILL_SOLID;
+    rd.CullMode = D3D11_CULL_NONE;
+
+    hr = m_pDevice->CreateRasterizerState(&rd, m_pRSSolid.GetAddressOf());
+
+    rd.FillMode = D3D11_FILL_WIREFRAME;
+    hr = m_pDevice->CreateRasterizerState(&rd, m_pRSWireFrame.GetAddressOf());
+
+}
+void TCore::ResizeDevice(UINT width, UINT height)
+{
+    HRESULT hr;
+    if (m_pDevice == nullptr) return;
+
+    DeleteDxResource();
+
+    // rendertarget    
+    m_pImmediateContext->OMSetRenderTargets(0, nullptr, nullptr);
+    m_pRenderTargetView->Release();
+    m_pDepthStencilView->Release();
+
+    hr = m_pSwapChain->ResizeBuffers(m_SwapChainDesc.BufferCount,
+        width, height, m_SwapChainDesc.BufferDesc.Format, m_SwapChainDesc.Flags);
+
+    m_pSwapChain->GetDesc(&m_SwapChainDesc);
+
+    SetRenderTargetView();
+    SetDepthStencilView();
+    SetViewPort();
+
+    GetClientRect(g_hWnd, &m_rcClient);
+    g_dwWindowWidth = m_dwWindowWidth = m_rcClient.right;
+    g_dwWindowHeight = m_dwWindowHeight = m_rcClient.bottom;
+
+    CreateDxResource();
+}
+bool TCore::DeleteDxResource()
+{
+    I_Writer.DeleteDxResource();
+    return true;
+}
+bool TCore::CreateDxResource()
+{
+    if (m_pSwapChain)
+    {
+        IDXGISurface1* pBackBuffer;
+        HRESULT hr = m_pSwapChain->GetBuffer(0, __uuidof(IDXGISurface1),
+            (LPVOID*)&pBackBuffer);
+        if (SUCCEEDED(hr))
+        {
+            I_Writer.CreateDxResource(pBackBuffer);
+        }
+        if (pBackBuffer) pBackBuffer->Release();
+    }
+    return true;
+}
 bool  TCore::Init() { return true; }
 bool  TCore::Frame() { return true; }
 bool  TCore::Render() { return true; }
@@ -106,6 +163,7 @@ bool  TCore::EngineInit()
     CreateBlendState();
     CreateSamplerState();
     CreateDepthStencilState();
+    CreateRasterizerState();
 
     I_Tex.Set(m_pDevice, m_pImmediateContext);
     I_Shader.Set(m_pDevice, m_pImmediateContext);
@@ -146,9 +204,16 @@ bool  TCore::EngineFrame()
 bool  TCore::EngineRender()
 {
     TDevice::PreRender();
-    m_pImmediateContext->OMSetBlendState(m_AlphaBlend, 0, -1);
-    m_pImmediateContext->PSSetSamplers(0, 1, &m_SamplerState);
+    m_pImmediateContext->OMSetBlendState(m_AlphaBlend.Get(), 0, -1);
+    m_pImmediateContext->PSSetSamplers(0, 1, m_SamplerState.GetAddressOf());
     m_pImmediateContext->OMSetDepthStencilState(m_pDepthStencilState.Get(), 1);
+    m_pImmediateContext->RSSetState(m_pRSSolid.Get());
+    // debug V
+    if (I_Input.Getkey('V') == KEY_HOLD)
+    {
+        m_pImmediateContext->RSSetState(m_pRSWireFrame.Get());
+    }
+
 	Render();
 
     ICore::g_pMainCamera->Frame();
@@ -157,21 +222,15 @@ bool  TCore::EngineRender()
 
     I_Writer.Render();
     TDevice::PostRender();
+
 	return true;
 }
 bool  TCore::EngineRelease()
 {
 	Release();
 
-    if (m_AlphaBlend)m_AlphaBlend->Release();
-    m_AlphaBlend = nullptr;
-
-    if (m_SamplerState) m_SamplerState->Release();
-    m_SamplerState = nullptr;
-
-    m_GameTimer.Release();
     TInput::GetInstance().Release();
-    m_pMainCamera->Release();
+    ICore::g_pMainCamera->Release();
     //I_Shader.Release();
     //I_Tex.Release();
     I_Writer.Release();

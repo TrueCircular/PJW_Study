@@ -159,6 +159,7 @@
     <ClInclude Include="GameComponent.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Sample.h" />
+    <ClInclude Include="TDebugCamera.h" />
     <ClInclude Include="TMap.h" />
     <ClInclude Include="TQuadTree.h" />
   </ItemGroup>
@@ -166,6 +167,7 @@
     <ClCompile Include="GameComponent.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Sample.cpp" />
+    <ClCompile Include="TDebugCamera.cpp" />
     <ClCompile Include="TMap.cpp" />
     <ClCompile Include="TQuadTree.cpp" />
   </ItemGroup>
