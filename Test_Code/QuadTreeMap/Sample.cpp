@@ -17,18 +17,12 @@ bool Sample::Init()
 
 
 	_debugCamera = std::make_shared<TDebugCamera>();
-	_debugCamera->CreateLookAt({ 0,600.f,-1.0f }, { 0,0,0 });
+	_debugCamera->CreateLookAt({ 0,513.f,-1.0f }, { 0,0,0 });
 	_debugCamera->CreatePerspectiveFov(DegreeToRadian(45), g_dwWindowWidth / (float)g_dwWindowHeight,
 		1.0f, 10000.f);
 
 	ICore::g_pMainCamera = _debugCamera.get();
 
-	//_qTree.BuildTree(*_map, 0, 513.f, 513.f);
-
-	//m_pMainCamera->CreateLookAt({ 0,520.f,-1.0f }, { 0,0,0 });
-
-	//m_pMainCamera->CreatePerspectiveFov(T_PI * 0.25, (float)g_dwWindowWidth / (float)g_dwWindowHeight,
-	//	1.0f, 10000.0f);
 	return true;
 }
 
@@ -48,6 +42,24 @@ bool Sample::Release()
 {
 	_map->Release();
 	delete _map;
+	return true;
+}
+
+bool Sample::DeleteDxResource()
+{
+	TCore::DeleteDxResource();
+
+	return true;
+}
+
+bool Sample::CreateDxResource()
+{
+	ICore::g_pMainCamera->CreatePerspectiveFov(T_PI * 0.25, (float)
+		g_dwWindowWidth / (float)g_dwWindowHeight,
+		1.0f, 300.0f);
+
+	TCore::CreateDxResource();
+
 	return true;
 }
 

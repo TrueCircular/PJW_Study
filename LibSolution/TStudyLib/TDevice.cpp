@@ -7,7 +7,7 @@ bool TDevice::SetRenderTargetView()
     if (SUCCEEDED(hr))
     {
         // 3) 렌더타켓 지정하고
-        hr = m_pDevice->CreateRenderTargetView(pBackBuffer, NULL, &m_pRenderTargetView);
+        hr = m_pDevice->CreateRenderTargetView(pBackBuffer, NULL, m_pRenderTargetView.GetAddressOf());
         if (FAILED(hr))
         {
             pBackBuffer->Release();
