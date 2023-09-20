@@ -18,7 +18,7 @@ public:
     //DepthStencil
     ComPtr<ID3D11DepthStencilState> m_pDepthStencilState;
     ComPtr<ID3D11DepthStencilState> m_pDepthStencilStateDisable;
-    //Rasterize
+    //Rasterizer
     ComPtr<ID3D11RasterizerState>   m_pRSWireFrame;
     ComPtr<ID3D11RasterizerState>   m_pRSSolid;
 public:

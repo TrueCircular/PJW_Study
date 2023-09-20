@@ -100,7 +100,6 @@ void TCore::CreateRasterizerState()
 
     rd.FillMode = D3D11_FILL_WIREFRAME;
     hr = m_pDevice->CreateRasterizerState(&rd, m_pRSWireFrame.GetAddressOf());
-
 }
 void TCore::ResizeDevice(UINT width, UINT height)
 {
