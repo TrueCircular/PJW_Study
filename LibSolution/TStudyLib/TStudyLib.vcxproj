@@ -26,6 +26,7 @@
     <ClInclude Include="TCore.h" />
     <ClInclude Include="TDevice.h" />
     <ClInclude Include="TDxObject.h" />
+    <ClInclude Include="TFbxImporter.h" />
     <ClInclude Include="TInput.h" />
     <ClInclude Include="TMath.h" />
     <ClInclude Include="TObject.h" />
@@ -50,6 +51,7 @@
     <ClCompile Include="TCore.cpp" />
     <ClCompile Include="TDevice.cpp" />
     <ClCompile Include="TDxObject.cpp" />
+    <ClCompile Include="TFbxImporter.cpp" />
     <ClCompile Include="TInput.cpp" />
     <ClCompile Include="TMath.cpp" />
     <ClCompile Include="TObject.cpp" />
@@ -153,7 +155,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>../../lib/fmod/inc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../lib/fmod/inc;../../fbx/include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -162,6 +164,7 @@
     </Link>
     <Lib>
       <OutputFile>TStudyLib.lib</OutputFile>
+      <AdditionalLibraryDirectories>../../fbx/lib/debug</AdditionalLibraryDirectories>
     </Lib>
     <PostBuildEvent>
       <Command>copy ".\*.h" "..\\..\\include\\TStudyLib"
@@ -181,7 +184,7 @@ copy "..\\..\\lib\\fmod\\inc\\*.hpp" "..\\..\\include\\fmod"</Command>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>../../lib/fmod/inc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../lib/fmod/inc;../../fbx/include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -192,6 +195,7 @@ copy "..\\..\\lib\\fmod\\inc\\*.hpp" "..\\..\\include\\fmod"</Command>
     </Link>
     <Lib>
       <OutputFile>TStudyLib.lib</OutputFile>
+      <AdditionalLibraryDirectories>../../fbx/lib/debug</AdditionalLibraryDirectories>
     </Lib>
     <PostBuildEvent>
       <Command>copy ".\*.h" "..\\..\\include\\TStudyLib"
@@ -209,7 +213,7 @@ copy "..\\..\\lib\\fmod\\inc\\*.hpp" "..\\..\\include\\fmod"</Command>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>../../lib/fmod/inc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../lib/fmod/inc;../../fbx/include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -218,6 +222,7 @@ copy "..\\..\\lib\\fmod\\inc\\*.hpp" "..\\..\\include\\fmod"</Command>
     </Link>
     <Lib>
       <OutputFile>TStudyLib.lib</OutputFile>
+      <AdditionalLibraryDirectories>../../fbx/lib/debug</AdditionalLibraryDirectories>
     </Lib>
     <PostBuildEvent>
       <Command>copy ".\*.h" "..\\..\\include\\TStudyLib"
@@ -237,7 +242,7 @@ copy "..\\..\\lib\\fmod\\inc\\*.hpp" "..\\..\\include\\fmod"</Command>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>../../lib/fmod/inc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../lib/fmod/inc;../../fbx/include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -248,6 +253,7 @@ copy "..\\..\\lib\\fmod\\inc\\*.hpp" "..\\..\\include\\fmod"</Command>
     </Link>
     <Lib>
       <OutputFile>TStudyLib.lib</OutputFile>
+      <AdditionalLibraryDirectories>../../fbx/lib/debug</AdditionalLibraryDirectories>
     </Lib>
     <PostBuildEvent>
       <Command>copy ".\*.h" "..\\..\\include\\TStudyLib"

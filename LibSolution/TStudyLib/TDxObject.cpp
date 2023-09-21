@@ -46,6 +46,7 @@ bool  TDxObject::CreateConstantBuffer()
 }
 bool TDxObject::CreateIndexBuffer()
 {
+	if (m_IndexList.size() == 0) return true;
 	D3D11_BUFFER_DESC Desc;
 	ZeroMemory(&Desc, sizeof(Desc));
 	Desc.ByteWidth = sizeof(DWORD) * m_IndexList.size();

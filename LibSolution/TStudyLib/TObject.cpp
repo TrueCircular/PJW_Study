@@ -77,7 +77,8 @@ void TObject::UpdateMatrix()
 {
     TMatrix matScale, matRotation, matTranslate;
     D3DXMatrixScaling(&matScale, m_vScale.x, m_vScale.y, m_vScale.z);
-    D3DXMatrixRotationZ(&matRotation, m_vRotation.z);
+    //D3DXMatrixRotationZ(&matRotation, m_vRotation.z);
+    D3DXMatrixRotationYawPitchRoll(&matRotation, m_vRotation.y, m_vRotation.x, m_vRotation.z);
     D3DXMatrixTranslation(&matTranslate, m_vPos.x, m_vPos.y, m_vPos.z);
 
     m_matWorld = matScale * matRotation * matTranslate;
