@@ -50,6 +50,8 @@ bool Sample::Render()
 
 bool Sample::Release()
 {
+	_testBox->Release();
+	_testSphere->Release();
 	return true;
 }
 

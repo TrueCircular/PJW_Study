@@ -16,6 +16,8 @@ private:
 public:
 	~ModelManager()
 	{
+		_importer->Release();
+
 		delete _instance;
 		_instance = nullptr;
 	}
@@ -27,7 +29,6 @@ public:
 		return _instance;
 	}
 public:
-
 	bool					 AddFbxModelData(std::wstring mName, std::wstring mPath);
 	std::vector<PT_Vertex>   GetFbxModelData(std::wstring key);
 };
