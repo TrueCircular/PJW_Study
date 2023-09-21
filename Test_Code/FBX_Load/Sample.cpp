@@ -34,6 +34,7 @@ bool Sample::Frame()
 
 	_testSphere->m_vRotation.y += DegreeToRadian(15) * 50.f * g_fSecondPerFrame;
 	_testSphere->UpdateMatrix();
+
 	return true;
 }
 
