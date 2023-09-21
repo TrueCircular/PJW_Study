@@ -130,12 +130,12 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>../../include/TStudyLib;../../include/fmod;../../include/dxtk;%(AdditionalIncludeDirectories);../../fbx/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../include/TStudyLib;../../include/fmod;../../include/dxtk;%(AdditionalIncludeDirectories);../../include/fbx</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>../../lib;../../fbx/lib/debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../../lib;../../lib/fbx/debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>DirectXTK_D.lib;%(AdditionalDependencies);libfbxsdk-md.lib;libxml2-md.lib;zlib-md.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>

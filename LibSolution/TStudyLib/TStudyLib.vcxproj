@@ -213,7 +213,7 @@ copy "..\\..\\lib\\fmod\\inc\\*.hpp" "..\\..\\include\\fmod"</Command>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>../../lib/fmod/inc;../../fbx/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../lib/fmod/inc;../../include/fbx</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -222,7 +222,7 @@ copy "..\\..\\lib\\fmod\\inc\\*.hpp" "..\\..\\include\\fmod"</Command>
     </Link>
     <Lib>
       <OutputFile>TStudyLib.lib</OutputFile>
-      <AdditionalLibraryDirectories>../../fbx/lib/debug</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../../lib/fbx/debug</AdditionalLibraryDirectories>
     </Lib>
     <PostBuildEvent>
       <Command>copy ".\*.h" "..\\..\\include\\TStudyLib"
