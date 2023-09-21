@@ -11,7 +11,7 @@ class Sample : public TCore
 {
 public:
 	shared_ptr<TObject>		 _testBox;
-	shared_ptr<TObject>		 _testBox2;
+	shared_ptr<TObject>		 _testSphere;
 
 	shared_ptr<TDebugCamera> _debugCamera;
 public:

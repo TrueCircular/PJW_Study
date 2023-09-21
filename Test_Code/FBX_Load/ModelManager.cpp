@@ -23,14 +23,13 @@ bool ModelManager::AddFbxModelData(std::wstring mName, std::wstring mPath)
         {
             return false;
         }
-
     }
     else
     {
         return false;
     }
 
-    return false;
+    return true;
 }
 
 std::vector<PT_Vertex> ModelManager::GetFbxModelData(std::wstring key)
@@ -41,12 +40,11 @@ std::vector<PT_Vertex> ModelManager::GetFbxModelData(std::wstring key)
 
     if (findIter != _modelDictionary.end())
     {
-
         pt = findIter->second;
         return pt;
     }
     else
     {
-        throw std::runtime_error("Component not found");
+        throw std::runtime_error("Model not found");
     }
 }

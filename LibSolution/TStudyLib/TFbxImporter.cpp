@@ -180,15 +180,15 @@ bool TFbxImporter::Clear()
 		}
 
 		m_pMeshNodeList.clear();
+
 	}
 
-	//if (m_pFbxScene) m_pFbxScene->Clear();
+	if (m_pFbxScene) m_pFbxScene->Clear();
 
 	if (m_meshList.size() > 0)
 	{
 		m_meshList.clear();
 	}
-
 
 	return true;
 }
