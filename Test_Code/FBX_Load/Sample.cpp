@@ -15,6 +15,12 @@ bool Sample::Init()
 	_testBox->m_VertexList = ModelManager::GetInstance()->GetFbxModelData(L"Box");
 	_testBox->Create(L"../../resource/topdownmap.jpg", L"../../resource/shader/Plane.hlsl");
 
+	_testBox2 = make_shared<TObject>();
+	_testBox2->Set(m_pDevice, m_pImmediateContext);
+	_testBox2->m_VertexList.resize(ModelManager::GetInstance()->GetFbxModelData(L"Box").size());
+	_testBox2->m_VertexList = ModelManager::GetInstance()->GetFbxModelData(L"Box");
+	_testBox2->SetPos({ 40,0,0 });
+	_testBox2->Create(L"../../resource/topdownmap.jpg", L"../../resource/shader/Plane.hlsl");
 	DebugCameraSet();
 	return true;
 }
@@ -23,6 +29,9 @@ bool Sample::Frame()
 {
 	_testBox->m_vRotation.y += DegreeToRadian(15) * g_fSecondPerFrame;
 	_testBox->UpdateMatrix();
+
+	_testBox2->m_vRotation.y += DegreeToRadian(15) * g_fSecondPerFrame;
+	_testBox2->UpdateMatrix();
 	return true;
 }
 
@@ -30,6 +39,9 @@ bool Sample::Render()
 {
 	_testBox->SetMatrix(nullptr, &ICore::g_pMainCamera->m_matView, &ICore::g_pMainCamera->m_matPerspectiveProj);
 	_testBox->Render();
+
+	_testBox2->SetMatrix(nullptr, &ICore::g_pMainCamera->m_matView, &ICore::g_pMainCamera->m_matPerspectiveProj);
+	_testBox2->Render();
 	return true;
 }
 
