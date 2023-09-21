@@ -45,7 +45,7 @@ bool	TTimer::Render()
 
 	I_Writer.AddText(
 		msg.c_str(), 0, 0,
-		{ 1.0f, 1.0f, 0.0f, 1.0f });	
+		{ 0.0f, 0.0f, 0.0f, 0.5f });	
 	return true;
 }
 bool	TTimer::Release()

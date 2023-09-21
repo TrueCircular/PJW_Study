@@ -20,18 +20,21 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DirectXTex.h" />
+    <ClInclude Include="ICoreStd.h" />
     <ClInclude Include="TCamera.h" />
     <ClInclude Include="TCollision.h" />
     <ClInclude Include="TCore.h" />
     <ClInclude Include="TDevice.h" />
     <ClInclude Include="TDxObject.h" />
+    <ClInclude Include="TFbxImporter.h" />
     <ClInclude Include="TInput.h" />
     <ClInclude Include="TMath.h" />
-    <ClInclude Include="TNpcObj.h" />
     <ClInclude Include="TObject.h" />
     <ClInclude Include="TPlaneObj.h" />
-    <ClInclude Include="TPlayer.h" />
     <ClInclude Include="TShaderMgr.h" />
+    <ClInclude Include="TShape.h" />
+    <ClInclude Include="TSoundMgr.h" />
+    <ClInclude Include="TSpriteObj.h" />
     <ClInclude Include="TStd.h" />
     <ClInclude Include="TTextureMgr.h" />
     <ClInclude Include="TTimer.h" />
@@ -43,17 +46,20 @@
     <None Include="DirectXTex.inl" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ICoreStd.cpp" />
     <ClCompile Include="TCamera.cpp" />
     <ClCompile Include="TCore.cpp" />
     <ClCompile Include="TDevice.cpp" />
     <ClCompile Include="TDxObject.cpp" />
+    <ClCompile Include="TFbxImporter.cpp" />
     <ClCompile Include="TInput.cpp" />
     <ClCompile Include="TMath.cpp" />
-    <ClCompile Include="TNpcObj.cpp" />
     <ClCompile Include="TObject.cpp" />
     <ClCompile Include="TPlaneObj.cpp" />
-    <ClCompile Include="TPlayer.cpp" />
     <ClCompile Include="TShaderMgr.cpp" />
+    <ClCompile Include="TShape.cpp" />
+    <ClCompile Include="TSoundMgr.cpp" />
+    <ClCompile Include="TSpriteObj.cpp" />
     <ClCompile Include="TTextureMgr.cpp" />
     <ClCompile Include="TTimer.cpp" />
     <ClCompile Include="TUtils.cpp" />
@@ -125,23 +131,23 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>../../output</OutDir>
-    <IntDir>../../output/TStudyLib</IntDir>
+    <OutDir>../../output/Debug/</OutDir>
+    <IntDir>../../output/Debug/TStudyLib</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>../../output</OutDir>
-    <IntDir>../../output/TStudyLib</IntDir>
+    <OutDir>../../output/Debug/</OutDir>
+    <IntDir>../../output/Debug/TStudyLib</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>../../output</OutDir>
-    <IntDir>../../output/TStudyLib</IntDir>
+    <OutDir>../../output/Debug/</OutDir>
+    <IntDir>../../output/Debug/TStudyLib</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>../../output</OutDir>
-    <IntDir>../../output/TStudyLib</IntDir>
+    <OutDir>../../output/Debug/</OutDir>
+    <IntDir>../../output/Debug/TStudyLib</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -149,6 +155,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>../../lib/fmod/inc;../../fbx/include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -157,11 +164,16 @@
     </Link>
     <Lib>
       <OutputFile>TStudyLib.lib</OutputFile>
+      <AdditionalLibraryDirectories>../../fbx/lib/debug</AdditionalLibraryDirectories>
     </Lib>
     <PostBuildEvent>
       <Command>copy ".\*.h" "..\\..\\include\\TStudyLib"
 copy ".\*.inl" "..\\..\\include\\TStudyLib"
-copy ".\TStudyLib.lib" "..\\..\\lib\\"</Command>
+copy ".\TStudyLib.lib" "..\\..\\lib\\"
+copy "..\\..\\lib\\fmod\\inc\\*.h" "..\\..\\include\\fmod"
+copy "..\\..\\lib\\fmod\\inc\\*.cs" "..\\..\\include\\fmod"
+copy "..\\..\\lib\\fmod\\fmod.dll" "..\\..\\output\\Debug"
+copy "..\\..\\lib\\fmod\\inc\\*.hpp" "..\\..\\include\\fmod"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -172,6 +184,7 @@ copy ".\TStudyLib.lib" "..\\..\\lib\\"</Command>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>../../lib/fmod/inc;../../fbx/include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -182,11 +195,16 @@ copy ".\TStudyLib.lib" "..\\..\\lib\\"</Command>
     </Link>
     <Lib>
       <OutputFile>TStudyLib.lib</OutputFile>
+      <AdditionalLibraryDirectories>../../fbx/lib/debug</AdditionalLibraryDirectories>
     </Lib>
     <PostBuildEvent>
       <Command>copy ".\*.h" "..\\..\\include\\TStudyLib"
 copy ".\*.inl" "..\\..\\include\\TStudyLib"
-copy ".\TStudyLib.lib" "..\\..\\lib\\"</Command>
+copy ".\TStudyLib.lib" "..\\..\\lib\\"
+copy "..\\..\\lib\\fmod\\inc\\*.h" "..\\..\\include\\fmod"
+copy "..\\..\\lib\\fmod\\inc\\*.cs" "..\\..\\include\\fmod"
+copy "..\\..\\lib\\fmod\\fmod.dll" "..\\..\\output\\Debug"
+copy "..\\..\\lib\\fmod\\inc\\*.hpp" "..\\..\\include\\fmod"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -195,6 +213,7 @@ copy ".\TStudyLib.lib" "..\\..\\lib\\"</Command>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>../../lib/fmod/inc;../../include/fbx</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -203,11 +222,16 @@ copy ".\TStudyLib.lib" "..\\..\\lib\\"</Command>
     </Link>
     <Lib>
       <OutputFile>TStudyLib.lib</OutputFile>
+      <AdditionalLibraryDirectories>../../lib/fbx/debug</AdditionalLibraryDirectories>
     </Lib>
     <PostBuildEvent>
       <Command>copy ".\*.h" "..\\..\\include\\TStudyLib"
 copy ".\*.inl" "..\\..\\include\\TStudyLib"
-copy ".\TStudyLib.lib" "..\\..\\lib\\"</Command>
+copy ".\TStudyLib.lib" "..\\..\\lib\\"
+copy "..\\..\\lib\\fmod\\inc\\*.h" "..\\..\\include\\fmod"
+copy "..\\..\\lib\\fmod\\inc\\*.cs" "..\\..\\include\\fmod"
+copy "..\\..\\lib\\fmod\\fmod.dll" "..\\..\\output\\Debug"
+copy "..\\..\\lib\\fmod\\inc\\*.hpp" "..\\..\\include\\fmod"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -218,6 +242,7 @@ copy ".\TStudyLib.lib" "..\\..\\lib\\"</Command>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>../../lib/fmod/inc;../../fbx/include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -228,11 +253,16 @@ copy ".\TStudyLib.lib" "..\\..\\lib\\"</Command>
     </Link>
     <Lib>
       <OutputFile>TStudyLib.lib</OutputFile>
+      <AdditionalLibraryDirectories>../../fbx/lib/debug</AdditionalLibraryDirectories>
     </Lib>
     <PostBuildEvent>
       <Command>copy ".\*.h" "..\\..\\include\\TStudyLib"
 copy ".\*.inl" "..\\..\\include\\TStudyLib"
-copy ".\TStudyLib.lib" "..\\..\\lib\\"</Command>
+copy ".\TStudyLib.lib" "..\\..\\lib\\"
+copy "..\\..\\lib\\fmod\\inc\\*.h" "..\\..\\include\\fmod"
+copy "..\\..\\lib\\fmod\\inc\\*.cs" "..\\..\\include\\fmod"
+copy "..\\..\\lib\\fmod\\fmod.dll" "..\\..\\output\\Debug"
+copy "..\\..\\lib\\fmod\\inc\\*.hpp" "..\\..\\include\\fmod"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

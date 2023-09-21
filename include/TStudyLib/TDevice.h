@@ -3,12 +3,18 @@
 class TDevice : public TWindow
 {
 public:
-    IDXGISwapChain* m_pSwapChain = nullptr;
-    ID3D11Device* m_pDevice = nullptr;
-    ID3D11DeviceContext* m_pImmediateContext = nullptr;
-    ID3D11RenderTargetView* m_pRenderTargetView = nullptr;
-
-    D3D11_VIEWPORT			m_ViewPort;			// ºäÆ÷Æ®
+    DXGI_SWAP_CHAIN_DESC           m_SwapChainDesc;
+    D3D11_VIEWPORT			       m_ViewPort;			// ºäÆ÷Æ®
+public:
+    ID3D11Device*                  m_pDevice = nullptr;
+    ID3D11DeviceContext*           m_pImmediateContext = nullptr;
+    ComPtr<IDXGISwapChain>         m_pSwapChain = nullptr;
+    ComPtr<ID3D11RenderTargetView> m_pRenderTargetView = nullptr;
+    ComPtr<ID3D11DepthStencilView> m_pDepthStencilView = nullptr;
+public:
+    bool SetRenderTargetView();
+    bool SetDepthStencilView();
+    bool SetViewPort();
 public:
     bool  Init();
     bool  Frame();

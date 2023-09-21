@@ -28,6 +28,8 @@ struct TRect
     void Set(TVector2 p);
     void Set(float fw, float fh);
     void Set(TVector2 p, float fw, float fh);
+    void Set(TVector3 p, float fw, float fh);
+
     void Set(float fx, float fy, float fw, float fh);
 
     bool ToRect(TRect& rt);

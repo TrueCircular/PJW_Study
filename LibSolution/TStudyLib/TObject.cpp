@@ -14,6 +14,14 @@ void  TObject::SetScale(TVector3 s)
 {
     m_vScale = s;
 }
+void TObject::SetRotation(TVector3 r)
+{
+    m_vRotation = r;
+}
+void TObject::ZRotation(float rad)
+{
+    m_vRotation.z = rad;
+}
 void  TObject::SetMatrix(TMatrix* matWorld, TMatrix* matView, TMatrix* matProj)
 {
     if (matWorld != nullptr)
@@ -38,20 +46,49 @@ bool  TObject::Create(std::wstring texFilename,
                       std::wstring shaderFilename)
 {
     CreateConstantBuffer();
+    CreateVertexData();
+    CreateIndexData();
     CreateVertexBuffer();
+    CreateIndexBuffer();
     m_pShader = I_Shader.Load(shaderFilename);
     CreateInputLayout();
-    m_pTex = I_Tex.Load(texFilename);  
+    m_pTex = I_Tex.Load(texFilename);
+
     UpdateMatrix();
     return true;
+}
+bool TObject::Create(S_TOBJECT_DESC desc)
+{
+    CreateConstantBuffer();
+    CreateVertexBuffer();
+    m_pShader = I_Shader.Load(desc.shaderFileName);
+    CreateInputLayout();
+    m_pTex = I_Tex.Load(desc.texFileName);
+
+    SetPos(desc.pos);
+    SetScale(desc.scale);
+    TVector2 temp = { desc.pos.x, desc.pos.y };
+    SetRect(temp, desc.scale.x * 2.0f, desc.scale.y * 2.0f );
+
+    UpdateMatrix();
+    return false;
 }
 void TObject::UpdateMatrix()
 {
     TMatrix matScale, matRotation, matTranslate;
-    matScale.Scale(m_vScale);
-    matRotation.ZRotate(m_vRotation.z);
-    matTranslate.Translation(m_vPos);
+    D3DXMatrixScaling(&matScale, m_vScale.x, m_vScale.y, m_vScale.z);
+    //D3DXMatrixRotationZ(&matRotation, m_vRotation.z);
+    D3DXMatrixRotationYawPitchRoll(&matRotation, m_vRotation.y, m_vRotation.x, m_vRotation.z);
+    D3DXMatrixTranslation(&matTranslate, m_vPos.x, m_vPos.y, m_vPos.z);
+
     m_matWorld = matScale * matRotation * matTranslate;
+}
+void TObject::UpdateRect()
+{
+    m_rtPos.x = m_vPos.x;
+    m_rtPos.y = m_vPos.y;
+
+    m_tRT.Set(m_rtPos, m_vScale.x * 2.0f, m_vScale.y * 2.0f);
 }
 bool  TObject::Init()
 {   

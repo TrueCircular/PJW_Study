@@ -2,8 +2,14 @@
 HWND g_hWnd;
 DWORD g_dwWindowWidth;
 DWORD g_dwWindowHeight;
+TWindow* g_pWindow = nullptr;
+
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+    LRESULT hr = g_pWindow->MsgProc(hWnd, message, wParam, lParam);
+
+    if (hr > 0) return 0;
+
     switch (message)
     {
     case WM_DESTROY:
@@ -30,6 +36,7 @@ bool TWindow::SetRegisterClassWindow(HINSTANCE hInstance)
     WORD ret = RegisterClassExW(&wcex);
     return true;
 }
+
 bool TWindow::SetWindow(const WCHAR* szTitle,//std::wstring szTitle,
     DWORD       dwWindowWidth,
     DWORD       dwWindowHeight)
@@ -42,11 +49,15 @@ bool TWindow::SetWindow(const WCHAR* szTitle,//std::wstring szTitle,
 #else
     m_dwExStyle = WS_EX_APPWINDOW;
 #endif
+
+    RECT rc = { 0,0, dwWindowWidth, dwWindowHeight };
+    AdjustWindowRectEx(&rc, m_dwStyle, NULL, m_dwExStyle);
+
     m_hWnd = CreateWindowEx(m_dwExStyle, L"KGCAÀ©µµ¿ì", szTitle,
         //szTitle.c_str(), 
         m_dwStyle,
         m_dwWindowPosX, m_dwWindowPosY, 
-        m_dwWindowWidth, m_dwWindowHeight,
+        rc.right-rc.left, rc.bottom-rc.top,
         nullptr, nullptr, m_hInstance, nullptr);
     if (!m_hWnd)
     {
@@ -54,9 +65,31 @@ bool TWindow::SetWindow(const WCHAR* szTitle,//std::wstring szTitle,
     }
 
     g_hWnd = m_hWnd;
-    g_dwWindowWidth = m_dwWindowWidth;
-    g_dwWindowHeight= m_dwWindowHeight;
+
+    GetClientRect(g_hWnd, &m_rcClient);
+    g_dwWindowWidth = m_dwWindowWidth = m_rcClient.right;
+    g_dwWindowHeight = m_dwWindowHeight = m_rcClient.bottom;
 
     ShowWindow(m_hWnd, SW_SHOWNORMAL);
     return true;
+}
+
+int TWindow::MsgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+    switch (message)
+    {
+    case WM_SIZE:
+        if (SIZE_MINIMIZED != wParam)
+        {
+            UINT width = LOWORD(lParam);
+            UINT height = HIWORD(lParam);
+            ResizeDevice(width, height);
+        }
+        break;
+    }
+    return -1;
+}
+TWindow::TWindow()
+{
+    g_pWindow = this;
 }
