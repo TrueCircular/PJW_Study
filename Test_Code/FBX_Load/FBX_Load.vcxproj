@@ -163,6 +163,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="ModelManager.h" />
     <ClInclude Include="Sample.h" />
+    <ClInclude Include="T3DObject.h" />
     <ClInclude Include="TDebugCamera.h" />
   </ItemGroup>
   <ItemGroup>
@@ -170,6 +171,7 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="ModelManager.cpp" />
     <ClCompile Include="Sample.cpp" />
+    <ClCompile Include="T3DObject.cpp" />
     <ClCompile Include="TDebugCamera.cpp" />
   </ItemGroup>
   <ItemGroup>
