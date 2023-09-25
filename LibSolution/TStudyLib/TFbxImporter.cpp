@@ -6,27 +6,38 @@ bool TFbxImporter::Load(W_STR filePath)
 
 	m_pFbxImporter->Initialize(_filePath.c_str());
 	m_pFbxImporter->Import(m_pFbxScene);
-	FbxNode* _root = m_pFbxScene->GetRootNode();
+	m_rootNode = m_pFbxScene->GetRootNode();
 
-	if (_root != nullptr)
+	if (m_rootNode != nullptr)
 	{
-		PreProcess(_root);
+		PreProcess(m_rootNode);
 	}
+
+	m_meshList.resize(m_pMeshNodeList.size());
+
 	for (int i = 0; i < m_pMeshNodeList.size(); i++)
 	{
-		TFbxMesh temp;
+		TFbxMesh& temp = m_meshList[i];
 		LoadMesh(m_pMeshNodeList[i], temp);
-		m_meshList.push_back(temp);
+		temp.m_name = m_pMeshNodeList[i]->GetName();
+		temp.m_worldMat = ParseTransform(m_pMeshNodeList[i]);
 	}
 
 	return true;
 }
 
-void TFbxImporter::PreProcess(FbxNode* fbxNode)
+void TFbxImporter::PreProcess(FbxNode* fbxNode, TFbxModel* parent)
 {
 	if (fbxNode == nullptr) return;
+	if (fbxNode->GetCamera() ||
+		fbxNode->GetLight()) return;
 
-	C_STR name = fbxNode->GetName();
+	Fbx_Model model = std::make_shared<TFbxModel>();
+	model->m_name = fbxNode->GetName();
+	model->m_parent = parent;
+	model->m_worldMat = ParseTransform(fbxNode);
+	m_pNodeList.push_back(fbxNode);
+	m_modelList.push_back(model);
 
 	FbxMesh* mesh = fbxNode->GetMesh();
 
@@ -40,7 +51,7 @@ void TFbxImporter::PreProcess(FbxNode* fbxNode)
 	for (int i = 0; i < childNum; i++)
 	{
 		FbxNode* child = fbxNode->GetChild(i);
-		PreProcess(child);
+		PreProcess(child, model.get());
 	}
 }
 
@@ -197,7 +208,7 @@ void TFbxImporter::LoadMesh(FbxNode* node, TFbxMesh& mesh)
 				{
 					FbxLayerElementUV* _uvLayer = _vertexUVList[0];
 					FbxVector2 uv(0, 0);
-					uv = ReadTextureCoord(_uvLayer, _vUv[k]);
+					uv = ReadTextureCoord(_uvLayer, _idcIndex, _vUv[k]);
 					_pnct.t.x = (float)uv.mData[0];
 					_pnct.t.y = 1.0f - (float)uv.mData[1];
 				}
@@ -209,7 +220,7 @@ void TFbxImporter::LoadMesh(FbxNode* node, TFbxMesh& mesh)
 	}
 }
 
-FbxVector2 TFbxImporter::ReadTextureCoord(FbxLayerElementUV* uvLayer, int uvIndex)
+FbxVector2 TFbxImporter::ReadTextureCoord(FbxLayerElementUV* uvLayer, int idxIndex, int uvIndex)
 {
 	FbxVector2 _uv;
 
@@ -221,11 +232,12 @@ FbxVector2 TFbxImporter::ReadTextureCoord(FbxLayerElementUV* uvLayer, int uvInde
 		{
 		case FbxLayerElementUV::eDirect:
 		{
-
+			_uv = uvLayer->GetDirectArray().GetAt(idxIndex);
 		}break;
 		case FbxLayerElementUV::eIndexToDirect:
 		{
-
+			int id = uvLayer->GetIndexArray().GetAt(idxIndex);
+			_uv = uvLayer->GetDirectArray().GetAt(id);
 		}break;
 		}
 	}break;
@@ -247,22 +259,189 @@ FbxVector2 TFbxImporter::ReadTextureCoord(FbxLayerElementUV* uvLayer, int uvInde
 
 FbxColor TFbxImporter::ReadColor(FbxLayerElementVertexColor* lColor, int vIndex, int iIndex)
 {
-	return FbxColor();
+	FbxColor _color(1, 1, 1, 1);
+
+	switch (lColor->GetMappingMode())
+	{
+	case FbxLayerElementVertexColor::eByControlPoint:
+	{
+		switch (lColor->GetReferenceMode())
+		{
+		case FbxLayerElementVertexColor::eDirect:
+		{
+			_color = lColor->GetDirectArray().GetAt(vIndex);
+		}break;
+		case FbxLayerElementVertexColor::eIndexToDirect:
+		{
+			int id = lColor->GetIndexArray().GetAt(vIndex);
+			_color = lColor->GetDirectArray().GetAt(id);
+		}break;
+		}
+	}break;
+
+	case FbxLayerElementVertexColor::eByPolygonVertex:
+	{
+		switch (lColor->GetReferenceMode())
+		{
+		case FbxLayerElementVertexColor::eDirect:
+		{
+			_color = lColor->GetDirectArray().GetAt(iIndex);
+		}break;
+		case FbxLayerElementVertexColor::eIndexToDirect:
+		{
+			int id = lColor->GetIndexArray().GetAt(iIndex);
+			_color = lColor->GetDirectArray().GetAt(id);
+		}break;
+		}
+	}break;
+	}
+
+	return _color;
 }
 
 FbxVector4 TFbxImporter::ReadNormal(FbxLayerElementNormal* lNormal, int vIndex, int iIndex)
 {
-	return FbxVector4();
+	FbxVector4 _normal;
+
+	switch (lNormal->GetMappingMode())
+	{
+	case FbxLayerElementNormal::eByControlPoint:
+	{
+		switch (lNormal->GetReferenceMode())
+		{
+		case FbxLayerElementNormal::eDirect:
+		{
+			_normal = lNormal->GetDirectArray().GetAt(vIndex);
+		}break;
+		case FbxLayerElementNormal::eIndexToDirect:
+		{
+			int id = lNormal->GetIndexArray().GetAt(vIndex);
+			_normal = lNormal->GetDirectArray().GetAt(id);
+		}break;
+		}
+	}break;
+
+	case FbxLayerElementNormal::eByPolygonVertex:
+	{
+		switch (lNormal->GetReferenceMode())
+		{
+		case FbxLayerElementNormal::eDirect:
+		{
+			_normal = lNormal->GetDirectArray().GetAt(iIndex);
+		}break;
+		case FbxLayerElementNormal::eIndexToDirect:
+		{
+			int id = lNormal->GetIndexArray().GetAt(iIndex);
+			_normal = lNormal->GetDirectArray().GetAt(id);
+		}break;
+		}
+	}break;
+	}
+
+	return _normal;
 }
 
 C_STR TFbxImporter::ParseMaterial(FbxSurfaceMaterial* sMtrl)
 {
-	return C_STR();
+	C_STR texName = "";
+
+	auto Property = sMtrl->FindProperty(FbxSurfaceMaterial::sDiffuse);
+
+	if (Property.IsValid())
+	{
+		FbxFileTexture* _tex = Property.GetSrcObject<FbxFileTexture>(0);
+
+		if (_tex != nullptr)
+		{
+			C_STR fName = _tex->GetFileName();
+			return fName;
+		}
+	}
+
+	return texName;
 }
 
 int TFbxImporter::GetSubMaterialIndex(UINT poly, FbxLayerElementMaterial* eMtrl)
 {
-	return 0;
+	int _subMtrlIndex = 0;
+
+	switch (eMtrl->GetMappingMode())
+	{
+	case FbxLayerElementUV::eByPolygon:
+	{
+		switch (eMtrl->GetReferenceMode())
+		{
+		case FbxLayerElementUV::eIndex:
+		{
+			_subMtrlIndex = poly;
+		}break;
+
+		case FbxLayerElementUV::eIndexToDirect:
+		{
+			_subMtrlIndex = eMtrl->GetIndexArray().GetAt(poly);
+		}break;
+		}
+	}break;
+	}
+
+	return _subMtrlIndex;
+}
+
+TMatrix TFbxImporter::FbxMatConvertToDxMat(FbxMatrix& fMat)
+{
+	TMatrix rMat;
+	float* matArray = reinterpret_cast<float*>(&rMat);
+	double* srcArray = reinterpret_cast<double*>(&fMat);
+
+	for (int i = 0; i < 16; i++)
+	{
+		matArray[i] = srcArray[i];
+	}
+
+	return rMat;
+}
+
+TMatrix TFbxImporter::FbxAMatConvertToDxMat(FbxAMatrix& faMat)
+{
+	TMatrix rMat;
+	float* matArray = reinterpret_cast<float*>(&rMat);
+	double* srcArray = reinterpret_cast<double*>(&faMat);
+
+	for (int i = 0; i < 16; i++)
+	{
+		matArray[i] = srcArray[i];
+	}
+
+	return rMat;
+}
+
+TMatrix TFbxImporter::DxMatConvert(TMatrix& tMat)
+{
+	TMatrix rMat;
+	rMat._11 = tMat._11; rMat._12 = tMat._13; rMat._13 = tMat._12;
+	rMat._21 = tMat._31; rMat._22 = tMat._33; rMat._23 = tMat._32;
+	rMat._31 = tMat._21; rMat._32 = tMat._23; rMat._33 = tMat._22;
+	rMat._41 = tMat._41; rMat._42 = tMat._43; rMat._43 = tMat._42;
+	
+	rMat._14 = rMat._24 = rMat._34 = 0.0f;
+	rMat._44 = 1.0f;
+
+	return rMat;
+}
+
+TMatrix TFbxImporter::ParseTransform(FbxNode* fNode)
+{
+	TMatrix rMat;
+
+	auto timeMode = FbxTime::GetGlobalTimeMode();
+	FbxTime time;
+	time.SetFrame(0.0f, timeMode);
+	
+	FbxAMatrix fbxMat = fNode->EvaluateGlobalTransform(time);
+	rMat = FbxAMatConvertToDxMat(fbxMat);
+	rMat = DxMatConvert(rMat);
+
+	return rMat;
 }
 
 bool TFbxImporter::Init()
@@ -270,6 +449,7 @@ bool TFbxImporter::Init()
 	m_pSDKManager = FbxManager::Create();
 	m_pFbxImporter = FbxImporter::Create(m_pSDKManager, IOSROOT);
 	m_pFbxScene = FbxScene::Create(m_pSDKManager, "");
+
 	return true;
 }
 
@@ -283,7 +463,7 @@ bool TFbxImporter::Release()
 	m_pFbxImporter = nullptr;
 	m_pSDKManager = nullptr;
 
-	return false;
+	return true;
 }
 
 bool TFbxImporter::Clear()

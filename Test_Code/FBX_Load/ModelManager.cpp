@@ -32,9 +32,9 @@ bool ModelManager::AddFbxModelData(std::wstring mName, std::wstring mPath)
     return true;
 }
 
-std::vector<PT_Vertex> ModelManager::GetFbxModelData(std::wstring key)
+std::vector<std::vector<PT_Vertex>> ModelManager::GetFbxModelData(std::wstring key)
 {
-    std::vector<PT_Vertex> pt;
+    std::vector<SubMaterial> pt;
 
     auto findIter = _modelDictionary.find(key);
 

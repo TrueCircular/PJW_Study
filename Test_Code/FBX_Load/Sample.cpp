@@ -13,13 +13,13 @@ bool Sample::Init()
 	_testBox->SetPos({ 0,0,0 });
 	_testBox->Set(m_pDevice, m_pImmediateContext);
 	_testBox->m_VertexList.resize(ModelManager::GetInstance()->GetFbxModelData(L"Box").size());
-	_testBox->m_VertexList = ModelManager::GetInstance()->GetFbxModelData(L"Box");
+	_testBox->m_VertexList = ModelManager::GetInstance()->GetFbxModelData(L"Box")[0];
 	_testBox->Create(L"../../resource/topdownmap.jpg", L"../../resource/shader/Plane.hlsl");
 
 	_testSphere = make_shared<TObject>();
 	_testSphere->Set(m_pDevice, m_pImmediateContext);
 	_testSphere->m_VertexList.resize(ModelManager::GetInstance()->GetFbxModelData(L"Sphere").size());
-	_testSphere->m_VertexList = ModelManager::GetInstance()->GetFbxModelData(L"Sphere");
+	_testSphere->m_VertexList = ModelManager::GetInstance()->GetFbxModelData(L"Sphere")[0];
 	_testSphere->SetPos({ 40,0,0 });
 	_testSphere->SetScale({ 0.15f,0.15f,0.15f });
 	_testSphere->Create(L"../../resource/topdownmap.jpg", L"../../resource/shader/Plane.hlsl");

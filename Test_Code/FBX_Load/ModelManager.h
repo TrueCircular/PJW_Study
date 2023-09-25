@@ -3,10 +3,11 @@
 
 class ModelManager
 {
+	using SubMaterial = std::vector<PT_Vertex>;
 private:
 	static ModelManager*						   _instance;
 	std::shared_ptr<TFbxImporter>				   _importer;
-	std::map<std::wstring, std::vector<PT_Vertex>> _modelDictionary;
+	std::map<std::wstring, std::vector<SubMaterial>> _modelDictionary;
 private:
 	ModelManager()
 	{
@@ -29,7 +30,7 @@ public:
 		return _instance;
 	}
 public:
-	bool					 AddFbxModelData(std::wstring mName, std::wstring mPath);
-	std::vector<PT_Vertex>   GetFbxModelData(std::wstring key);
+	bool					              AddFbxModelData(std::wstring mName, std::wstring mPath);
+	std::vector<std::vector<PT_Vertex>>   GetFbxModelData(std::wstring key);
 };
 
