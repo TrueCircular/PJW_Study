@@ -1,13 +1,13 @@
 #pragma once
 #include "TFbxImporter.h"
+#include "T3DObject.h"
 
 class ModelManager
 {
-	using SubMaterial = std::vector<PT_Vertex>;
 private:
-	static ModelManager*						   _instance;
-	std::shared_ptr<TFbxImporter>				   _importer;
-	std::map<std::wstring, std::vector<SubMaterial>> _modelDictionary;
+	static ModelManager*						     _instance;
+	std::shared_ptr<TFbxImporter>					 _importer;
+	std::map<std::wstring, std::vector<TFbxMesh>>	 _meshDictionary;
 private:
 	ModelManager()
 	{
@@ -30,7 +30,8 @@ public:
 		return _instance;
 	}
 public:
-	bool					              AddFbxModelData(std::wstring mName, std::wstring mPath);
-	std::vector<std::vector<PT_Vertex>>   GetFbxModelData(std::wstring key);
+	bool					   AddFbxMeshData(std::wstring mName, std::wstring mPath);
+	std::vector<TFbxMesh>	   GetFbxMeshData(std::wstring key);
+	std::shared_ptr<T3DObject> GetFbxMeshObject(std::shared_ptr<T3DObject> src, std::wstring key);
 };
 
