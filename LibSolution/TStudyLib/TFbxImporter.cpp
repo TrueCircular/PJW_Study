@@ -468,22 +468,13 @@ bool TFbxImporter::Release()
 
 bool TFbxImporter::Clear()
 {
-	if (m_pMeshNodeList.size() > 0)
-	{
-		for (int i = 0; i < m_pMeshNodeList.size(); i++)
-		{
-			m_pMeshNodeList[i]->Destroy();
-			m_pMeshNodeList[i] = nullptr;
-		}
-		m_pMeshNodeList.clear();
-	}
+	m_pNodeList.clear();
+	m_modelList.clear();
+	m_pMeshNodeList.clear();
+	m_meshList.clear();
 
+	m_rootNode->Destroy();
 	if (m_pFbxScene) m_pFbxScene->Clear();
-
-	if (m_meshList.size() > 0)
-	{
-		m_meshList.clear();
-	}
 
 	return true;
 }

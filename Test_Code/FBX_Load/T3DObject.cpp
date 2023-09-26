@@ -36,7 +36,7 @@ void T3DObject::SetQuaternionRotation(TQuaternion& rot)
 
 bool T3DObject::PostRender()
 {
-    for (int i = 0; i < _mesh->m_triangleList.size(); i++)
+    for (int i = 0; i < _mesh.m_triangleList.size(); i++)
     {
         if (_texList.size() && _texList[i])
         {
@@ -44,8 +44,8 @@ bool T3DObject::PostRender()
         }
         if (m_pIndexBuffer == nullptr)
         {
-            m_pImmediateContext->Draw(_mesh->m_triangleList[i].size(),
-                                      _mesh->m_offsetList[i]);
+            m_pImmediateContext->Draw(_mesh.m_triangleList[i].size(),
+                                      _mesh.m_offsetList[i]);
         }
     }
 

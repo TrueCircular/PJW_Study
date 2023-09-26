@@ -10,9 +10,6 @@ using std::make_shared;
 class Sample : public TCore
 {
 public:
-	shared_ptr<TObject>		 _testBox;
-	shared_ptr<TObject>		 _testSphere;
-
 	shared_ptr<TDebugCamera> _debugCamera;
 public:
 	bool Init()override;
