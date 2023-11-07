@@ -14,6 +14,7 @@
       <Filter>cpp</Filter>
     </ClCompile>
     <ClCompile Include="ModelManager.cpp" />
+    <ClCompile Include="T3DObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameComponent.h">
@@ -29,6 +30,7 @@
       <Filter>header</Filter>
     </ClInclude>
     <ClInclude Include="ModelManager.h" />
+    <ClInclude Include="T3DObject.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="header">

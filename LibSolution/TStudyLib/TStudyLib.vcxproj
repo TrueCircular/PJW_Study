@@ -88,26 +88,26 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -164,7 +164,7 @@
     </Link>
     <Lib>
       <OutputFile>TStudyLib.lib</OutputFile>
-      <AdditionalLibraryDirectories>../../fbx/lib/debug</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../../lib/fbx/debug</AdditionalLibraryDirectories>
     </Lib>
     <PostBuildEvent>
       <Command>copy ".\*.h" "..\\..\\include\\TStudyLib"
@@ -195,7 +195,7 @@ copy "..\\..\\lib\\fmod\\inc\\*.hpp" "..\\..\\include\\fmod"</Command>
     </Link>
     <Lib>
       <OutputFile>TStudyLib.lib</OutputFile>
-      <AdditionalLibraryDirectories>../../fbx/lib/debug</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../../lib/fbx/debug</AdditionalLibraryDirectories>
     </Lib>
     <PostBuildEvent>
       <Command>copy ".\*.h" "..\\..\\include\\TStudyLib"
@@ -253,7 +253,7 @@ copy "..\\..\\lib\\fmod\\inc\\*.hpp" "..\\..\\include\\fmod"</Command>
     </Link>
     <Lib>
       <OutputFile>TStudyLib.lib</OutputFile>
-      <AdditionalLibraryDirectories>../../fbx/lib/debug</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../../lib/fbx/debug</AdditionalLibraryDirectories>
     </Lib>
     <PostBuildEvent>
       <Command>copy ".\*.h" "..\\..\\include\\TStudyLib"

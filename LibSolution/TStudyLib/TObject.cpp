@@ -26,6 +26,24 @@ void  TObject::SetMatrix(TMatrix* matWorld, TMatrix* matView, TMatrix* matProj)
 {
     if (matWorld != nullptr)
     {
+        //TMatrix pScale, pTrans, pRot;
+        //TVector3 pVsc, pVts;
+        //TQuaternion pQRot;
+        //float ftemp = 0;
+        //D3DXMatrixDecompose(&pVsc, &pQRot, &pVts, matWorld);
+
+        //D3DXMatrixScaling(&pScale, pVsc.x, pVsc.y, pVsc.z);
+        //D3DXMatrixRotationQuaternion(&pRot, &pQRot);
+        //D3DXMatrixTranslation(&pTrans, pVts.x, pVts.y, pVts.z);
+
+        //TMatrix pInverse;
+        //TMatrix temp = pScale * pTrans;
+        //D3DXMatrixInverse(&pInverse, &ftemp, &temp);
+
+        //TMatrix localMat = *matWorld * pInverse;
+
+        //m_matWorld *= localMat;
+
         m_matWorld = *matWorld;
     }
     if (matView != nullptr)

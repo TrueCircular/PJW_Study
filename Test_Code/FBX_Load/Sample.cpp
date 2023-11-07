@@ -6,22 +6,7 @@ float g_fMapHalfSizeY = 300;
 
 bool Sample::Init()
 {
-	ModelManager::GetInstance()->AddFbxModelData(L"Box", L"../../resource/Fbx/Test/box.FBX");
-	ModelManager::GetInstance()->AddFbxModelData(L"Sphere", L"../../resource/Fbx/Test/Sphere.FBX");
 
-	_testBox = make_shared<TObject>();
-	_testBox->Set(m_pDevice, m_pImmediateContext);
-	_testBox->m_VertexList.resize(ModelManager::GetInstance()->GetFbxModelData(L"Box").size());
-	_testBox->m_VertexList = ModelManager::GetInstance()->GetFbxModelData(L"Box");
-	_testBox->Create(L"../../resource/topdownmap.jpg", L"../../resource/shader/Plane.hlsl");
-
-	_testSphere = make_shared<TObject>();
-	_testSphere->Set(m_pDevice, m_pImmediateContext);
-	_testSphere->m_VertexList.resize(ModelManager::GetInstance()->GetFbxModelData(L"Sphere").size());
-	_testSphere->m_VertexList = ModelManager::GetInstance()->GetFbxModelData(L"Sphere");
-	_testSphere->SetPos({ 40,0,0 });
-	_testSphere->SetScale({ 0.15f,0.15f,0.15f });
-	_testSphere->Create(L"../../resource/topdownmap.jpg", L"../../resource/shader/Plane.hlsl");
 
 	DebugCameraSet();
 	return true;
@@ -29,30 +14,19 @@ bool Sample::Init()
 
 bool Sample::Frame()
 {
-	_testBox->m_vRotation.y += DegreeToRadian(15) * g_fSecondPerFrame;
-	_testBox->UpdateMatrix();
-
-	_testSphere->m_vRotation.y += DegreeToRadian(15) * 50.f * g_fSecondPerFrame;
-	_testSphere->UpdateMatrix();
 
 	return true;
 }
 
 bool Sample::Render()
 {
-	_testBox->SetMatrix(nullptr, &ICore::g_pMainCamera->m_matView, &ICore::g_pMainCamera->m_matPerspectiveProj);
-	_testBox->Render();
-
-	_testSphere->SetMatrix(nullptr, &ICore::g_pMainCamera->m_matView, &ICore::g_pMainCamera->m_matPerspectiveProj);
-	_testSphere->Render();
 
 	return true;
 }
 
 bool Sample::Release()
 {
-	_testBox->Release();
-	_testSphere->Release();
+
 	return true;
 }
 

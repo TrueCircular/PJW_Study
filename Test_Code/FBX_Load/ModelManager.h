@@ -1,12 +1,21 @@
 #pragma once
 #include "TFbxImporter.h"
+#include "T3DObject.h"
+
+struct S_MeshData
+{
+	std::vector<TFbxMesh> _meshData;
+	std::wstring		  _srcPath;
+};
+
 
 class ModelManager
 {
+	using MeshData = std::vector<TFbxMesh>;
 private:
-	static ModelManager*						   _instance;
-	std::shared_ptr<TFbxImporter>				   _importer;
-	std::map<std::wstring, std::vector<PT_Vertex>> _modelDictionary;
+	static ModelManager*			   _instance;
+	std::shared_ptr<TFbxImporter>	   _importer;
+	std::map<std::wstring, S_MeshData> _meshDictionary;
 private:
 	ModelManager()
 	{
@@ -16,6 +25,7 @@ private:
 public:
 	~ModelManager()
 	{
+		ReleaseDictionary();
 		_importer->Release();
 
 		delete _instance;
@@ -28,8 +38,12 @@ public:
 
 		return _instance;
 	}
+private:
+	void		 ReleaseDictionary();
+	std::wstring SplitSrcPath(std::wstring path);
 public:
-	bool					 AddFbxModelData(std::wstring mName, std::wstring mPath);
-	std::vector<PT_Vertex>   GetFbxModelData(std::wstring key);
+	bool					   AddFbxMeshData(std::wstring mName, std::wstring mPath);
+	S_MeshData				   GetFbxMeshData(std::wstring key);
+	std::shared_ptr<T3DObject> GetFbxMeshObject(std::wstring key);
 };
 
